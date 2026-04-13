@@ -925,7 +925,7 @@ body {
     <div class="nav-divider"></div>
 
     <div class="nav-label">Páginas Relacionadas</div>
-    <a href="pop_projetos_final.html" class="nav-link-ext">
+    <a href="https://popprojetoscita.github.io/" class="nav-link-ext">
       <i class="fa-solid fa-diagram-project"></i> POP Projetos
     </a>
     <a href="ManualImplantacaoObras.html" class="nav-link-ext">
@@ -1071,7 +1071,7 @@ const SECOES = [
     ],
     alertas: [
       { tipo: "tip", msg: "Este caderno deve ser consultado no início de cada projeto e sempre que surgir uma dúvida sobre o processo. Mantenha-o marcado nos favoritos do navegador." },
-      { tipo: "info", msg: "Para a versão interativa com fluxogramas detalhados, acesse: pop_projetos_final.html (POP principal), fluxoCronoCompras.html e fluxoDocs.html." }
+      { tipo: "info", msg: "Para a versão interativa com fluxogramas detalhados de cada processo, acesse o POP principal, o Fluxo de Cronograma e Compras e o Fluxo de Documentação — disponíveis pelo menu lateral deste caderno." }
     ]
   },
 
@@ -1082,11 +1082,11 @@ const SECOES = [
     corBg: "rgba(24,95,165,0.12)",
     corTexto: "#1a3d7a",
     meta: "Etapa 1 · Comercial",
-    intro: "Esta etapa cobre todo do processo: desde o recebimento de uma demanda ou pedido de proposta até a aprovação formal pelo cliente. Todo projeto começa aqui, com o correto registro e avaliação da solicitação.",
+    intro: "Esta etapa compreende o ciclo completo de captação: desde o recebimento de uma demanda ou pedido de proposta até a aprovação formal pelo cliente. Todo projeto começa aqui — com o correto registro, a avaliação técnica da solicitação e a elaboração da proposta. Um início bem estruturado garante clareza de escopo e evita retrabalho nas fases seguintes.",
     itens: [
       {
         titulo: "Receber a solicitação de proposta",
-        desc: "Ao receber um pedido de proposta, identifique o tipo de projeto (FF, SVC, XD, etc), o cliente solicitante e o que está sendo solicitado."
+        desc: "Ao receber um pedido de proposta — seja por e-mail, ligação ou sistema — identifique: o tipo de projeto (FF, SVC, XD ou outro), o cliente solicitante, o escopo resumido do que está sendo pedido e o prazo ou urgência informados. Com essas informações em mãos, é possível dimensionar o esforço necessário e designar o responsável técnico adequado antes de qualquer outra ação."
       },
       {
         titulo: "Abrir CT na Planilha Controle Interno",
@@ -1098,12 +1098,12 @@ const SECOES = [
       },
       {
         titulo: "Ações paralelas durante a avaliação",
-        desc: "Durante a avaliação, podem ser necessárias ações simultâneas: Solicitar arquivos complementares ao cliente ou enviar dúvidas ao cliente para esclarecimento técnico."
+        desc: "Durante a análise dos arquivos, é comum identificar lacunas de informação. Encaminhe ao cliente uma lista objetiva com os arquivos faltantes (plantas complementares, memoriais, dados de acesso ao local) e as dúvidas técnicas que precisam ser esclarecidas antes do início da elaboração. Aguarde o retorno e registre o contato realizado na planilha de controle."
       },
       { separador: "Elaboração" },
       {
         titulo: "Criar estrutura de pastas do projeto",
-        desc: "Organize os arquivos do projeto nas pastas padrão da empresa antes de iniciar a elaboração."
+        desc: "Crie a estrutura de pastas do projeto no repositório da empresa (Google Drive ou servidor), seguindo o padrão interno: pasta principal com o código CT, subpastas para Projeto Executivo, Proposta, Cronograma, Comunicações e Documentação Final. Nomeie os arquivos conforme a convenção interna (ex: CT-XXXX_ProjExec_Rev00). Uma boa organização facilita o acesso da equipe e evita perda ou duplicação de arquivos."
       },
       {
         titulo: "Elaborar o Projeto Executivo",
@@ -1149,7 +1149,7 @@ const SECOES = [
       { separador: "Análise do .dwg de IS/SE" },
       {
         titulo: "Analisar o arquivo .dwg de IS/SE",
-        desc: "Analisar o arquivo .dwg de IS/SE com o posicionamento dos pontos de CFTV e layout da operação."
+        desc: "Abra o arquivo .dwg de Instalações de Segurança/Especiais (IS/SE) e analise o posicionamento previsto dos pontos de CFTV e o layout operacional do local. Mapeie as áreas de cobertura, corredores, docas, zonas de armazenamento e pontos de controle — esses elementos guiam toda a distribuição da infraestrutura e dos cabos no projeto."
       },
       {
         titulo: "Identificar os pontos de Dados",
@@ -1157,38 +1157,38 @@ const SECOES = [
       },
       {
         titulo: "Observar locais com controle de acesso",
-        desc: "Observar locais com equipamentos de controle de acesso para os quais executamos apenas infraestrutura seca (catracas, detectores de metais, portas automáticas)."
+        desc: "Identifique as áreas com equipamentos de controle de acesso — catracas, detectores de metais, portas automáticas — onde a CITA executa apenas a infraestrutura seca (conduit, caixas e identificações), sem fornecer ou instalar os equipamentos em si. Registre essas delimitações no projeto para garantir que o escopo da proposta reflita corretamente o que será entregue."
       },
       {
         titulo: "Avaliar o caderno técnico",
-        desc: "Avaliar o caderno técnico e suas especificações. <span class='step-tag blue'>Mercado Livre</span>"
+        desc: "Para projetos <span class='step-tag blue'>Mercado Livre</span>, consulte o Caderno Técnico de Especificações do cliente e verifique todos os requisitos específicos: padrão de instalação, modelos de equipamentos homologados e certificações obrigatórias. As especificações do cliente sempre prevalecem sobre os padrões gerais da empresa — qualquer divergência deve ser registrada e validada antes de avançar."
       },
       { separador: "Criação de Layers" },
       {
         titulo: "Criar layers diferenciados",
-        desc: "Criar layers que diferenciem os elementos do projeto."
+        desc: "Crie layers separados no arquivo .dwg para cada categoria de elemento do projeto: infraestrutura física (leito aramado, eletrocalha, eletroduto), cabos de dados, cabos de CFTV, fibra óptica, pontos ativos, racks e legendas. A nomenclatura dos layers deve seguir o padrão definido pela empresa para garantir consistência entre projetos."
       },
       {
         titulo: "Quantificação e legenda",
-        desc: "Essencial para o momento de quantificação e para a legenda do projeto. <strong>Muito importante</strong> — layers bem definidos evitam erros de quantificação e facilitam a leitura da legenda."
+        desc: "Layers bem definidos são essenciais em duas etapas críticas: na <strong>quantificação de materiais</strong> (cada layer pode ser medido e contado de forma isolada no CAD) e na <strong>legenda do projeto</strong> (cada cor e layer representa um tipo de elemento). Antes de prosseguir, revise todos os layers e confirme que a nomenclatura e as cores estão padronizadas."
       },
       { separador: "Posicionamento de Racks e CPD" },
       {
         titulo: "Posicionar Racks e CPD",
-        desc: "Posicionar os Racks de acesso e o CPD na planta."
+        desc: "Defina e posicione na planta a localização dos racks de distribuição e do CPD. Considere: proximidade com a infraestrutura elétrica disponível, facilidade de acesso para manutenção, distância máxima dos pontos mais distantes (limite de 90 m de cabeamento) e espaço físico real disponível no local. Registre a justificativa do posicionamento sempre que houver restrições ou quando a aprovação do cliente for necessária."
       },
       {
         titulo: "Posicionar Access Points",
-        desc: "Avaliar o survey e posicionar os pontos de Access Points."
+        desc: "Com base no survey de cobertura Wi-Fi e no layout operacional, posicione os Access Points (APs) na planta. Considere altura de instalação, obstáculos físicos (estantes, estruturas metálicas, paredes) e a sobreposição de sinal entre APs adjacentes. Atribua identificação única a cada AP (AP-01, AP-02...) e anote o modelo e a altura de instalação diretamente na planta."
       },
       { separador: "Esboço e Detalhamento da Infraestrutura" },
       {
         titulo: "Esboçar a infraestrutura",
-        desc: "Esboçar o caminho da infraestrutura de acordo com a distribuição dos pontos de dados e CFTV."
+        desc: "Com os pontos definidos, trace o caminho preliminar da infraestrutura — leitos aramados, eletrocalhas e eletrodutos — ligando os pontos de dados e CFTV aos racks. Priorize rotas que aproveitem a estrutura física do local (vigas, pilares, periferias), que minimizem cruzamentos com outras instalações e que facilitem o acesso para manutenção futura."
       },
       {
         titulo: "Detalhar a infraestrutura",
-        desc: "Detalhar o caminho da infraestrutura e suas conexões com os pontos e racks."
+        desc: "Refine o traçado da infraestrutura com todos os detalhes necessários para a execução em campo: dimensões das calhas, alturas de instalação, pontos de curva e emenda, e conexões de entrada e saída nos racks. Verifique possíveis conflitos de trajeto com outras instalações (elétrica, hidráulica, climatização) e documente as interferências identificadas para resolução prévia."
       },
       { separador: "Levantamento de Cabeamento" },
       {
@@ -1202,15 +1202,15 @@ const SECOES = [
       { separador: "Finalização e Plotagem" },
       {
         titulo: "Organizar a prancha",
-        desc: "Organizar a prancha com escala, legenda e demais informações pertinentes ao projeto."
+        desc: "Monte a prancha final com todos os elementos obrigatórios: título do projeto, cliente, número de revisão, data, responsável técnico, escala e legenda completa com todos os layers utilizados. Confira se a quantidade de pontos na legenda bate com o projeto e se a planta está legível e sem sobreposição de informações na escala escolhida."
       },
       {
         titulo: "Gerar o PDF",
-        desc: "Gerar o PDF do projeto finalizado."
+        desc: "Exporte o PDF do projeto finalizado em alta resolução, com todas as pranchas e legendas visíveis e legíveis. Salve o arquivo na pasta do projeto seguindo a convenção de nomenclatura interna (ex: CT-XXXX_ProjExec_Rev00.pdf) e registre a data de geração no controle de revisões."
       },
       {
         titulo: "Solicitar a plotagem",
-        desc: "Solicitar a plotagem do projeto."
+        desc: "Encaminhe o PDF para plotagem física conforme a necessidade do projeto. Informe o formato de papel (A1 ou A0), o número de cópias e o destinatário. A prancha plotada é necessária para uso em obra pela equipe técnica e para a entrega ao cliente como parte integrante da documentação final."
       },
       { separador: "Normas Legais" },
       {
