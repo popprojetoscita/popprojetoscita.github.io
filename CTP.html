@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- ============================================================
+     CADERNO TÉCNICO DE PROJETOS — CTP
+     Parte do POP · Projetos — CITA Engenharia
+     Versão: 1.0 | Abril 2026
+     ============================================================ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Caderno Técnico de Projetos — manual operacional completo da proposta à documentação final.">
+<title>CTP · Caderno Técnico de Projetos — CITA TECNOLOGIA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+/* =============================================
+   VARIÁVEIS GLOBAIS
+   ============================================= */
+:root {
+  --brand-primary:      #0a2a3d;
+  --brand-accent:       #1d849e;
+  --brand-accent-light: #d4f1e6;
+
+  --bg-page:    #d3e6ee;
+  --bg-card:    #ffffff;
+  --bg-sidebar: #0c2340;
+
+  --text-primary:   #1a1a18;
+  --text-secondary: #5a5a56;
+  --text-muted:     #9a9a94;
+
+  --border:        #e2dfd8;
+  --border-strong: #c8c4bc;
+
+  --warn-bg:     #fef3e2;
+  --warn-border: #d4820a;
+  --warn-text:   #7a4800;
+
+  --info-bg:     #e8f0fd;
+  --info-border: #2563b0;
+  --info-text:   #1a3d7a;
+
+  --danger-bg:     #fdeaea;
+  --danger-border: #b02020;
+  --danger-text:   #6a1010;
+
+  --success-bg:     #e6f4ee;
+  --success-border: #1d9e75;
+  --success-text:   #0a4530;
+
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+
+  --sidebar-w:   272px;
+  --content-max: 940px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.65;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* =============================================
+   SIDEBAR
+   ============================================= */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--bg-sidebar);
+  min-height: 100vh;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+.sidebar-logo {
+  padding: 26px 22px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.sidebar-company-logo {
+  display: block;
+  width: 140px;
+  max-width: 100%;
+  margin-bottom: 14px;
+  border-radius: var(--radius-sm);
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.35));
+}
+
+.sidebar-logo h1 {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.70);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.sidebar-logo p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.32);
+  margin-top: 3px;
+}
+
+.sidebar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(74,147,224,0.9);
+  background: rgba(74,147,224,0.1);
+  border: 1px solid rgba(74,147,224,0.25);
+  border-radius: 20px;
+  padding: 3px 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sidebar-nav { padding: 12px 0; flex: 1; }
+
+.nav-label {
+  font-size: 9.5px;
+  color: rgba(255,255,255,0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 10px 22px 4px;
+  font-weight: 600;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 22px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+  position: relative;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); }
+.nav-item.active { background: rgba(74,147,224,0.18); }
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 4px; bottom: 4px;
+  width: 3px;
+  background: #4a93e0;
+  border-radius: 0 3px 3px 0;
+}
+
+.nav-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.40);
+  transition: background 0.2s, color 0.2s;
+}
+.nav-item.active .nav-num { background: #4a93e0; color: #fff; }
+
+.nav-text {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.52);
+  font-weight: 400;
+  flex: 1;
+  line-height: 1.3;
+}
+.nav-item.active .nav-text { color: #ffffff; font-weight: 500; }
+
+.nav-link-ext {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 22px;
+  font-size: 11.5px;
+  color: rgba(180,210,255,0.70);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  border-left: 2px solid transparent;
+}
+.nav-link-ext i { width: 13px; text-align: center; font-size: 11px; }
+.nav-link-ext:hover { background: rgba(255,255,255,0.07); color: #fff; border-left-color: #4a93e0; }
+.nav-link-ext.teal:hover  { color: #67e8f9;  border-left-color: #0fa8c0; }
+.nav-link-ext.purple:hover{ color: #c4b5fd;  border-left-color: #9b7fe8; }
+.nav-link-ext.red:hover   { color: #fca5a5;  border-left-color: #e05c5c; }
+
+.nav-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 10px 18px;
+}
+
+.sidebar-footer {
+  padding: 14px 22px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.btn-print {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.50);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.btn-print:hover { background: rgba(255,255,255,0.10); color: rgba(255,255,255,0.85); }
+
+/* =============================================
+   MOBILE TOGGLE
+   ============================================= */
+.mobile-toggle {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--bg-sidebar);
+  border: none;
+  width: 40px; height: 40px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  align-items: center; justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+.mobile-toggle svg { width: 20px; height: 20px; fill: #fff; }
+.mobile-toggle.is-open svg { display: none; }
+.mobile-toggle.is-open::after { content: "X"; color: #fff; font-size: 18px; line-height: 1; }
+
+.sidebar-close {
+  display: none;
+  position: absolute;
+  top: 14px; right: 12px;
+  background: rgba(255,255,255,0.10);
+  border: none;
+  color: rgba(255,255,255,0.75);
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.sidebar-close:hover { background: rgba(255,255,255,0.20); color: #fff; }
+
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.40);
+  z-index: 90;
+}
+
+/* =============================================
+   MAIN
+   ============================================= */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  padding: 44px 48px 100px;
+  max-width: calc(100% - var(--sidebar-w));
+}
+
+.content-wrap {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+/* =============================================
+   PAGE HEADER
+   ============================================= */
+.page-header {
+  margin-bottom: 48px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--border);
+}
+
+.breadcrumb {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.breadcrumb .sep { opacity: 0.4; }
+
+.page-header h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.page-header .subtitle {
+  font-size: 14.5px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  line-height: 1.70;
+  margin-bottom: 28px;
+}
+
+.meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 13px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+.meta-pill i { color: var(--brand-accent); font-size: 11px; }
+
+.flow-title {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.process-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.flow-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 12px 5px 5px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.flow-chip:hover { box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+
+.flow-chip-num {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.flow-arrow {
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* =============================================
+   SEÇÃO / CARD
+   ============================================= */
+.sec-section {
+  margin-bottom: 28px;
+  scroll-margin-top: 28px;
+}
+
+.sec-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+.sec-card:hover { box-shadow: var(--shadow-md); }
+
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+  border-top: 3px solid var(--sec-cor, var(--brand-accent));
+}
+.sec-header:hover { background: #faf9f6; }
+
+.sec-num-badge {
+  width: 42px; height: 42px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.sec-info { flex: 1; min-width: 0; }
+
+.sec-titulo {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+
+.sec-meta {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.sec-toggle-icon {
+  color: var(--text-muted);
+  font-size: 12px;
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.sec-toggle-icon.open { transform: rotate(90deg); }
+
+.sec-body { display: none; }
+.sec-body.open { display: block; }
+
+.sec-intro {
+  padding: 18px 24px 16px;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(135deg, #faf9f7 0%, var(--bg-card) 60%);
+}
+.sec-intro p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.80;
+  max-width: 720px;
+}
+
+/* =============================================
+   STEPS
+   ============================================= */
+.steps-wrap { padding: 20px 24px 6px; }
+
+.steps-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.step-item {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 22px;
+  align-items: flex-start;
+}
+
+.step-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.step-connector {
+  width: 1px;
+  background: var(--border);
+  flex: 1;
+  min-height: 18px;
+  margin-top: 5px;
+}
+.step-item:last-child .step-connector { display: none; }
+
+.step-content { flex: 1; padding-top: 2px; }
+
+.step-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.step-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.step-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin: 2px 3px 2px 0;
+  font-family: var(--font-mono);
+}
+.step-tag.blue   { background: #e8f0fd; color: #1a3d7a; border: 1px solid #b0c8f0; }
+.step-tag.green  { background: #e6f4ee; color: #0a4530; border: 1px solid #7ecba0; }
+.step-tag.gold   { background: #fef3e2; color: #7a4800; border: 1px solid #e8b84b; }
+.step-tag.red    { background: #fdeaea; color: #6a1010; border: 1px solid #e05c5c; }
+.step-tag.teal   { background: #e0f7fb; color: #006070; border: 1px solid #0fa8c0; }
+.step-tag.purple { background: #f0eafd; color: #4a1870; border: 1px solid #9b7fe8; }
+
+.step-separador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+.step-separador::before,
+.step-separador::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* =============================================
+   ALERTAS
+   ============================================= */
+.alerts-wrap {
+  padding: 0 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.alert-box {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border-left: 3px solid;
+  font-size: 13px;
+  line-height: 1.65;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.alert-icon { flex-shrink: 0; width: 16px; height: 16px; margin-top: 1px; }
+.alert-warn   { background: var(--warn-bg);    border-color: var(--warn-border);    color: var(--warn-text); }
+.alert-info   { background: var(--info-bg);    border-color: var(--info-border);    color: var(--info-text); }
+.alert-danger { background: var(--danger-bg);  border-color: var(--danger-border);  color: var(--danger-text); }
+.alert-tip    { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+
+/* =============================================
+   RAMIFICAÇÕES / BRANCHES
+   ============================================= */
+.branch-wrap {
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.branch-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.branch-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.branch-card {
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+}
+.branch-card.blue  { background: var(--info-bg);    border-color: var(--info-border); }
+.branch-card.green { background: var(--success-bg); border-color: var(--success-border); }
+
+.branch-card-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.branch-card.blue  .branch-card-label { color: var(--info-text); }
+.branch-card.green .branch-card-label { color: var(--success-text); }
+
+.branch-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.branch-card ul li {
+  font-size: 12.5px; line-height: 1.5;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.branch-card.blue  ul li { color: var(--info-text); }
+.branch-card.green ul li { color: var(--success-text); }
+.branch-card ul li::before { content: ">"; font-size: 14px; font-weight: 700; flex-shrink: 0; line-height: 1.3; opacity: 0.7; }
+
+/* =============================================
+   SISTEMAS / LINKS EXTERNOS
+   ============================================= */
+.systems-grid {
+  padding: 0 24px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.system-card {
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.system-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+
+.system-icon {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.system-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.system-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* =============================================
+   GLOSSÁRIO
+   ============================================= */
+.glossary-section {
+  margin-top: 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.glossary-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.glossary-header:hover { background: #faf9f6; }
+
+.glossary-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.glossary-body { display: none; padding: 22px 24px; }
+.glossary-body.open { display: block; }
+
+.glossary-category { margin-bottom: 26px; }
+.glossary-category:last-child { margin-bottom: 0; }
+
+.glossary-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.glossary-cat-icon {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.glossary-cat-icon svg { width: 13px; height: 13px; }
+
+.glossary-cat-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.glossary-cat-line {
+  flex: 1; height: 1px; background: var(--border);
+}
+
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.glossary-item {
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 11px 14px;
+}
+.glossary-item strong {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--brand-primary);
+  display: block;
+  margin-bottom: 3px;
+}
+.glossary-item span {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* =============================================
+   PRINT
+   ============================================= */
+.print-header { display: none; }
+
+@page { size: A4; margin: 0 18mm 0 18mm; }
+
+@media print {
+  .sidebar, .mobile-toggle, .sidebar-overlay,
+  .sidebar-close, .process-flow, .breadcrumb,
+  .sec-toggle-icon, .btn-print { display: none !important; }
+
+  *, *::before, *::after { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #fff; font-size: 11pt; color: #111; display: block; }
+
+  .main { margin-left: 0; max-width: 100%; padding: 18mm 22mm; }
+  .content-wrap { max-width: 100%; padding: 0; }
+
+  .print-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1a1a1a;
+    margin: -18mm -22mm 20pt -22mm;
+    padding: 10pt 22mm;
+  }
+  .print-header img { height: 56pt; width: auto; display: block; filter: drop-shadow(0 1px 6px rgba(0,0,0,0.5)); }
+  .print-header-info { text-align: right; }
+  .print-header-info p { font-size: 9pt; color: rgba(255,255,255,0.55); margin: 0; line-height: 1.5; }
+  .print-header-info p:first-child { font-size: 11pt; font-weight: 700; color: #fff; margin-bottom: 2pt; }
+
+  .page-header { margin: 0 0 20pt; padding: 0 0 12pt; border-bottom: 2pt solid #1d849e; }
+  .page-header h2 { font-size: 18pt; color: #0a2a3d; }
+
+  .sec-section { margin-bottom: 8pt; }
+  .sec-card { box-shadow: none !important; border: 1pt solid #d0d0d0; border-radius: 4pt; }
+  .sec-header { cursor: default; padding: 8pt 12pt; break-after: avoid; page-break-after: avoid; }
+  .sec-body { display: block !important; }
+  .step-item { break-inside: avoid; page-break-inside: avoid; }
+  .alert-box { break-inside: avoid; page-break-inside: avoid; }
+}
+
+/* =============================================
+   RESPONSIVO
+   ============================================= */
+@media (max-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s ease;
+    z-index: 100;
+    width: min(272px, 88vw);
+    box-shadow: none;
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(0,0,0,0.35);
+  }
+  .sidebar-overlay.visible { display: block; }
+  .mobile-toggle { display: flex; }
+  .sidebar-close { display: flex; }
+  .main { margin-left: 0; max-width: 100%; padding: 72px 24px 64px; }
+  .content-wrap { max-width: 100%; }
+  .process-flow { gap: 6px; }
+  .flow-arrow { display: none; }
+  .branch-grid { grid-template-columns: 1fr; }
+  .page-header h2 { font-size: 26px; }
+}
+
+@media (max-width: 680px) {
+  .main { padding: 64px 16px 56px; }
+  .page-header h2 { font-size: 22px; }
+  .sec-header { padding: 16px; gap: 12px; }
+  .sec-titulo { font-size: 15px; }
+  .steps-wrap { padding: 16px 16px 6px; }
+  .alerts-wrap { padding: 0 16px 16px; }
+  .branch-wrap { padding: 14px 16px 16px; }
+  .systems-grid { padding: 0 16px 16px; grid-template-columns: 1fr 1fr; }
+  .glossary-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 400px) {
+  .main { padding: 60px 12px 48px; }
+  .page-header h2 { font-size: 19px; }
+  .flow-chip { display: none; }
+  .process-flow::after { content: "Ver secoes abaixo"; font-size: 12px; color: var(--text-muted); font-style: italic; }
+  .systems-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- =============================================
+     MOBILE TOGGLE BUTTON
+     ============================================= -->
+<button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Menu">
+  <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+</button>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- =============================================
+     SIDEBAR — NAVEGAÇÃO LATERAL
+     ============================================= -->
+<nav class="sidebar" id="sidebar" role="navigation" aria-label="Navegação do CTP">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">X</button>
+
+  <div class="sidebar-logo">
+    <img src="NOVA_LOGO.png" class="sidebar-company-logo" alt="CITA Engenharia" onerror="this.style.display='none'">
+    <h1>Caderno Técnico de Projetos</h1>
+    <p>Gestão de Projetos · CITA Tecnologia</p>
+    <span class="sidebar-badge"><i class="fa-solid fa-file-lines" style="font-size:9px"></i> CTP v1.0 · Abr 2026</span>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-label">Seções do Caderno</div>
+    <div id="nav-items"></div>
+
+    <div class="nav-divider"></div>
+
+    <div class="nav-label">Páginas Relacionadas</div>
+    <a href="pop_projetos_final.html" class="nav-link-ext">
+      <i class="fa-solid fa-diagram-project"></i> POP Projetos
+    </a>
+    <a href="ManualImplantacaoObras.html" class="nav-link-ext">
+      <i class="fa-solid fa-hard-hat"></i> Manual de Obras
+    </a>
+    <a href="fluxoCronoCompras.html" class="nav-link-ext">
+      <i class="fa-solid fa-calendar-days"></i> Cronograma e Compras
+    </a>
+    <a href="fluxoDocs.html" class="nav-link-ext">
+      <i class="fa-solid fa-file-signature"></i> Fluxo de Documentação
+    </a>
+
+    <div class="nav-divider"></div>
+
+    <div class="nav-label">Sistemas Externos</div>
+
+    <a href="https://docs.google.com/spreadsheets/d/1FWj_G2fCh0ZjMROE9LxNuTC30ibiUYXvu4SVAWud5hc/edit?usp=sharing" class="nav-link-ext" target="_blank" rel="noopener">
+      <i class="fa-solid fa-table-columns"></i> Controle Interno
+    </a>
+    <a href="https://docs.google.com/spreadsheets/d/1o0QxQm2TeXmr8P0LXqnQVBFh6mN8dH8lwjw5dGLmC3w/edit?usp=sharing" class="nav-link-ext" target="_blank" rel="noopener">
+      <i class="fa-solid fa-calendar-check"></i> Cronograma
+    </a>
+    <a href="https://web.diariodeobra.app/#/app/obras" class="nav-link-ext teal" target="_blank" rel="noopener">
+      <i class="fa-solid fa-book-open"></i> Diario de Obras
+    </a>
+    <a href="https://app.omie.com.br/gestao/cita-0vhxc5ik/" class="nav-link-ext red" target="_blank" rel="noopener">
+      <i class="fa-solid fa-cart-shopping"></i> Omie · Compras
+    </a>
+    <a href="https://www.docusign.com.br/" class="nav-link-ext purple" target="_blank" rel="noopener">
+      <i class="fa-solid fa-file-signature"></i> DocuSign
+    </a>
+    <a href="https://docs.google.com/spreadsheets/d/1KJwg3BQPAjN3Mt1W-eiF8W3vhmC8uCOYI56y7KW5aR8/edit?gid=0#gid=0" class="nav-link-ext" target="_blank" rel="noopener">
+      <i class="fa-solid fa-table"></i> End. MELI
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    <button class="btn-print" onclick="window.print()">Imprimir caderno</button>
+  </div>
+</nav>
+
+<!-- =============================================
+     CONTEUDO PRINCIPAL
+     ============================================= -->
+<main class="main" role="main">
+
+  <div class="print-header">
+    <img src="NOVA_LOGO.png" alt="CITA Engenharia">
+    <div class="print-header-info">
+      <p>Caderno Técnico de Projetos (CTP)</p>
+      <p>CITA PROJETOS · Uso interno · Abr 2026</p>
+    </div>
+  </div>
+
+  <div class="content-wrap">
+
+    <!-- =============================================
+         CABECALHO DA PAGINA
+         ============================================= -->
+    <div class="page-header">
+      <div class="breadcrumb">
+        <span>CITA Engenharia</span>
+        <span class="sep">·</span>
+        <span>Documentação operacional</span>
+        <span class="sep">·</span>
+        <span>CTP</span>
+      </div>
+      <h2>Caderno Técnico de Projetos</h2>
+      <p class="subtitle">
+        Manual operacional completo do processo de projetos — da recepção da proposta até
+        a entrega da documentação final ao cliente. Reúne orientações técnicas, fluxos,
+        responsabilidades, ferramentas e boas práticas para execução com qualidade e conformidade.
+      </p>
+
+      <div class="meta-pills">
+        <span class="meta-pill"><i class="fa-solid fa-layer-group"></i> 9 Seções</span>
+        <span class="meta-pill"><i class="fa-solid fa-arrows-split-up-and-left"></i> 2 Ramificações pós-aprovação</span>
+        <span class="meta-pill"><i class="fa-solid fa-link"></i> 6 Sistemas integrados</span>
+        <span class="meta-pill"><i class="fa-solid fa-building"></i> Uso Interno · Abr 2026</span>
+      </div>
+
+      <div class="flow-title">Fluxo macro do processo</div>
+      <div class="process-flow" id="process-flow"></div>
+    </div>
+
+    <!-- =============================================
+         SECOES — GERADAS VIA JAVASCRIPT
+         ============================================= -->
+    <div id="secoes-container"></div>
+
+    <!-- =============================================
+         GLOSSARIO TECNICO
+         ============================================= -->
+    <div class="glossary-section" id="glossario">
+      <div class="glossary-header" onclick="toggleGlossary()">
+        <div class="nav-num" style="background:#f0ede6;color:#5a5a56;width:28px;height:28px;font-size:13px;">≡</div>
+        <span class="glossary-title">Glossário de termos técnicos</span>
+        <span class="sec-toggle-icon" id="glossary-icon">&#9654;</span>
+      </div>
+      <div class="glossary-body" id="glossary-body"></div>
+    </div>
+
+  </div>
+</main>
+
+<!-- =============================================
+     DADOS E LOGICA JAVASCRIPT
+     ============================================= -->
+<script>
+/* =============================================
+   DADOS DAS SECOES DO CTP
+   ============================================= */
+const SECOES = [
+  {
+    id: "visao-geral",
+    titulo: "Visão Geral do Processo",
+    cor: "#1D9E75",
+    corBg: "rgba(29,158,117,0.12)",
+    corTexto: "#0a4530",
+    meta: "Panorama completo · Referência",
+    intro: "O processo de projetos da CITA Engenharia abrange desde o recebimento de uma demanda ou proposta até a entrega completa da documentação final ao cliente. Este caderno organiza cada etapa de forma sequencial e prática, servindo como guia operacional para toda a equipe.",
+    itens: [
+      {
+        titulo: "Escopo do processo",
+        desc: "O fluxo de projetos é composto por 8 etapas principais: (1) Recebimento e Proposta, (2) Elaboração do Projeto Executivo, (3) Elaboração do Cronograma, (4) Pós-Aprovação, (5) Compras e Requisição de Materiais, (6) Acompanhamento de Obra, (7) Documentação Final e (8) Sistemas e Ferramentas."
+      },
+      {
+        titulo: "Tipos de projeto atendidos",
+        desc: "Os projetos podem ser do tipo: <span class='step-tag blue'>Fulfillment (FF)</span> <span class='step-tag blue'>Service Center (SVC)</span> <span class='step-tag gold'>Cross Docking (XD)</span>. Cada tipo pode ter requisitos específicos de documentação, prazos e processos internos."
+      },
+      {
+        titulo: "Dois caminhos pós-aprovação",
+        desc: "Após a aprovação da proposta, o fluxo se bifurca conforme o cliente: <span class='step-tag blue'>Mercado Livre (ML)</span> — exige processo interno específico com GMT. <span class='step-tag green'>Outros Clientes</span> — fluxo convencional com cronograma e comunicação direta. Ambas com criação de Diário de Obras e documentação final, mas com nuances operacionais distintas."
+      },
+      {
+        titulo: "Planilhas e sistemas utilizados",
+        desc: "O processo envolve os seguintes sistemas: Controle Interno de Projetos (Google Sheets), Planilha de Documentações (Google Sheets), Planilha de Cronograma (Google Sheets), Planilha de Garantia Estendida (Google Sheets), Diário de Obras (web app), Omie ERP para requisição de materiais e DocuSign para assinatura de documentos."
+      },
+      {
+        titulo: "Responsabilidade pela atualização",
+        desc: "Cada membro da equipe deve manter as planilhas atualizadas em tempo real. O status do projeto deve refletir a situação real a qualquer momento, para que a gestão possa acompanhar sem precisar acionar a equipe individualmente."
+      }
+    ],
+    alertas: [
+      { tipo: "tip", msg: "Este caderno deve ser consultado no início de cada projeto e sempre que surgir uma dúvida sobre o processo. Mantenha-o marcado nos favoritos do navegador." },
+      { tipo: "info", msg: "Para a versão interativa com fluxogramas detalhados, acesse: pop_projetos_final.html (POP principal), fluxoCronoCompras.html e fluxoDocs.html." }
+    ]
+  },
+
+  {
+    id: "recebimento-proposta",
+    titulo: "Recebimento ao Envio da Proposta",
+    cor: "#185FA5",
+    corBg: "rgba(24,95,165,0.12)",
+    corTexto: "#1a3d7a",
+    meta: "Etapa 1 · Comercial",
+    intro: "Esta etapa cobre todo do processo: desde o recebimento de uma demanda ou pedido de proposta até a aprovação formal pelo cliente. Todo projeto começa aqui, com o correto registro e avaliação da solicitação.",
+    itens: [
+      {
+        titulo: "Receber a solicitação de proposta",
+        desc: "Ao receber um pedido de proposta, identifique o tipo de projeto (FF, SVC, XD, etc), o cliente solicitante e o que está sendo solicitado."
+      },
+      {
+        titulo: "Abrir CT na Planilha Controle Interno",
+        desc: "Crie uma nova linha na planilha com o código CT, o nome do cliente, o tipo de projeto, a data de recebimento, o responsável designado e o cliente (Mercado Livre, Amazon, etc.). Status inicial: <span class='step-tag gold'>Proposta em Andamento</span>."
+      },
+      {
+        titulo: "Avaliar demanda e arquivos recebidos",
+        desc: "Analise criticamente todos os arquivos recebidos: planta .dwg de IS/SE, memoriais, especificações, dados do local. Verifique se há documentação suficiente para elaborar o projeto executivo e a proposta."
+      },
+      {
+        titulo: "Ações paralelas durante a avaliação",
+        desc: "Durante a avaliação, podem ser necessárias ações simultâneas: Solicitar arquivos complementares ao cliente ou enviar dúvidas ao cliente para esclarecimento técnico."
+      },
+      { separador: "Elaboração" },
+      {
+        titulo: "Criar estrutura de pastas do projeto",
+        desc: "Organize os arquivos do projeto nas pastas padrão da empresa antes de iniciar a elaboração."
+      },
+      {
+        titulo: "Elaborar o Projeto Executivo",
+        desc: "Desenvolva o projeto técnico completo conforme as orientações da Seção 2 deste caderno. O projeto executivo é a base técnica de toda a proposta comercial."
+      },
+      {
+        titulo: "Elaborar o Cronograma",
+        desc: "Baseado no projeto executivo, defina as etapas de obra e os prazos estimados. Monte o cronograma conforme as orientações da Seção 3. Valide com a equipe antes de enviar ao cliente."
+      },
+      {
+        titulo: "Elaborar Proposta Técnica e Comercial",
+        desc: "Compile o projeto executivo, cronograma, memória de cálculo de materiais e valores em uma proposta formal. Use o template padrão da empresa com: escopo, exclusões, condições comerciais e prazo de validade."
+      },
+      { separador: "Revisão e envio" },
+      {
+        titulo: "Revisar com a equipe",
+        desc: "Antes de enviar ao cliente, submeta a proposta à revisão interna. Verifique: consistência técnica, valores, prazo e escopo. Corrija eventuais inconsistências identificadas."
+      },
+      {
+        titulo: "Enviar proposta ao cliente",
+        desc: "Envie a proposta por e-mail formal com cópia para os responsáveis internos. Registre a data de envio na planilha e atualize o status para <span class='step-tag blue'>Proposta enviada</span>."
+      },
+      {
+        titulo: "Acompanhar e sanar dúvidas",
+        desc: "Após o envio, acompanhe proativamente a resposta do cliente. Responda dúvidas técnicas e comerciais com agilidade. Faça revisões necessárias conforme solicitado. Atualize o status na planilha a cada interação relevante."
+      }
+    ],
+    alertas: [
+      { tipo: "warn", msg: "Nunca inicie a elaboração do projeto sem ter os arquivos mínimos necessários (planta .dwg e dados do local). Em caso de dúvida, consulte o responsável antes de avançar." },
+      { tipo: "info", msg: "Sempre abra o CT na planilha antes de qualquer outra ação. Projetos sem registro são invisíveis para a gestão e podem gerar conflitos de agenda." }
+    ]
+  },
+
+  {
+    id: "projeto-executivo",
+    titulo: "Elaboração do Projeto Executivo",
+    cor: "#534AB7",
+    corBg: "rgba(83,74,183,0.12)",
+    corTexto: "#3a1d8a",
+    meta: "Etapa 2 · Técnica",
+    intro: "O Projeto Executivo é o documento técnico central do processo. Ele define com precisão o que será instalado, onde e como — servindo de base para o cronograma, a requisição de materiais, a execução da obra e a documentação final (As Built).",
+    itens: [
+      { separador: "Análise do .dwg de IS/SE" },
+      {
+        titulo: "Analisar o arquivo .dwg de IS/SE",
+        desc: "Analisar o arquivo .dwg de IS/SE com o posicionamento dos pontos de CFTV e layout da operação."
+      },
+      {
+        titulo: "Identificar os pontos de Dados",
+        desc: "Identificar os pontos de Dados: docas, relógio de ponto, vending machines, máquinas de EPI, chrome box em salas de reunião e afins."
+      },
+      {
+        titulo: "Observar locais com controle de acesso",
+        desc: "Observar locais com equipamentos de controle de acesso para os quais executamos apenas infraestrutura seca (catracas, detectores de metais, portas automáticas)."
+      },
+      {
+        titulo: "Avaliar o caderno técnico",
+        desc: "Avaliar o caderno técnico e suas especificações. <span class='step-tag blue'>Mercado Livre</span>"
+      },
+      { separador: "Criação de Layers" },
+      {
+        titulo: "Criar layers diferenciados",
+        desc: "Criar layers que diferenciem os elementos do projeto."
+      },
+      {
+        titulo: "Quantificação e legenda",
+        desc: "Essencial para o momento de quantificação e para a legenda do projeto. <strong>Muito importante</strong> — layers bem definidos evitam erros de quantificação e facilitam a leitura da legenda."
+      },
+      { separador: "Posicionamento de Racks e CPD" },
+      {
+        titulo: "Posicionar Racks e CPD",
+        desc: "Posicionar os Racks de acesso e o CPD na planta."
+      },
+      {
+        titulo: "Posicionar Access Points",
+        desc: "Avaliar o survey e posicionar os pontos de Access Points."
+      },
+      { separador: "Esboço e Detalhamento da Infraestrutura" },
+      {
+        titulo: "Esboçar a infraestrutura",
+        desc: "Esboçar o caminho da infraestrutura de acordo com a distribuição dos pontos de dados e CFTV."
+      },
+      {
+        titulo: "Detalhar a infraestrutura",
+        desc: "Detalhar o caminho da infraestrutura e suas conexões com os pontos e racks."
+      },
+      { separador: "Levantamento de Cabeamento" },
+      {
+        titulo: "Medir ponto a ponto",
+        desc: "Medir ponto a ponto para assegurar que nenhum ponto está acima de 90 metros de distância dos racks."
+      },
+      {
+        titulo: "Registrar distâncias levantadas",
+        desc: "Registrar as distâncias levantadas no projeto. <strong>Nenhum ponto pode ultrapassar 90 m de distância do rack</strong> — verificar antes de finalizar o projeto. <span class='step-tag blue'>ABNT NBR 14565</span>"
+      },
+      { separador: "Finalização e Plotagem" },
+      {
+        titulo: "Organizar a prancha",
+        desc: "Organizar a prancha com escala, legenda e demais informações pertinentes ao projeto."
+      },
+      {
+        titulo: "Gerar o PDF",
+        desc: "Gerar o PDF do projeto finalizado."
+      },
+      {
+        titulo: "Solicitar a plotagem",
+        desc: "Solicitar a plotagem do projeto."
+      },
+      { separador: "Normas Legais" },
+      {
+        titulo: "Normas Aplicáveis à Execução do Projeto",
+        desc: "<span class='step-tag blue'>ABNT NBR 5410</span> Instalações Elétricas de Baixa Tensão · <span class='step-tag blue'>ABNT NBR 16415</span> Caminhos e Espaços para Cabeamento Estruturado · <span class='step-tag blue'>ABNT NBR 16521</span> Cabeamento Estruturado Industrial · <span class='step-tag blue'>ABNT NBR 14565</span> Cabeamento Estruturado Para Edifícios Comerciais · <span class='step-tag gold'>ANSI/TIA 568</span> Commercial Building Telecommunications Cabling Standard · <span class='step-tag gold'>ANSI/TIA 569</span> Telecommunications Pathways and Spaces · <span class='step-tag gold'>ANSI/TIA 606</span> Administration Standard for Telecommunications Infrastructure · <span class='step-tag gold'>ANSI/TIA 607</span> Generic Telecommunications Bonding and Grounding for Customer Premises · Demais normas técnicas de referência aplicadas às instalações."
+      }
+    ],
+    sistemas: [
+      {
+        nome: "Fluxograma do Projeto Executivo",
+        desc: "Fluxo completo de elaboração — abrir PDF",
+        icone: "fa-solid fa-file-pdf",
+        cor: "#534AB7",
+        corBg: "rgba(83,74,183,0.14)",
+        link: "FluxogramaProjetoExecutivo.pdf"
+      }
+    ],
+    alertas: [
+      { tipo: "warn", msg: "Todo projeto executivo deve ser validado com o cliente antes de iniciar a obra. Modificações no projeto após o início da execução geram retrabalho e custos adicionais." },
+      { tipo: "tip", msg: "Mantenha uma cópia do .dwg original recebido e trabalhe sempre sobre uma cópia. Isso facilita auditorias e comparações futuras." },
+      { tipo: "info", msg: "O projeto executivo finalizado é a base do As Built. Já na fase de projeto, pense em como documentar as alterações que ocorrerão durante a obra." }
+    ]
+  },
+
+  {
+    id: "cronograma",
+    titulo: "Elaboração do Cronograma",
+    cor: "#BA7517",
+    corBg: "rgba(186,117,23,0.12)",
+    corTexto: "#7a4800",
+    meta: "Etapa 3 · Planejamento",
+    intro: "O cronograma é a ferramenta de planejamento e controle da execução da obra. Deve ser elaborado com base no projeto executivo e nas condições reais de acesso ao local, disponibilidade de equipe e equipamentos.",
+    itens: [
+      {
+        titulo: "Identificar e listar as etapas de obra",
+        desc: "Com base no projeto executivo, liste todas as fases de execução: infraestrutura física (leito, eletrocalha), passagem de cabos e fibra, fusões e conectorizações, montagem do CPD, instalação de ativos e passivos, certificação e finalização."
+      },
+      {
+        titulo: "Estimar prazos por etapa",
+        desc: "Para cada etapa, estime o número de dias necessários com base em: dimensão da área, quantidade de pontos, complexidade técnica e número de técnicos disponíveis. Use como referência cronogramas de projetos similares já executados."
+      },
+      {
+        titulo: "Verificar restrições de acesso",
+        desc: "Confirme com o cliente as restrições operacionais: horários permitidos de trabalho (janela / PTA), áreas sensíveis com acesso controlado e datas bloqueadas por operação do cliente. Essas restrições impactam diretamente o prazo."
+      },
+      {
+        titulo: "Montar o cronograma na planilha",
+        desc: "Acesse a Planilha de Cronograma e preencha: datas de início e fim de cada etapa, responsáveis e observações. O cronograma deve ser apresentado em formato de Gantt para facilitar a visualização."
+      },
+      {
+        titulo: "Validar com a equipe técnica",
+        desc: "Antes de enviar ao cliente, valide o cronograma com o coordenador de obras e a equipe técnica. Verifique: conflito de datas com outros projetos, disponibilidade dos técnicos e disponibilidade de materiais."
+      },
+      {
+        titulo: "Enviar cronograma ao cliente",
+        desc: "Inclua o cronograma junto com a proposta técnica/comercial ou envie separadamente após a aprovação. Registre a data de envio na planilha de controle e confirme o recebimento pelo cliente."
+      },
+      { separador: "Durante a obra" },
+      {
+        titulo: "Atualizar o cronograma diariamente",
+        desc: "Durante a execução, o cronograma deve ser atualizado diariamente ao final do expediente. Registre: percentual de conclusão de cada etapa, desvios de prazo, causas dos desvios e ações corretivas tomadas."
+      },
+      {
+        titulo: "Reportar desvios ao cliente",
+        desc: "Qualquer desvio de prazo significativo (superior a 1 dia útil) deve ser reportado ao cliente imediatamente, com justificativa clara e novo prazo estimado. Nunca deixe o cliente descobrir um atraso por conta própria."
+      }
+    ],
+    alertas: [
+      { tipo: "warn", msg: "O cronograma deve considerar a disponibilidade de materiais. Antes de confirmar datas ao cliente, verifique o estoque e o prazo de entrega de itens especiais (switches, racks, fibra especial)." },
+      { tipo: "info", msg: "Use a Planilha de Cronograma do Google Sheets como ferramenta oficial. Não crie versões paralelas em Excel local — isso gera confusão e inconsistências." }
+    ]
+  },
+
+  {
+    id: "pos-aprovacao",
+    titulo: "Pós-Aprovação · Dois Caminhos",
+    cor: "#993C1D",
+    corBg: "rgba(153,60,29,0.12)",
+    corTexto: "#6a1010",
+    meta: "Etapa 4 · Ramificação por tipo de cliente",
+    intro: "Após a aprovação da proposta pelo cliente, o fluxo se bifurca em dois caminhos distintos. Clientes do ecossistema Mercado Livre possuem processos internos específicos que devem ser rigorosamente seguidos para garantir acesso e conformidade operacional.",
+    itens: [
+      {
+        titulo: "Confirmar aprovação da proposta",
+        desc: "Ao receber a confirmação de aprovação (por e-mail ou sistema), atualize o status na planilha de controle para <span class='step-tag green'>Proposta aprovada</span>. Registre a data de aprovação e o valor aprovado."
+      },
+      {
+        titulo: "Identificar o tipo de cliente",
+        desc: "Verifique se o projeto é para <span class='step-tag blue'>Mercado Livre (ML)</span> — inclui FF, SVC, XD, etc — ou para <span class='step-tag green'>Outros Clientes</span>. Isso determina completamente o caminho a seguir nas próximas etapas."
+      }
+    ],
+    ramificacao: {
+      titulo: "Caminho pós-aprovação — escolha o fluxo correto",
+      esquerda: {
+        label: "Mercado Livre (ML)",
+        icone: "fa-solid fa-store",
+        cor: "blue",
+        itens: [
+          "Responder e-mail de aprovação ao GMT",
+          "Atualizar Status, Datas e Valores na planilha (colunas ML)",
+          "Filtrar a requisição: estoque vs. compra necessária",
+          "Elaborar Requisição de Materiais no Omie",
+          "Avaliar disponibilidade da equipe técnica",
+          "Criar Diário de Obras no app (web.diariodeobra.app)",
+          "Formalizar data programada com o cliente",
+          "Preencher Forms de liberação de acesso ao galpão",
+          "Atualizar Status para: Obra a Iniciar",
+          "Aguardar confirmação da data e iniciar obra"
+        ]
+      },
+      direita: {
+        label: "Outros Clientes",
+        icone: "fa-solid fa-building",
+        cor: "green",
+        itens: [
+          "Responder e-mail de aprovação e solicitar contatos da obra",
+          "Atualizar Status, Datas e Valores na planilha",
+          "Elaborar Requisição de Materiais no Omie",
+          "Avaliar disponibilidade da equipe técnica",
+          "Formalizar data programada e enviar cronograma",
+          "Solicitar liberação de acesso aos responsáveis do local",
+          "Atualizar Status para: Obra a Iniciar",
+          "Confirmar data com equipe e iniciar obra"
+        ]
+      }
+    },
+    alertas: [
+      { tipo: "danger", msg: "Para projetos Mercado Livre: NUNCA inicie a obra sem a confirmação formal da data e o preenchimento completo dos forms de liberação de acesso. O acesso ao galpão pode ser negado sem esse processo." },
+      { tipo: "info", msg: "Para Outros Clientes: sempre obtenha o contato do responsável no local (nome, telefone e função). Isso é essencial para resolver imprevistos durante a execução da obra." }
+    ]
+  },
+
+  {
+    id: "compras",
+    titulo: "Compras e Requisição de Materiais",
+    cor: "#0F6E56",
+    corBg: "rgba(15,110,86,0.12)",
+    corTexto: "#0a4530",
+    meta: "Etapa 5 · Suprimentos",
+    intro: "A requisição correta de materiais é fundamental para que a obra aconteça sem interrupções. O processo começa com o levantamento de necessidades feito no projeto executivo e segue um fluxo específico dentro do Omie ERP da empresa.",
+    itens: [
+      {
+        titulo: "Levantar necessidade de materiais",
+        desc: "Com base no projeto executivo aprovado, levante a lista completa de materiais: cabos, infraestrutura, ativos, passivos e consumíveis. Organize por categoria e quantifique com margem de segurança de 10% a 15%."
+      },
+      {
+        titulo: "Verificar disponibilidade no estoque",
+        desc: "Antes de criar a requisição de compra, consulte o estoque da empresa. Materiais disponíveis não precisam ser comprados — apenas reservados para o projeto. Registre os itens disponíveis separadamente dos itens a comprar."
+      },
+      {
+        titulo: "Criar Requisição de Materiais no Omie",
+        desc: "Acesse o Omie ERP e crie uma nova Requisição de Materiais com os itens que precisam ser comprados. Preencha: código do projeto (CT), fornecedor preferencial, quantidade, especificação técnica e urgência."
+      },
+      {
+        titulo: "Enviar para aprovação e compras",
+        desc: "Após criar a requisição no Omie, notifique o responsável por compras da empresa. A requisição deve ser aprovada e o pedido gerado com antecedência suficiente para garantir entrega antes da data prevista de início da obra."
+      },
+      { separador: "Recebimento" },
+      {
+        titulo: "Acompanhar prazo de entrega",
+        desc: "Monitore a data prevista de entrega dos materiais. Para itens críticos (fibra óptica especial, racks específicos, switches), confirme o prazo com o fornecedor. Qualquer atraso na entrega deve ser reportado imediatamente."
+      },
+      {
+        titulo: "Receber e conferir os materiais",
+        desc: "No recebimento, confira TODOS os itens contra a nota fiscal e a requisição: quantidade, especificação técnica, modelo e estado físico. Registre qualquer divergência antes de assinar o recebimento. Organize o material por projeto."
+      },
+      {
+        titulo: "Validar infraestrutura entregue pelo cliente",
+        desc: "Para projetos com infraestrutura prévia entregue pelo cliente (portaria, vestiário, refeitório, docas), valide se a infraestrutura de chegada foi concluída antes de iniciar a passagem de cabos. Documente com fotos."
+      }
+    ],
+    alertas: [
+      { tipo: "warn", msg: "Não inicie a obra sem confirmação de que todos os materiais críticos estão disponíveis. Uma obra pausada por falta de material gera prejuízo e atraso de cronograma." },
+      { tipo: "tip", msg: "Separe e identifique os materiais de cada projeto imediatamente após o recebimento. Misturar materiais de projetos diferentes é uma fonte comum de erros e perdas." },
+      { tipo: "info", msg: "O Omie ERP é o sistema oficial de requisição. Não faça compras paralelas fora do sistema sem autorização da gestão." }
+    ]
+  },
+
+  {
+    id: "acompanhamento",
+    titulo: "Acompanhamento de Obra",
+    cor: "#3B6D11",
+    corBg: "rgba(59,109,17,0.12)",
+    corTexto: "#1a4000",
+    meta: "Etapa 6 · Execução e controle",
+    intro: "O acompanhamento de obra é a fase de maior intensidade operacional. O responsável pelo projeto deve manter comunicação constante com a equipe técnica, reportar evolução ao cliente e garantir conformidade com o projeto executivo e os padrões de qualidade.",
+    itens: [
+      {
+        titulo: "Registrar início da obra no Diário de Obras",
+        desc: "Ao iniciar a obra, faça o primeiro registro no Diário de Obras: data de início, equipe presente, condições do local, materiais disponíveis e primeiras atividades realizadas. O primeiro registro é obrigatório."
+      },
+      {
+        titulo: "Acompanhar execução conforme projeto",
+        desc: "A execução deve seguir fielmente o projeto executivo aprovado. Verifique: posicionamento correto dos pontos, rotas de infraestrutura conforme projeto, identificações e numerações dos cabos e conformidade das instalações com as normas."
+      },
+      {
+        titulo: "Atualizar o cronograma diariamente",
+        desc: "No final de cada dia de obra, atualize o cronograma: marque as etapas concluídas, registre o percentual de avanço das etapas em andamento e registre eventuais atrasos com suas causas."
+      },
+      {
+        titulo: "Preencher o Diário de Obras diariamente",
+        desc: "O Diário de Obras deve ser preenchido diariamente com: serviços executados no dia, equipe e turnos, materiais consumidos, intercorrências e soluções, fotos de progresso e pontos críticos."
+      },
+      { separador: "Qualidade e documentação" },
+      {
+        titulo: "Executar relatório fotográfico",
+        desc: "Durante a obra, fotografe sistematicamente: antes e depois de cada etapa, detalhes técnicos críticos (fusões, conectorizações, racks montados), conformidades e não-conformidades identificadas. Organize as fotos por etapa e data."
+      },
+      {
+        titulo: "Identificar e resolver problemas",
+        desc: "Qualquer divergência entre o projeto executivo e as condições reais do local deve ser documentada e reportada. Algumas divergências requerem revisão do projeto (As Built). Tome decisões técnicas embasadas e registre-as."
+      },
+      {
+        titulo: "Assistência à equipe técnica em campo",
+        desc: "Preste suporte técnico à equipe: esclareça dúvidas sobre o projeto, forneça especificações técnicas, resolva impasses com o cliente no local e garanta que os padrões de qualidade sejam mantidos."
+      },
+      { separador: "Conclusão" },
+      {
+        titulo: "Declarar conclusão da obra",
+        desc: "Ao concluir todos os serviços previstos, faça o último registro no Diário de Obras e confirme internamente a conclusão. Atualize o status na planilha de controle para <span class='step-tag green'>Obra concluída</span>."
+      },
+      {
+        titulo: "Atualizar a Planilha de Controle",
+        desc: "Após a conclusão, atualize todos os campos da planilha: data real de conclusão, valor final (se houve aditivo) e observações de encerramento. O projeto deve refletir o status correto para a gestão."
+      }
+    ],
+    alertas: [
+      { tipo: "warn", msg: "Nunca finalize a obra sem verificar se todos os pontos previstos no projeto estão instalados, identificados e testados. Uma pendência não documentada pode gerar retrabalho sem custo extra para o cliente." },
+      { tipo: "tip", msg: "Tire fotos de TODOS os racks montados, painéis de fibra e identificações de cabos. Essa documentação será essencial para o As Built e o Mapeamento de Pontos." },
+      { tipo: "info", msg: "O Diário de Obras é um documento oficial e pode ser consultado pelo cliente. Seja claro, objetivo e profissional nos registros." }
+    ]
+  },
+
+  {
+    id: "documentacao-final",
+    titulo: "Documentação Final",
+    cor: "#A32D2D",
+    corBg: "rgba(163,45,45,0.12)",
+    corTexto: "#6a1010",
+    meta: "Etapa 7 · Entrega e encerramento",
+    intro: "A documentação final é o conjunto de registros técnicos que comprova a execução e qualidade do projeto. É entregue ao cliente como parte do contrato e arquivada internamente para referência futura e suporte técnico pós-obra.",
+    itens: [
+      {
+        titulo: "As Built — Planta de como foi executado",
+        desc: "Atualize o projeto executivo com as modificações realizadas durante a obra. O As Built deve refletir fielmente a instalação real. Inclua: posicionamentos finais, percursos de cabo alterados, pontos adicionados ou removidos."
+      },
+      {
+        titulo: "Mapeamento de pontos de rede",
+        desc: "Crie o mapeamento completo de todos os pontos de rede instalados: ID do ponto, localização física, rack de destino, porta do patch panel, comprimento do cabo, tipo de cabo e equipamento conectado. Use a tabela padrão de endereços MELI quando aplicável."
+      },
+      {
+        titulo: "Relatório fotográfico final",
+        desc: "Organize todas as fotos coletadas durante a obra em um relatório fotográfico estruturado por etapa. O relatório deve evidenciar a qualidade e conformidade dos serviços. Use template padrão da empresa."
+      },
+      {
+        titulo: "Upload das certificações",
+        desc: "Realize a certificação de todos os pontos UTP (Fluke/Lantek) e fibras ópticas (OTDR). Faça o upload dos arquivos de certificação para o repositório do projeto. As certificações são documentos técnicos obrigatórios."
+      },
+      {
+        titulo: "Diário de Obras finalizado",
+        desc: "Certifique-se de que o Diário de Obras está completo e encerrado formalmente no sistema. O último registro deve indicar conclusão dos serviços, desmobilização da equipe e entrega do local ao cliente."
+      },
+      { separador: "DocuSign — Assinatura digital" },
+      {
+        titulo: "Preparar documentos para assinatura",
+        desc: "Compile todos os documentos que requerem assinatura do cliente: Termo de Aceite/Entrega, As Built, Relatório Final. Organize em um único PDF ou pacote no formato padrão da empresa."
+      },
+      {
+        titulo: "Enviar via DocuSign",
+        desc: "Acesse o DocuSign e crie o envelope de assinatura. Configure os destinatários: <span class='step-tag blue'>Assinante</span> — responsável técnico do cliente; <span class='step-tag purple'>Cópia</span> — responsável comercial/gestão do cliente."
+      },
+      {
+        titulo: "Confirmar assinaturas e arquivar",
+        desc: "Após todas as assinaturas, faça o download do documento assinado e arquive no repositório do projeto (Google Drive/servidor interno). Registre a data de assinatura na planilha de controle."
+      },
+      { separador: "Encerramento administrativo" },
+      {
+        titulo: "Encerrar o projeto na planilha",
+        desc: "Atualize o status final na Planilha de Controle para <span class='step-tag green'>Projeto concluído</span>. Preencha: data de conclusão, data de entrega da documentação, número de protocolo DocuSign e observações finais."
+      },
+      {
+        titulo: "Desmobilização e limpeza da obra",
+        desc: "Garanta que a equipe realize a limpeza completa do local, devolva crachás e passes de acesso, retire ferramentas e equipamentos temporários, e entregue o espaço nas condições acordadas com o cliente."
+      }
+    ],
+    alertas: [
+      { tipo: "danger", msg: "A certificação de cabos UTP e fibras ópticas é OBRIGATÓRIA. Nunca entregue um projeto ao cliente sem os relatórios de certificação. Este é um requisito técnico e contratual." },
+      { tipo: "warn", msg: "Mantenha cópias de segurança de toda a documentação final em pelo menos dois locais (ex: Google Drive + servidor local). Perda de documentação técnica é um risco grave." },
+      { tipo: "tip", msg: "Quanto mais completa e organizada a documentação final, mais fácil será prestar suporte técnico ao cliente no futuro. Invista tempo na qualidade da entrega." }
+    ]
+  },
+
+  {
+    id: "sistemas-ferramentas",
+    titulo: "Sistemas e Ferramentas",
+    cor: "#1d849e",
+    corBg: "rgba(29,132,158,0.12)",
+    corTexto: "#006070",
+    meta: "Referência · Links e sistemas integrados",
+    intro: "Esta seção centraliza todos os sistemas, ferramentas e recursos digitais utilizados no processo de projetos da CITA. Acesse rapidamente cada plataforma pelo link correspondente. Todos os sistemas devem ser acessados com conta corporativa.",
+    itens: [],
+    sistemas: [
+      {
+        nome: "Controle Interno Projetos",
+        desc: "Planilha principal de gestão. Registro de CTs, status, datas, clientes e valores.",
+        icone: "fa-solid fa-table-columns",
+        cor: "#185FA5",
+        corBg: "rgba(24,95,165,0.12)",
+        link: "https://docs.google.com/spreadsheets/d/1FWj_G2fCh0ZjMROE9LxNuTC30ibiUYXvu4SVAWud5hc/edit?usp=sharing"
+      },
+      {
+        nome: "Planilha de Cronograma",
+        desc: "Cronograma de obras com Gantt. Atualização diária durante a execução.",
+        icone: "fa-solid fa-calendar-days",
+        cor: "#BA7517",
+        corBg: "rgba(186,117,23,0.12)",
+        link: "https://docs.google.com/spreadsheets/d/1o0QxQm2TeXmr8P0LXqnQVBFh6mN8dH8lwjw5dGLmC3w/edit?usp=sharing"
+      },
+      {
+        nome: "Diário de Obras",
+        desc: "Registro diário de acompanhamento. Fotos, equipe, serviços executados.",
+        icone: "fa-solid fa-book-open",
+        cor: "#0F6E56",
+        corBg: "rgba(15,110,86,0.12)",
+        link: "https://web.diariodeobra.app/#/app/obras"
+      },
+      {
+        nome: "Omie — ERP Compras",
+        desc: "Requisições de materiais, pedidos de compra e controle financeiro.",
+        icone: "fa-solid fa-cart-shopping",
+        cor: "#A32D2D",
+        corBg: "rgba(163,45,45,0.12)",
+        link: "https://app.omie.com.br/gestao/cita-0vhxc5ik/"
+      },
+      {
+        nome: "DocuSign",
+        desc: "Assinatura digital de documentos técnicos e termos de aceite.",
+        icone: "fa-solid fa-file-signature",
+        cor: "#534AB7",
+        corBg: "rgba(83,74,183,0.12)",
+        link: "https://www.docusign.com.br/"
+      },
+      {
+        nome: "Tabela Endereços MELI",
+        desc: "Mapeamento de pontos e endereços para projetos Mercado Livre.",
+        icone: "fa-solid fa-table",
+        cor: "#185FA5",
+        corBg: "rgba(24,95,165,0.12)",
+        link: "https://docs.google.com/spreadsheets/d/1KJwg3BQPAjN3Mt1W-eiF8W3vhmC8uCOYI56y7KW5aR8/edit?gid=0#gid=0"
+      }
+    ],
+    alertas: [
+      { tipo: "info", msg: "Todos os sistemas devem ser acessados com conta corporativa da empresa. Nunca registre informações de projeto em contas pessoais." },
+      { tipo: "tip", msg: "Salve todos os links como favoritos no navegador. Em caso de dificuldade de acesso, contate o responsável de TI da empresa." }
+    ]
+  }
+];
+
+/* =============================================
+   FLUXO DE CHIPS (HEADER)
+   ============================================= */
+const FLUXO_CHIPS = [
+  { num: "1", label: "Recebimento",     cor: "#185FA5" },
+  { num: "2", label: "Proj. Executivo", cor: "#534AB7" },
+  { num: "3", label: "Cronograma",      cor: "#BA7517" },
+  { num: "4", label: "Pós-Aprovação",   cor: "#993C1D" },
+  { num: "5", label: "Compras",         cor: "#0F6E56" },
+  { num: "6", label: "Acompanhamento",  cor: "#3B6D11" },
+  { num: "7", label: "Documentação",    cor: "#A32D2D" },
+  { num: "8", label: "Sistemas",        cor: "#1d849e" }
+];
+
+/* =============================================
+   GLOSSARIO
+   ============================================= */
+const GLOSSARIO = [
+  {
+    categoria: "Tipos de Projeto e Clientes",
+    corBg: "rgba(24,95,165,0.12)",
+    icone: '<svg viewBox="0 0 24 24" fill="#185FA5"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>',
+    itens: [
+      { termo: "FF / Fulfillment", def: "Centro de armazenagem e despacho de pedidos do Mercado Livre" },
+      { termo: "SVC / Service Center", def: "Centro de serviços e atendimento técnico do Mercado Livre" },
+      { termo: "XD / Cross Docking", def: "Terminal de transferência de cargas, sem armazenagem prolongada" },
+      { termo: "GMT", def: "Código que o Mercado Livre envia para pagamento" },
+      { termo: "PTA", def: "Plataforma de elevação" }
+    ]
+  },
+  {
+    categoria: "Processo e Documentação",
+    corBg: "rgba(163,45,45,0.12)",
+    icone: '<svg viewBox="0 0 24 24" fill="#A32D2D"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>',
+    itens: [
+      { termo: "As Built", def: "Documentação final com o projeto conforme foi executado (como construído)" },
+      { termo: "GoLive", def: "Inauguração oficial da operação do cliente no local" },
+      { termo: "Facilities Readiness", def: "Verificação de que as instalações estão prontas para o GoLive" },
+      { termo: "RECORP", def: "Empresa responsável pela infraestrutura administrativa nos galpões ML" },
+      { termo: "Diário de Obras", def: "Registro digital diário de serviços, equipe e fotos durante a execução" },
+      { termo: "Relatório Fotográfico", def: "Documentação visual sistematizada da obra por etapa" },
+      { termo: "DocuSign", def: "Plataforma de assinatura digital de documentos técnicos e contratuais" }
+    ]
+  },
+  {
+    categoria: "Infraestrutura Física",
+    corBg: "rgba(83,74,183,0.12)",
+    icone: '<svg viewBox="0 0 24 24" fill="#534AB7"><path d="M4 11h16v2H4zm0-4h16v2H4zm8 10l-4-4h3V7h2v6h3l-4 4z"/></svg>',
+    itens: [
+      { termo: "Leito aramado", def: "Estrutura metálica em grade para suporte e passagem de cabos" },
+      { termo: "Eletrocalha", def: "Calha metálica fechada para proteção de cabos de dados e CFTV" },
+      { termo: "Perfilado", def: "Perfil estrutural U ou C para fixação de infraestrutura" },
+      { termo: "Eletroduto", def: "Tubo de proteção mecânica para cabos em descidas e travessias" },
+      { termo: "CPD", def: "Centro de Processamento de Dados — sala principal de rede e servidores" },
+      { termo: "DG", def: "Distribuidor Geral — ponto de entrada do sinal de fibra externa no prédio" },
+      { termo: "Rack", def: "Gabinete de 19\" para montagem de equipamentos ativos e passivos de rede" }
+    ]
+  },
+  {
+    categoria: "Cabeamento e Certificação",
+    corBg: "rgba(15,110,86,0.12)",
+    icone: '<svg viewBox="0 0 24 24" fill="#0F6E56"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19a2 2 0 002 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>',
+    itens: [
+      { termo: "UTP", def: "Unshielded Twisted Pair — cabo de par trançado sem blindagem (Cat5e/Cat6/Cat6A)" },
+      { termo: "Patchcord", def: "Cabo curto de conexão com conector RJ-45 ou LC/SC" },
+      { termo: "DIO / ODF", def: "Distribuidor Interno Óptico — bandeja para terminação de fibras nos racks" },
+      { termo: "Pig-tail", def: "Trecho curto de fibra com conector em uma ponta, para fusão" },
+      { termo: "OTDR", def: "Optical Time Domain Reflectometer — instrumento de certificação de fibra óptica" },
+      { termo: "Fluke / Lantek", def: "Certificadores de cabeamento UTP e fibra — geram laudos técnicos oficiais" },
+      { termo: "T568B", def: "Padrão de pinagem RJ-45 utilizado na empresa" }
+    ]
+  },
+  {
+    categoria: "Equipamentos e Protocolos",
+    corBg: "rgba(186,117,23,0.12)",
+    icone: '<svg viewBox="0 0 24 24" fill="#BA7517"><path d="M20 6H4V4h16v2zm1 10v-2l-1-5H4l-1 5v2h1v2h2v-2h10v2h2v-2h1zm-5-4H8v-2h8v2z"/></svg>',
+    itens: [
+      { termo: "SW / Switch", def: "Equipamento ativo de comutação de rede (Camada 2)" },
+      { termo: "AP / Access Point", def: "Ponto de acesso Wi-Fi — fornece rede sem fio para os dispositivos" },
+      { termo: "CFTV", def: "Circuito Fechado de Televisão — sistema de câmeras IP de segurança" },
+      { termo: "SFP", def: "Small Form-factor Pluggable — transceiver óptico para switches" },
+      { termo: "PoE", def: "Power over Ethernet — energia elétrica pelo cabo de rede (APs, câmeras)" },
+      { termo: "VLAN", def: "Virtual LAN — segmentação lógica de rede para separar tráfegos" },
+      { termo: "UPS", def: "Uninterruptible Power Supply — nobreak para proteção do CPD" }
+    ]
+  }
+];
+
+/* =============================================
+   SVGs DE ICONE DE ALERTA
+   ============================================= */
+const ALERT_ICONS = {
+  warn:   '<svg class="alert-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L1.5 13.5h13L8 1.5z" stroke="#d4820a" stroke-width="1.5" fill="none"/><path d="M8 6v3.5" stroke="#d4820a" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".7" fill="#d4820a"/></svg>',
+  info:   '<svg class="alert-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="#2563b0" stroke-width="1.5"/><path d="M8 7v4.5" stroke="#2563b0" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5" r=".7" fill="#2563b0"/></svg>',
+  danger: '<svg class="alert-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="#b02020" stroke-width="1.5"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="#b02020" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  tip:    '<svg class="alert-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="#1d9e75" stroke-width="1.5"/><path d="M5 8.5l2 2 4-4" stroke="#1d9e75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+
+/* =============================================
+   RENDERIZACAO DO FLUXO (HEADER)
+   ============================================= */
+function renderProcessFlow() {
+  const cont = document.getElementById('process-flow');
+  FLUXO_CHIPS.forEach((chip, i) => {
+    if (i > 0) {
+      const arrow = document.createElement('span');
+      arrow.className = 'flow-arrow';
+      arrow.textContent = String.fromCharCode(8250); // ›
+      cont.appendChild(arrow);
+    }
+    const a = document.createElement('a');
+    a.className = 'flow-chip';
+    a.href = '#' + (SECOES[i] ? SECOES[i].id : '#');
+    const num = document.createElement('span');
+    num.className = 'flow-chip-num';
+    num.style.background = chip.cor;
+    num.textContent = chip.num;
+    a.appendChild(num);
+    a.appendChild(document.createTextNode(chip.label));
+    cont.appendChild(a);
+  });
+}
+
+/* =============================================
+   RENDERIZACAO DOS NAV ITEMS
+   ============================================= */
+function renderNavItems() {
+  const cont = document.getElementById('nav-items');
+  SECOES.forEach((sec, idx) => {
+    const a = document.createElement('a');
+    a.className = 'nav-item';
+    a.href = '#' + sec.id;
+    a.setAttribute('data-sec', sec.id);
+    a.onclick = function() { closeSidebar(); };
+
+    const num = document.createElement('div');
+    num.className = 'nav-num';
+    num.textContent = String(idx + 1).padStart(2, '0');
+
+    const text = document.createElement('span');
+    text.className = 'nav-text';
+    text.textContent = sec.titulo;
+
+    a.appendChild(num);
+    a.appendChild(text);
+    cont.appendChild(a);
+  });
+}
+
+/* =============================================
+   RENDERIZACAO DAS SECOES
+   ============================================= */
+function renderSecoes() {
+  const cont = document.getElementById('secoes-container');
+
+  SECOES.forEach((sec, idx) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'sec-section';
+    wrapper.id = sec.id;
+
+    let html = '';
+
+    /* Card wrapper */
+    html += '<div class="sec-card" style="--sec-cor: ' + sec.cor + ';">';
+
+    /* Header clicavel */
+    html += '<div class="sec-header" onclick="toggleSec(' + idx + ')" aria-expanded="false" aria-controls="sec-body-' + idx + '">';
+    html += '<div class="sec-num-badge" style="background:' + sec.corBg + ';color:' + sec.corTexto + ';">' + String(idx + 1).padStart(2, '0') + '</div>';
+    html += '<div class="sec-info">';
+    html += '<div class="sec-titulo">' + sec.titulo + '</div>';
+    html += '<div class="sec-meta">' + sec.meta + '</div>';
+    html += '</div>';
+    html += '<span class="sec-toggle-icon" id="toggle-icon-' + idx + '">&#9654;</span>';
+    html += '</div>'; /* /sec-header */
+
+    /* Body (inicialmente oculto) */
+    html += '<div class="sec-body" id="sec-body-' + idx + '">';
+
+    /* Intro */
+    if (sec.intro) {
+      html += '<div class="sec-intro"><p>' + sec.intro + '</p></div>';
+    }
+
+    /* Sistemas (secao especial de links) */
+    if (sec.sistemas && sec.sistemas.length > 0) {
+      html += '<div class="systems-grid">';
+      sec.sistemas.forEach(function(sys) {
+        html += '<a class="system-card" href="' + sys.link + '" target="_blank" rel="noopener">';
+        html += '<div class="system-icon" style="background:' + sys.corBg + ';color:' + sys.cor + ';"><i class="' + sys.icone + '"></i></div>';
+        html += '<div class="system-name">' + sys.nome + '</div>';
+        html += '<div class="system-desc">' + sys.desc + '</div>';
+        html += '</a>';
+      });
+      html += '</div>';
+    }
+
+    /* Steps / Procedimentos */
+    if (sec.itens && sec.itens.length > 0) {
+      html += '<div class="steps-wrap">';
+      html += '<div class="steps-label">Procedimentos desta etapa</div>';
+      let stepNum = 0;
+      sec.itens.forEach(function(item) {
+        if (item.separador) {
+          html += '<div class="step-separador">' + item.separador + '</div>';
+        } else {
+          stepNum++;
+          html += '<div class="step-item">';
+          html += '<div class="step-left">';
+          html += '<div class="step-num" style="background:' + sec.cor + ';">' + stepNum + '</div>';
+          html += '<div class="step-connector"></div>';
+          html += '</div>';
+          html += '<div class="step-content">';
+          html += '<div class="step-title">' + item.titulo + '</div>';
+          html += '<div class="step-desc">' + item.desc + '</div>';
+          html += '</div>';
+          html += '</div>';
+        }
+      });
+      html += '</div>'; /* /steps-wrap */
+    }
+
+    /* Ramificacao */
+    if (sec.ramificacao) {
+      var r = sec.ramificacao;
+      html += '<div class="branch-wrap">';
+      html += '<div class="branch-title">' + r.titulo + '</div>';
+      html += '<div class="branch-grid">';
+
+      /* Esquerda */
+      html += '<div class="branch-card ' + r.esquerda.cor + '">';
+      html += '<div class="branch-card-label"><i class="' + r.esquerda.icone + '"></i>' + r.esquerda.label + '</div>';
+      html += '<ul>';
+      r.esquerda.itens.forEach(function(it) { html += '<li>' + it + '</li>'; });
+      html += '</ul></div>';
+
+      /* Direita */
+      html += '<div class="branch-card ' + r.direita.cor + '">';
+      html += '<div class="branch-card-label"><i class="' + r.direita.icone + '"></i>' + r.direita.label + '</div>';
+      html += '<ul>';
+      r.direita.itens.forEach(function(it) { html += '<li>' + it + '</li>'; });
+      html += '</ul></div>';
+
+      html += '</div></div>'; /* /branch-grid /branch-wrap */
+    }
+
+    /* Alertas */
+    if (sec.alertas && sec.alertas.length > 0) {
+      html += '<div class="alerts-wrap">';
+      sec.alertas.forEach(function(al) {
+        html += '<div class="alert-box alert-' + al.tipo + '">';
+        html += (ALERT_ICONS[al.tipo] || '');
+        html += '<span>' + al.msg + '</span>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+
+    html += '</div>'; /* /sec-body */
+    html += '</div>'; /* /sec-card */
+
+    wrapper.innerHTML = html;
+    cont.appendChild(wrapper);
+  });
+}
+
+/* =============================================
+   RENDERIZACAO DO GLOSSARIO
+   ============================================= */
+function renderGlossary() {
+  const body = document.getElementById('glossary-body');
+  let html = '';
+  GLOSSARIO.forEach(function(cat) {
+    html += '<div class="glossary-category">';
+    html += '<div class="glossary-cat-header">';
+    html += '<div class="glossary-cat-icon" style="background:' + cat.corBg + ';">' + cat.icone + '</div>';
+    html += '<span class="glossary-cat-title">' + cat.categoria + '</span>';
+    html += '<div class="glossary-cat-line"></div>';
+    html += '</div>';
+    html += '<div class="glossary-grid">';
+    cat.itens.forEach(function(item) {
+      html += '<div class="glossary-item">';
+      html += '<strong>' + item.termo + '</strong>';
+      html += '<span>' + item.def + '</span>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  });
+  body.innerHTML = html;
+}
+
+/* =============================================
+   INTERACOES
+   ============================================= */
+function toggleSec(idx) {
+  var body = document.getElementById('sec-body-' + idx);
+  var icon = document.getElementById('toggle-icon-' + idx);
+  var isOpen = body.classList.toggle('open');
+  icon.classList.toggle('open', isOpen);
+  body.previousElementSibling.setAttribute('aria-expanded', isOpen);
+}
+
+function toggleGlossary() {
+  var body = document.getElementById('glossary-body');
+  var icon = document.getElementById('glossary-icon');
+  var isOpen = body.classList.toggle('open');
+  icon.classList.toggle('open', isOpen);
+}
+
+function toggleSidebar() {
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('overlay');
+  var toggle  = document.querySelector('.mobile-toggle');
+  var isOpen  = sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('visible', isOpen);
+  toggle.classList.toggle('is-open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+function closeSidebar() {
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('overlay');
+  var toggle  = document.querySelector('.mobile-toggle');
+  sidebar.classList.remove('mobile-open');
+  overlay.classList.remove('visible');
+  toggle.classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+
+/* =============================================
+   SCROLL — DESTAQUE DO NAV ITEM ATIVO
+   ============================================= */
+function onScroll() {
+  var scrollY = window.scrollY + 80;
+  var activeId = null;
+
+  SECOES.forEach(function(sec) {
+    var el = document.getElementById(sec.id);
+    if (el && el.offsetTop <= scrollY) {
+      activeId = sec.id;
+    }
+  });
+
+  document.querySelectorAll('.nav-item[data-sec]').forEach(function(item) {
+    item.classList.toggle('active', item.getAttribute('data-sec') === activeId);
+  });
+}
+
+/* =============================================
+   INICIALIZACAO
+   ============================================= */
+document.addEventListener('DOMContentLoaded', function() {
+  renderProcessFlow();
+  renderNavItems();
+  renderSecoes();
+  renderGlossary();
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* Abre todas as secoes por padrao */
+  SECOES.forEach(function(_, idx) {
+    var body = document.getElementById('sec-body-' + idx);
+    var icon = document.getElementById('toggle-icon-' + idx);
+    if (body) body.classList.add('open');
+    if (icon) icon.classList.add('open');
+  });
+});
+</script>
+
+</body>
+</html>

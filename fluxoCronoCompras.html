@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- ============================================================
+     FLUXOGRAMAS — CRONOGRAMA E REQUISIÇÃO DE COMPRAS
+     Parte do POP · Projetos — CITA Engenharia
+     Versão: 1.0 | Abril 2026
+     ============================================================ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fluxogramas de processos internos — Cronograma e Requisição de Compras.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<title>Fluxogramas · Cronograma e Compras</title>
+
+<!-- ============================================================
+     ESTILOS — idênticos ao fluxoDocs.html
+     ============================================================ -->
+<style>
+/* ── VARIÁVEIS GLOBAIS ── */
+:root {
+  --bg:          #0d1117;
+  --bg2:         #111827;
+  --card:        #161d2e;
+  --border:      rgba(99,130,185,0.18);
+  --blue:        #3b6fd4;
+  --blue-bright: #5a8ff0;
+  --blue-glow:   #7eb3ff;
+  --teal:        #0fa8c0;
+  --gold:        #e8b84b;
+  --green:       #3ec47a;
+  --red:         #e05c5c;
+  --amber:       #f59e0b;
+  --purple:      #9b7fe8;
+  --text:        #e6edf8;
+  --muted:       #7a92b8;
+  --dim:         #3d4f6e;
+  --arrow-color: rgba(59,111,212,.6);
+}
+
+/* ── RESET ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:15px; }
+
+/* ── PAGE TRANSITION VEIL ── */
+#page-veil {
+  position: fixed;
+  inset: 0;
+  background: #030816;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+  z-index: 9999;
+  pointer-events: none;
+}
+#page-veil.hidden { opacity: 0; }
+
+/* ── BODY / BACKGROUND ── */
+body {
+  background-color: #030816;
+  background-image: url('IMAGEM_FUNDO.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:rgba(10,20,55,0.62);
+  pointer-events:none;
+  z-index:0;
+}
+
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:.6;
+}
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+header {
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:200;
+  height:72px;
+  padding:0 36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(115deg,#11296d,#061942);
+  box-shadow:0 4px 24px rgba(0,0,0,0.4);
+  border-bottom:2px solid #23a6fc;
+}
+
+.logo-area {
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo-img {
+  height:44px;
+  width:auto;
+  object-fit:contain;
+}
+
+.logo-text {
+  font-family:'Rajdhani',sans-serif;
+  font-weight:800;
+  font-size:17px;
+  color:#e8f0fb;
+  letter-spacing:.07em;
+  line-height:1.15;
+}
+.logo-text span {
+  display:block;
+  font-size:9.5px;
+  letter-spacing:.24em;
+  color:#a5d8ff;
+  font-weight:500;
+}
+
+.header-right {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn-header {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:#c8d8f0;
+  text-decoration:none;
+  padding:7px 14px;
+  border-radius:7px;
+  border:1px solid rgba(126,179,255,.3);
+  background:rgba(255,255,255,0.07);
+  cursor:pointer;
+  transition:background .22s, color .22s, transform .22s;
+  white-space:nowrap;
+}
+.btn-header:hover {
+  background:rgba(173,216,230,0.9);
+  color:#000;
+  transform:translateY(-2px);
+}
+
+.menu-toggle {
+  display:none;
+  color:#dbe8ff;
+  border:1px solid rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.08);
+  padding:8px 11px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:18px;
+}
+.menu-toggle:hover { background:rgba(173,216,230,0.85); color:#000; }
+
+/* ============================================================
+   NAVEGAÇÃO LATERAL
+   ============================================================ */
+.layout {
+  display:flex;
+  position:relative;
+  z-index:1;
+  padding-top:72px;
+}
+
+aside.sidebar {
+  position:sticky;
+  top:72px;
+  width:252px;
+  flex-shrink:0;
+  height:calc(100vh - 72px);
+  overflow-y:auto;
+  padding:24px 14px 48px;
+  border-right:1px solid rgba(60,110,230,0.35);
+  background:linear-gradient(170deg, #0e2e7a 0%, #091e55 60%, #071540 100%);
+  scrollbar-width:thin;
+  scrollbar-color:rgba(90,140,255,0.4) transparent;
+}
+aside.sidebar::-webkit-scrollbar { width:4px; }
+aside.sidebar::-webkit-scrollbar-thumb { background:rgba(90,140,255,0.4); border-radius:4px; }
+
+.nav-label {
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(160,200,255,0.55);
+  margin-bottom:10px;
+  padding-left:4px;
+}
+
+.nav-proc {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:4px;
+}
+
+.nav-proc-btn {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.06);
+  color:rgba(190,215,255,0.8);
+  text-decoration:none;
+  transition:all .22s;
+}
+.nav-proc-btn:hover {
+  background:rgba(255,255,255,0.18);
+  border-color:rgba(255,255,255,0.4);
+  color:#fff;
+  transform:translateX(4px);
+  box-shadow:0 4px 18px rgba(0,0,0,0.25);
+}
+.nav-proc-btn.active {
+  background:rgba(255,255,255,0.22);
+  border-color:rgba(147,197,253,0.7);
+  color:#fff;
+  transform:translateX(4px);
+  box-shadow:0 0 0 2px rgba(147,197,253,0.2), 0 4px 18px rgba(0,0,0,0.25);
+}
+.nav-proc-icon {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:32px; height:32px;
+  border-radius:8px;
+  flex-shrink:0;
+  font-size:13px;
+}
+.nav-proc-icon.c1 { background:rgba(147,197,253,0.2); border:1px solid rgba(147,197,253,0.4); color:#93c5fd; }
+.nav-proc-icon.c2 { background:rgba(224,92,92,0.2);   border:1px solid rgba(224,92,92,0.45);  color:#fca5a5; }
+
+.nav-proc-btn:hover .nav-proc-icon.c1,
+.nav-proc-btn.active .nav-proc-icon.c1 { background:rgba(147,197,253,0.3); border-color:rgba(147,197,253,0.7); }
+.nav-proc-btn:hover .nav-proc-icon.c2,
+.nav-proc-btn.active .nav-proc-icon.c2 { background:rgba(224,92,92,0.3);   border-color:rgba(224,92,92,0.7); }
+
+.nav-proc-info { display:flex; flex-direction:column; min-width:0; }
+.nav-proc-num  { font-size:9px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:rgba(160,200,255,0.55); line-height:1; margin-bottom:2px; }
+.nav-proc-name { font-size:12px; font-weight:700; color:inherit; line-height:1.2; }
+
+.nav-links {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.nav-link-item {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
+  border-radius:8px;
+  font-size:11.5px;
+  font-weight:600;
+  color:rgba(180,210,255,0.75);
+  text-decoration:none;
+  transition:background .18s, color .18s, border-color .18s;
+  border:1px solid transparent;
+}
+.nav-link-item i { font-size:11px; width:14px; text-align:center; flex-shrink:0; }
+.nav-link-item:hover {
+  background:rgba(255,255,255,0.14);
+  color:#fff;
+  border-color:rgba(255,255,255,0.25);
+}
+.nav-link-item.red:hover { background:rgba(224,92,92,0.2); color:#fca5a5; border-color:rgba(224,92,92,0.4); }
+
+.nav-divider {
+  height:1px;
+  background:rgba(255,255,255,0.1);
+  margin:14px 4px;
+}
+
+.nav-legend { display:flex; flex-direction:column; gap:6px; padding:0 2px; }
+.nav-legend-item { display:flex; align-items:center; gap:7px; font-size:10.5px; color:rgba(160,200,255,0.55); }
+.nav-legend-dot  { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+/* ============================================================
+   CONTEÚDO PRINCIPAL
+   ============================================================ */
+main {
+  flex:1;
+  min-width:0;
+  padding:48px 48px 100px;
+}
+
+.page-intro {
+  margin-bottom:60px;
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp .65s ease .1s forwards;
+}
+
+.eyebrow {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--blue-glow);
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.eyebrow::before {
+  content:'';
+  display:inline-block;
+  width:28px; height:2px;
+  background:var(--blue);
+  border-radius:2px;
+}
+
+.page-title {
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(30px,4vw,52px);
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-.01em;
+  line-height:1.05;
+  margin-bottom:16px;
+}
+.page-title .accent {
+  background:linear-gradient(135deg,var(--blue-bright) 0%,var(--teal) 60%,#a8f0ff 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.page-desc {
+  font-size:15px;
+  color:var(--muted);
+  max-width:600px;
+  line-height:1.7;
+}
+
+.meta-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+.meta-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--muted);
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:5px 14px;
+}
+.meta-badge i { color:var(--blue-glow); font-size:11px; }
+
+/* ── SEÇÃO ── */
+.sec {
+  margin-bottom:80px;
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .55s ease, transform .55s ease;
+  scroll-margin-top:90px;
+}
+.sec.vis { opacity:1; transform:none; }
+
+.sec-header {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:28px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+
+.sec-title-wrap { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+
+.sec-num {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:var(--blue-glow);
+  background:rgba(59,111,212,0.1);
+  border:1px solid rgba(59,111,212,0.25);
+  border-radius:6px;
+  padding:4px 10px;
+  white-space:nowrap;
+}
+
+.sec-title {
+  font-family:'Rajdhani',sans-serif;
+  font-size:26px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-.01em;
+}
+
+.sec-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+.btn-open {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:11.5px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--blue-glow);
+  text-decoration:none;
+  padding:8px 16px;
+  border-radius:8px;
+  border:1px solid rgba(126,179,255,0.3);
+  background:rgba(59,111,212,0.1);
+  transition:all .22s;
+  white-space:nowrap;
+}
+.btn-open:hover {
+  background:rgba(59,111,212,0.25);
+  border-color:var(--blue-glow);
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(59,111,212,0.25);
+}
+.btn-open.red {
+  color:#fca5a5;
+  border-color:rgba(224,92,92,0.35);
+  background:rgba(224,92,92,0.1);
+}
+.btn-open.red:hover {
+  background:rgba(224,92,92,0.22);
+  border-color:#fca5a5;
+  box-shadow:0 6px 18px rgba(224,92,92,0.2);
+}
+
+.btn-toggle {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  padding:7px 13px;
+  border-radius:7px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.04);
+  cursor:pointer;
+  transition:all .22s;
+}
+.btn-toggle:hover { background:rgba(255,255,255,0.08); color:var(--text); }
+.btn-toggle i { transition:transform .3s; }
+.btn-toggle.collapsed i { transform:rotate(-90deg); }
+
+/* ── FLUXOGRAMA WRAPPER ── */
+.flow-wrap {
+  overflow:hidden;
+  transition:max-height .4s ease, opacity .4s ease;
+  max-height:9999px;
+  opacity:1;
+}
+.flow-wrap.collapsed { max-height:0; opacity:0; }
+
+/* ============================================================
+   COMPONENTES DO FLUXOGRAMA
+   ============================================================ */
+.flowchart {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  padding:8px 0 16px;
+}
+
+/* ── NÓS BASE ── */
+.fn {
+  position:relative;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:600;
+  font-family:Arial,Helvetica,sans-serif;
+  text-align:center;
+  line-height:1.4;
+  transition:transform .22s, box-shadow .22s;
+  padding:12px 24px;
+  min-width:200px;
+  max-width:340px;
+}
+.fn:hover { transform:scale(1.03); filter:brightness(1.1); }
+.fn i { margin-right:6px; font-size:.88em; vertical-align:middle; }
+
+.fn-start {
+  background:linear-gradient(135deg,#1e3a8a,#1d4ed8);
+  border:2px solid rgba(147,197,253,0.6);
+  color:#dbeafe;
+  box-shadow:0 0 22px rgba(29,78,216,0.35);
+  min-width:140px;
+}
+.fn-action {
+  background:rgba(22,45,100,0.82);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(80,140,220,0.5);
+  color:#daeaff;
+  box-shadow:0 8px 28px rgba(0,10,30,0.35);
+}
+.fn-end {
+  background:linear-gradient(135deg,rgba(62,196,122,.22),rgba(15,168,192,.12));
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(62,196,122,0.45);
+  color:#6ee7b7;
+  box-shadow:0 0 20px rgba(62,196,122,0.15);
+}
+.fn-alert {
+  background:rgba(245,158,11,0.1);
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(245,158,11,0.5);
+  color:#fde68a;
+  box-shadow:0 0 16px rgba(245,158,11,0.15);
+  max-width:460px;
+  animation:pulse 2.4s ease infinite;
+}
+.fn-alert .alert-icon {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:22px; height:22px;
+  background:rgba(245,158,11,0.2);
+  border-radius:50%;
+  margin-right:8px;
+  font-size:12px;
+  color:#fbbf24;
+  flex-shrink:0;
+  vertical-align:middle;
+}
+.fn-danger {
+  background:rgba(224,92,92,0.12);
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(224,92,92,0.55);
+  color:#fca5a5;
+  box-shadow:0 0 20px rgba(224,92,92,0.18);
+  max-width:460px;
+}
+.fn-path {
+  background:rgba(15,168,192,0.08);
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(15,168,192,0.4);
+  color:#67e8f9;
+  box-shadow:0 0 16px rgba(15,168,192,0.12);
+  max-width:520px;
+  font-family:'Courier New',monospace;
+  font-size:12px;
+  word-break:break-all;
+  text-align:left;
+}
+.fn-path .path-label {
+  display:block;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:10px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--teal);
+  margin-bottom:6px;
+  font-weight:700;
+}
+.fn-sub {
+  background:rgba(155,127,232,0.1);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(155,127,232,0.4);
+  color:#c4b5fd;
+  font-size:12px;
+  max-width:280px;
+}
+
+/* Placeholder de etapa futura */
+.fn-placeholder {
+  background:rgba(60,80,130,0.25);
+  backdrop-filter:blur(8px);
+  border:2px dashed rgba(100,140,220,0.35);
+  color:rgba(180,210,255,0.45);
+  font-size:12px;
+  max-width:280px;
+  font-style:italic;
+}
+
+/* Card formulário */
+.fn-form {
+  background:rgba(18,38,90,0.88);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(80,140,220,0.5);
+  border-radius:14px;
+  padding:20px 24px;
+  max-width:500px;
+  width:100%;
+  box-shadow:0 12px 40px rgba(0,10,30,0.6);
+  text-align:left;
+}
+.fn-form .form-title {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--blue-glow);
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.fn-form .form-title i { font-size:12px; }
+
+.field-row {
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  padding:5px 0;
+  border-bottom:1px solid rgba(60,120,180,0.12);
+  font-size:12.5px;
+  flex-wrap:wrap;
+}
+.field-row:last-child { border-bottom:none; }
+.field-label { color:var(--muted); font-size:11.5px; min-width:130px; flex-shrink:0; }
+.field-val   { color:var(--text); font-weight:600; }
+.field-val.warn {
+  color:#fde68a;
+  background:rgba(245,158,11,0.12);
+  border:1px solid rgba(245,158,11,0.3);
+  border-radius:4px;
+  padding:1px 8px;
+  font-size:11.5px;
+}
+.field-val.danger {
+  color:#fca5a5;
+  background:rgba(224,92,92,0.1);
+  border:1px solid rgba(224,92,92,0.3);
+  border-radius:4px;
+  padding:1px 8px;
+  font-size:11.5px;
+}
+
+/* Link inline */
+.field-link {
+  color:var(--blue-glow);
+  text-decoration:none;
+  border-bottom:1px dashed rgba(126,179,255,.4);
+  font-size:11.5px;
+  font-weight:600;
+  transition:.18s;
+}
+.field-link:hover { color:#a8d4ff; border-bottom-color:var(--blue-glow); }
+.field-link i { font-size:.8em; margin-left:3px; }
+
+/* Checklist items */
+.check-row {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:4px 0;
+  font-size:12.5px;
+  color:var(--text);
+}
+.check-box {
+  width:14px; height:14px;
+  border:1.5px solid rgba(100,140,220,0.5);
+  border-radius:3px;
+  flex-shrink:0;
+  display:inline-block;
+}
+
+/* Cards de observação */
+.obs-card {
+  background:rgba(245,158,11,0.08);
+  border:1px solid rgba(245,158,11,0.35);
+  border-left:3px solid #f59e0b;
+  border-radius:8px;
+  padding:10px 14px;
+  margin-top:10px;
+  font-size:12px;
+  color:#fde68a;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+}
+.obs-card i { color:#f59e0b; margin-top:1px; flex-shrink:0; }
+
+.obs-card.red {
+  background:rgba(224,92,92,0.08);
+  border-color:rgba(224,92,92,0.35);
+  border-left-color:#e05c5c;
+  color:#fca5a5;
+}
+.obs-card.red i { color:#e05c5c; }
+
+.info-card {
+  background:rgba(59,111,212,0.08);
+  border:1px solid rgba(59,111,212,0.3);
+  border-left:3px solid var(--blue);
+  border-radius:8px;
+  padding:10px 14px;
+  margin-top:10px;
+  font-size:12px;
+  color:#bdd0f0;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+}
+.info-card i { color:var(--blue-glow); margin-top:1px; flex-shrink:0; }
+
+/* ── SETAS ── */
+.arrow { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+.arrow-line { width:2px; height:30px; background:linear-gradient(to bottom,rgba(59,111,212,.7),rgba(59,111,212,.2)); }
+.arrow-head { width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:9px solid rgba(59,111,212,.6); }
+.arrow-sm .arrow-line { height:18px; }
+.arrow-teal .arrow-line { background:linear-gradient(to bottom,rgba(15,168,192,.7),rgba(15,168,192,.2)); }
+.arrow-teal .arrow-head { border-top-color:rgba(15,168,192,.6); }
+.arrow-green .arrow-line { background:linear-gradient(to bottom,rgba(62,196,122,.7),rgba(62,196,122,.2)); }
+.arrow-green .arrow-head { border-top-color:rgba(62,196,122,.6); }
+.arrow-red .arrow-line { background:linear-gradient(to bottom,rgba(224,92,92,.7),rgba(224,92,92,.2)); }
+.arrow-red .arrow-head { border-top-color:rgba(224,92,92,.6); }
+
+/* ── BLOCO MODULAR (Cronograma) ── */
+.mod-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap:12px;
+  width:100%;
+  max-width:600px;
+}
+.mod-card {
+  background:rgba(22,45,100,0.7);
+  border:1px dashed rgba(80,140,220,0.4);
+  border-radius:10px;
+  padding:14px 16px;
+  font-size:12.5px;
+  color:#daeaff;
+  text-align:center;
+  transition:border-color .2s, background .2s;
+}
+.mod-card:hover { border-color:rgba(126,179,255,0.6); background:rgba(30,60,130,0.8); }
+.mod-card .mod-icon { font-size:20px; color:var(--blue-glow); margin-bottom:8px; }
+.mod-card .mod-label { font-size:10px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.mod-card .mod-title { font-size:13px; font-weight:700; color:#e0edff; }
+.mod-card.future {
+  opacity:0.45;
+  border-style:dashed;
+  border-color:rgba(80,120,180,0.25);
+}
+.mod-card.future .mod-icon { color:rgba(126,179,255,0.4); }
+
+/* ── BLOCO DE SUBDIVISÃO ── */
+.sub-block {
+  width:100%; max-width:600px;
+  background:rgba(70,40,153,0.692);
+  border:1px solid rgba(155,127,232,0.788);
+  border-radius:14px;
+  padding:20px 20px 8px;
+  position:relative;
+}
+.sub-block-label {
+  position:absolute; top:-11px; left:20px;
+  font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+  color:#c4b5fd;
+  background:rgba(90,44,218,0.74);
+  border:1px solid rgba(155,127,232,0.3);
+  border-radius:20px;
+  padding:2px 12px;
+}
+
+/* ── SEPARADOR ── */
+.section-sep {
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:70px 0;
+}
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(245,158,11,0.35); }
+  50%      { box-shadow:0 0 0 7px rgba(245,158,11,0); }
+}
+
+/* ── RESPONSIVIDADE ── */
+@media (max-width: 900px) {
+  aside.sidebar { display:none; }
+  main { padding:32px 20px 80px; }
+  .page-title { font-size:28px; }
+  .menu-toggle { display:flex; }
+  .header-right .btn-header { display:none; }
+  header { padding:0 18px; }
+  .fn { max-width:90vw; min-width:160px; }
+  .fn-form, .fn-alert, .fn-path, .sub-block { max-width:92vw; }
+  .mod-grid { grid-template-columns:1fr 1fr; }
+}
+
+/* ── SIDEBAR MOBILE ── */
+.sidebar-mobile { display:none; position:fixed; inset:0; z-index:400; }
+.sidebar-mobile.open { display:block; }
+.sidebar-backdrop { position:absolute; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+.sidebar-panel {
+  position:absolute; top:0; left:0; bottom:0;
+  width:272px;
+  background:linear-gradient(170deg, #0e2e7a 0%, #091e55 60%, #071540 100%);
+  border-right:1px solid rgba(60,110,230,0.35);
+  padding:18px 14px 40px;
+  overflow-y:auto;
+}
+.sidebar-close { display:flex; justify-content:flex-end; margin-bottom:16px; }
+.sidebar-close button {
+  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:rgba(200,225,255,0.8);
+  padding:6px 10px; border-radius:6px; cursor:pointer; font-size:14px; transition:.18s;
+}
+.sidebar-close button:hover { background:rgba(255,255,255,0.2); color:#fff; }
+</style>
+</head>
+
+<body>
+
+<div id="page-veil"></div>
+
+<!-- ============================================================
+     CABEÇALHO
+     ============================================================ -->
+<header role="banner">
+  <div class="logo-area">
+    <img src="NOVA_LOGO.png" alt="Logo CITA" class="logo-img" onerror="this.style.display='none'">
+    <div class="logo-text">
+      CITA ENGENHARIA
+      <span>FLUXOGRAMAS · CRONOGRAMA E COMPRAS</span>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <a href="pop_projetos_final.html" class="btn-header">
+      <i class="fa-solid fa-arrow-left"></i> Voltar ao POP
+    </a>
+    <button class="menu-toggle" onclick="openMobileMenu()" aria-label="Abrir menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ============================================================
+     SIDEBAR MOBILE OVERLAY
+     ============================================================ -->
+<div class="sidebar-mobile" id="sidebar-mobile" role="dialog" aria-label="Menu de navegação">
+  <div class="sidebar-backdrop" onclick="closeMobileMenu()"></div>
+  <div class="sidebar-panel">
+    <div class="sidebar-close">
+      <button onclick="closeMobileMenu()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <p class="nav-label">Processos</p>
+    <div class="nav-proc" style="margin-bottom:16px;">
+      <a href="#fluxo1" class="nav-proc-btn" onclick="closeMobileMenu()">
+        <div class="nav-proc-icon c1"><i class="fa-solid fa-calendar-days"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 01</span>
+          <span class="nav-proc-name">Cronograma</span>
+        </div>
+      </a>
+      <a href="#fluxo2" class="nav-proc-btn" onclick="closeMobileMenu()">
+        <div class="nav-proc-icon c2"><i class="fa-solid fa-cart-shopping"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 02</span>
+          <span class="nav-proc-name">Requisição de Compras</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="nav-divider"></div>
+    <p class="nav-label">Links Rápidos</p>
+    <div class="nav-links">
+      <a href="https://app.omie.com.br/gestao/cita-0vhxc5ik/" class="nav-link-item red" target="_blank" rel="noopener">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Omie
+      </a>
+      <a href="pop_projetos_final.html" class="nav-link-item">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao POP
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     LAYOUT GERAL
+     ============================================================ -->
+<div class="layout">
+
+  <!-- ============================================================
+       NAVEGAÇÃO — sidebar fixa (desktop)
+       ============================================================ -->
+  <aside class="sidebar" role="navigation" aria-label="Navegação de processos">
+
+    <p class="nav-label">Processos</p>
+    <div class="nav-proc">
+      <a href="#fluxo1" class="nav-proc-btn" id="navbtn-fluxo1">
+        <div class="nav-proc-icon c1"><i class="fa-solid fa-calendar-days"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 01</span>
+          <span class="nav-proc-name">Cronograma</span>
+        </div>
+      </a>
+      <a href="#fluxo2" class="nav-proc-btn" id="navbtn-fluxo2">
+        <div class="nav-proc-icon c2"><i class="fa-solid fa-cart-shopping"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 02</span>
+          <span class="nav-proc-name">Requisição de Compras</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <p class="nav-label">Links Rápidos</p>
+    <div class="nav-links">
+      <a href="https://app.omie.com.br/gestao/cita-0vhxc5ik/"
+         class="nav-link-item red" target="_blank" rel="noopener" title="Abrir Omie">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Omie
+      </a>
+      <a href="pop_projetos_final.html" class="nav-link-item">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao POP
+      </a>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <p class="nav-label">Legenda</p>
+    <div class="nav-legend">
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(29,78,216,0.4);border:1px solid #60a5fa;"></div>
+        Etapa principal
+      </div>
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(245,158,11,0.25);border:1px solid #f59e0b;"></div>
+        Alerta / Atenção
+      </div>
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(224,92,92,0.25);border:1px solid #e05c5c;"></div>
+        Destaque crítico
+      </div>
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(62,196,122,0.2);border:1px solid #3ec47a;"></div>
+        Conclusão / OK
+      </div>
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(60,80,130,0.3);border:2px dashed rgba(100,140,220,0.35);"></div>
+        Etapa futura
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main role="main">
+
+    <!-- Intro -->
+    <section class="page-intro" aria-labelledby="page-heading">
+      <p class="eyebrow"><i class="fa-solid fa-diagram-project"></i> Apoio Operacional</p>
+      <h1 class="page-title" id="page-heading">
+        Cronograma &amp;<br><span class="accent">Requisição de Compras</span>
+      </h1>
+      <p class="page-desc">
+        Página de apoio operacional com o passo a passo dos processos internos da empresa.
+        Siga cada etapa na sequência indicada para garantir a conformidade dos registros.
+      </p>
+      <div class="meta-row">
+        <span class="meta-badge"><i class="fa-solid fa-diagram-project"></i> 2 Processos</span>
+        <span class="meta-badge"><i class="fa-solid fa-building"></i> Uso Interno</span>
+        <span class="meta-badge"><i class="fa-solid fa-calendar"></i> Abr 2026</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FLUXOGRAMA 1 — CRONOGRAMA
+         ============================================================ -->
+    <section class="sec" id="fluxo1" aria-labelledby="title-fluxo1">
+
+      <div class="sec-header">
+        <div class="sec-title-wrap">
+          <span class="sec-num">PROCESSO 01</span>
+          <h2 class="sec-title" id="title-fluxo1">
+            <i class="fa-solid fa-calendar-days" style="color:var(--blue-glow);margin-right:10px;"></i>
+            Cronograma
+          </h2>
+        </div>
+        <div class="sec-actions">
+          <button class="btn-toggle" onclick="toggleFlow('flow1')" id="toggle-flow1" aria-expanded="true" aria-controls="flow1">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>Recolher</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flow-wrap" id="flow1">
+        <div class="flowchart" role="list" aria-label="Etapas: Cronograma">
+
+          <!-- Alerta: fluxo em construção -->
+          <div class="fn-alert" role="note" style="max-width:520px;margin-bottom:8px;">
+            <span class="alert-icon"><i class="fa-solid fa-pen-ruler"></i></span>
+            <span>Este fluxo está <strong>em estruturação</strong> — as etapas abaixo são modulares e preparadas para expansão futura.</span>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Início -->
+          <div class="fn fn-start" role="listitem">
+            <i class="fa-solid fa-calendar-days"></i> Cronograma
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Grid de módulos -->
+          <div class="mod-grid" role="list" aria-label="Módulos do cronograma">
+            <div class="mod-card" role="listitem">
+              <div class="mod-icon"><i class="fa-solid fa-1"></i></div>
+              <div class="mod-label">Etapa</div>
+              <div class="mod-title">Planejamento</div>
+            </div>
+            <div class="mod-card" role="listitem">
+              <div class="mod-icon"><i class="fa-solid fa-2"></i></div>
+              <div class="mod-label">Etapa</div>
+              <div class="mod-title">Execução</div>
+            </div>
+            <div class="mod-card" role="listitem">
+              <div class="mod-icon"><i class="fa-solid fa-3"></i></div>
+              <div class="mod-label">Etapa</div>
+              <div class="mod-title">Acompanhamento</div>
+            </div>
+            <div class="mod-card" role="listitem">
+              <div class="mod-icon"><i class="fa-solid fa-4"></i></div>
+              <div class="mod-label">Etapa</div>
+              <div class="mod-title">Encerramento</div>
+            </div>
+            <div class="mod-card future" role="listitem" aria-label="Etapa futura">
+              <div class="mod-icon"><i class="fa-solid fa-plus"></i></div>
+              <div class="mod-label">Futura</div>
+              <div class="mod-title">Nova Etapa</div>
+            </div>
+            <div class="mod-card future" role="listitem" aria-label="Etapa futura">
+              <div class="mod-icon"><i class="fa-solid fa-plus"></i></div>
+              <div class="mod-label">Futura</div>
+              <div class="mod-title">Nova Etapa</div>
+            </div>
+          </div>
+
+          <div class="arrow arrow-green" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-end" role="listitem">
+            <i class="fa-solid fa-circle-check"></i> Cronograma concluído
+          </div>
+
+          <!-- Info card -->
+          <div class="info-card" style="max-width:520px;margin-top:20px;" role="note">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Os módulos acima são independentes e podem ser editados, reordenados ou expandidos sem impactar o restante do fluxo. Para adicionar etapas, duplique um bloco <code style="font-size:11px;background:rgba(59,111,212,0.15);padding:1px 5px;border-radius:3px;">.mod-card</code> no HTML.</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- ============================================================
+         FLUXOGRAMA 2 — REQUISIÇÃO DE COMPRAS
+         ============================================================ -->
+    <section class="sec" id="fluxo2" aria-labelledby="title-fluxo2">
+
+      <div class="sec-header">
+        <div class="sec-title-wrap">
+          <span class="sec-num" style="color:#fca5a5;background:rgba(224,92,92,0.1);border-color:rgba(224,92,92,0.3);">PROCESSO 02</span>
+          <h2 class="sec-title" id="title-fluxo2">
+            <i class="fa-solid fa-cart-shopping" style="color:#fca5a5;margin-right:10px;"></i>
+            Requisição de Compras
+          </h2>
+        </div>
+        <div class="sec-actions">
+          <a href="https://app.omie.com.br/gestao/cita-0vhxc5ik/" class="btn-open red" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Omie
+          </a>
+          <button class="btn-toggle" onclick="toggleFlow('flow2')" id="toggle-flow2" aria-expanded="true" aria-controls="flow2">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>Recolher</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flow-wrap" id="flow2">
+        <div class="flowchart" role="list" aria-label="Etapas: Requisição de Compras">
+
+          <!-- ETAPA 1 — Omie (com link) -->
+          <a href="https://app.omie.com.br/gestao/cita-0vhxc5ik/" target="_blank" rel="noopener"
+             class="fn fn-start" role="listitem" style="text-decoration:none;cursor:pointer;"
+             title="Abrir Omie">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> 1. Omie
+          </a>
+
+          <div class="arrow arrow-red" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- ETAPA 2 — Compras/Estoque — vermelho -->
+          <div class="fn fn-danger" role="listitem" style="max-width:340px;">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            2. Compras / Estoque e Produções
+          </div>
+
+          <div class="arrow arrow-red" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- ETAPA 3 -->
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-inbox"></i> 3. Cadastrar Compras a Receber
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- ETAPA 4 -->
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-plus"></i> 4. + Nova Requisição
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- ETAPA 5 — Preencher dados -->
+          <div class="fn-form" role="listitem" style="max-width:520px;">
+            <div class="form-title">
+              <i class="fa-solid fa-clipboard-list"></i>
+              5. Preencher os dados
+            </div>
+
+            <div class="field-row">
+              <span class="field-label">Categoria de compra</span>
+              <span class="field-val warn">
+                <i class="fa-solid fa-lock" style="font-size:.85em;margin-right:4px;"></i>
+                Materiais Aplicados na Prestação de Serviço
+              </span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Projeto</span>
+              <span class="field-val">Procurar CT existente ou clicar em <strong>+</strong> para criar na plataforma</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Sugestão de entrega</span>
+              <span class="field-val warn">
+                <i class="fa-solid fa-calendar-week" style="font-size:.85em;margin-right:4px;"></i>
+                Sempre às quartas-feiras ou conforme início da obra
+              </span>
+            </div>
+
+            <div class="obs-card" role="note">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>A <strong>categoria</strong> é sempre fixa: <em>"Materiais Aplicados na Prestação de Serviço"</em> — não alterar.</span>
+            </div>
+            
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- ETAPA 6 — Novo item -->
+          <div class="fn-form" role="listitem" style="max-width:520px;">
+            <div class="form-title">
+              <i class="fa-solid fa-box-open"></i>
+              6. Novo Item
+            </div>
+            <div class="field-row">
+              <span class="field-label">Produto</span>
+              <span class="field-val">Selecionar o produto</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Quantidade</span>
+              <span class="field-val">Selecionar a quantidade</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Ação</span>
+              <span class="field-val">Salvar</span>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- ETAPA 7 — Observações -->
+          <div class="fn-form" role="listitem" style="max-width:520px;">
+            <div class="form-title">
+              <i class="fa-solid fa-note-sticky"></i>
+              7. Observações
+            </div>
+
+            <div style="
+              margin-top:6px;
+              padding:12px 14px;
+              background:rgba(13,17,23,0.55);
+              border:1px dashed rgba(99,130,185,0.3);
+              border-radius:8px;
+              font-size:13px;
+              line-height:1.9;
+              color:var(--muted);
+            ">
+              <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;">Exemplo de preenchimento</div>
+              <span style="color:var(--blue-glow);">CTXXX-XXXX</span><br>
+              <span style="color:var(--blue-glow);">Local</span><br>
+              <span style="color:var(--blue-glow);">Tipo do produto (ex: material de rede)</span><br>
+              <span style="color:var(--blue-glow);">(   )Comprar</span><br>
+              <span style="color:var(--blue-glow);">(   )Estoque</span><br>
+              <span style="color:var(--blue-glow);">(   )Parcial</span>
+            </div>
+
+            <div class="obs-card red" role="alert" style="margin-top:12px;">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span><strong>Conferir</strong> com o Estoque antes de finalizar a requisição.</span>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- ETAPA 8 — Salvar -->
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-floppy-disk"></i> 8. Salvar
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- ETAPA 9 — Imprimir -->
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-print"></i> 9. Imprimir
+          </div>
+
+          <div class="arrow arrow-green" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- FIM -->
+          <div class="fn fn-end" role="listitem">
+            <i class="fa-solid fa-circle-check"></i> Requisição concluída
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+  /* ── Expandir / Recolher ── */
+  function toggleFlow(id) {
+    const wrap  = document.getElementById(id);
+    const btn   = document.getElementById('toggle-' + id);
+    const label = btn.querySelector('span');
+    const isOpen = !wrap.classList.contains('collapsed');
+    if (isOpen) {
+      wrap.classList.add('collapsed');
+      btn.classList.add('collapsed');
+      label.textContent = 'Expandir';
+      btn.setAttribute('aria-expanded', 'false');
+    } else {
+      wrap.classList.remove('collapsed');
+      btn.classList.remove('collapsed');
+      label.textContent = 'Recolher';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  /* ── Menu mobile ── */
+  function openMobileMenu()  { document.getElementById('sidebar-mobile').classList.add('open'); }
+  function closeMobileMenu() { document.getElementById('sidebar-mobile').classList.remove('open'); }
+
+  /* ── Animação de entrada nas seções ── */
+  const secs = document.querySelectorAll('.sec');
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('vis'); observer.unobserve(e.target); }
+    }),
+    { threshold: 0.06 }
+  );
+  secs.forEach(s => observer.observe(s));
+
+  /* ── Destaque do botão ativo no nav ao rolar ── */
+  const navBtns = [
+    { btn: document.getElementById('navbtn-fluxo1'), sec: document.getElementById('fluxo1') },
+    { btn: document.getElementById('navbtn-fluxo2'), sec: document.getElementById('fluxo2') },
+  ];
+
+  function updateActiveNav() {
+    let current = null;
+    navBtns.forEach(({ sec }) => {
+      if (sec.getBoundingClientRect().top <= 120) current = sec.id;
+    });
+    navBtns.forEach(({ btn, sec }) => {
+      btn.classList.toggle('active', sec.id === current);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  // ── PAGE TRANSITION ──
+  (function () {
+    const veil = document.getElementById('page-veil');
+    requestAnimationFrame(() => requestAnimationFrame(() => veil.classList.add('hidden')));
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || link.target === '_blank') return;
+      e.preventDefault();
+      veil.classList.remove('hidden');
+      setTimeout(() => { window.location.href = href; }, 360);
+    });
+  })();
+</script>
+
+</body>
+</html>

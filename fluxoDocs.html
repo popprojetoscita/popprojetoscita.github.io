@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- ============================================================
+     FLUXOGRAMAS DE PROCESSOS INTERNOS
+     Parte do POP · Projetos — CITA Engenharia
+     Versão: 1.1 | Abril 2026
+     ============================================================ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fluxogramas de processos internos — Diário de Obras, Relatório Fotográfico e DocuSign.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<title>Fluxogramas · Processos Internos</title>
+
+<!-- ============================================================
+     ESTILOS
+     ============================================================ -->
+<style>
+/* ── VARIÁVEIS GLOBAIS ── */
+:root {
+  --bg:          #0d1117;
+  --bg2:         #111827;
+  --card:        #161d2e;
+  --border:      rgba(99,130,185,0.18);
+  --blue:        #3b6fd4;
+  --blue-bright: #5a8ff0;
+  --blue-glow:   #7eb3ff;
+  --teal:        #0fa8c0;
+  --gold:        #e8b84b;
+  --green:       #3ec47a;
+  --red:         #e05c5c;
+  --amber:       #f59e0b;
+  --purple:      #9b7fe8;
+  --text:        #e6edf8;
+  --muted:       #7a92b8;
+  --dim:         #3d4f6e;
+  --arrow-color: rgba(59,111,212,.6);
+}
+
+/* ── RESET ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:15px; }
+
+/* ── PAGE TRANSITION VEIL ── */
+#page-veil {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+  z-index: 9999;
+  pointer-events: none;
+}
+#page-veil.hidden { opacity: 0; }
+
+/* ── BODY / BACKGROUND ── */
+body {
+  background-color: #e7e9ee;
+  background-image: url('IMAGEM_FUNDO.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:rgba(10,20,55,0.62);
+  pointer-events:none;
+  z-index:0;
+}
+
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:.6;
+}
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+header {
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:200;
+  height:72px;
+  padding:0 36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(115deg,#11296d,#061942);
+  box-shadow:0 4px 24px rgba(0,0,0,0.4);
+  border-bottom:2px solid #23a6fc;
+}
+
+.logo-area {
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo-img {
+  height:44px;
+  width:auto;
+  object-fit:contain;
+}
+
+.logo-text {
+  font-family:'Rajdhani',sans-serif;
+  font-weight:800;
+  font-size:17px;
+  color:#e8f0fb;
+  letter-spacing:.07em;
+  line-height:1.15;
+}
+.logo-text span {
+  display:block;
+  font-size:9.5px;
+  letter-spacing:.24em;
+  color:#a5d8ff;
+  font-weight:500;
+}
+
+.header-right {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn-header {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:#c8d8f0;
+  text-decoration:none;
+  padding:7px 14px;
+  border-radius:7px;
+  border:1px solid rgba(126,179,255,.3);
+  background:rgba(255,255,255,0.07);
+  cursor:pointer;
+  transition:background .22s, color .22s, transform .22s;
+  white-space:nowrap;
+}
+.btn-header:hover {
+  background:rgba(173,216,230,0.9);
+  color:#000;
+  transform:translateY(-2px);
+}
+
+.menu-toggle {
+  display:none;
+  color:#dbe8ff;
+  border:1px solid rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.08);
+  padding:8px 11px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:18px;
+}
+.menu-toggle:hover { background:rgba(173,216,230,0.85); color:#000; }
+
+/* ============================================================
+   NAVEGAÇÃO LATERAL
+   ============================================================ */
+.layout {
+  display:flex;
+  position:relative;
+  z-index:1;
+  padding-top:72px;
+}
+
+aside.sidebar {
+  position:sticky;
+  top:72px;
+  width:252px;
+  flex-shrink:0;
+  height:calc(100vh - 72px);
+  overflow-y:auto;
+  padding:24px 14px 48px;
+  border-right:1px solid rgba(60,110,230,0.35);
+  background:linear-gradient(170deg, #0e2e7a 0%, #091e55 60%, #071540 100%);
+  scrollbar-width:thin;
+  scrollbar-color:rgba(90,140,255,0.4) transparent;
+}
+aside.sidebar::-webkit-scrollbar { width:4px; }
+aside.sidebar::-webkit-scrollbar-thumb { background:rgba(90,140,255,0.4); border-radius:4px; }
+
+.nav-label {
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(160,200,255,0.55);
+  margin-bottom:10px;
+  padding-left:4px;
+}
+
+/* ── Botões de processo no nav ── */
+.nav-proc {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:4px;
+}
+
+.nav-proc-btn {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.06);
+  color:rgba(190,215,255,0.8);
+  text-decoration:none;
+  transition:all .22s;
+}
+.nav-proc-btn:hover {
+  background:rgba(255,255,255,0.18);
+  border-color:rgba(255,255,255,0.4);
+  color:#fff;
+  transform:translateX(4px);
+  box-shadow:0 4px 18px rgba(0,0,0,0.25);
+}
+.nav-proc-btn.active {
+  background:rgba(255,255,255,0.22);
+  border-color:rgba(147,197,253,0.7);
+  color:#fff;
+  transform:translateX(4px);
+  box-shadow:0 0 0 2px rgba(147,197,253,0.2), 0 4px 18px rgba(0,0,0,0.25);
+}
+.nav-proc-icon {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:32px; height:32px;
+  border-radius:8px;
+  flex-shrink:0;
+  font-size:13px;
+}
+.nav-proc-icon.c1 { background:rgba(147,197,253,0.2); border:1px solid rgba(147,197,253,0.4); color:#93c5fd; }
+.nav-proc-icon.c2 { background:rgba(15,168,192,0.2);  border:1px solid rgba(15,168,192,0.45); color:#67e8f9; }
+.nav-proc-icon.c3 { background:rgba(155,127,232,0.2); border:1px solid rgba(155,127,232,0.45); color:#c4b5fd; }
+.nav-proc-icon.c4 { background:rgba(232,184,75,0.2);  border:1px solid rgba(232,184,75,0.45);  color:#fcd34d; }
+.nav-proc-icon.c5 { background:rgba(62,196,122,0.2);  border:1px solid rgba(62,196,122,0.45);  color:#86efac; }
+.nav-proc-icon.c6 { background:rgba(249,115,22,0.2);  border:1px solid rgba(249,115,22,0.45);  color:#fdba74; }
+
+.nav-proc-btn:hover .nav-proc-icon.c1,
+.nav-proc-btn.active .nav-proc-icon.c1 { background:rgba(147,197,253,0.3); border-color:rgba(147,197,253,0.7); }
+.nav-proc-btn:hover .nav-proc-icon.c2,
+.nav-proc-btn.active .nav-proc-icon.c2 { background:rgba(15,168,192,0.3); border-color:rgba(15,168,192,0.7); }
+.nav-proc-btn:hover .nav-proc-icon.c3,
+.nav-proc-btn.active .nav-proc-icon.c3 { background:rgba(155,127,232,0.3); border-color:rgba(155,127,232,0.7); }
+.nav-proc-btn:hover .nav-proc-icon.c4,
+.nav-proc-btn.active .nav-proc-icon.c4 { background:rgba(232,184,75,0.3);  border-color:rgba(232,184,75,0.7); }
+.nav-proc-btn:hover .nav-proc-icon.c5,
+.nav-proc-btn.active .nav-proc-icon.c5 { background:rgba(62,196,122,0.3);  border-color:rgba(62,196,122,0.7); }
+.nav-proc-btn:hover .nav-proc-icon.c6,
+.nav-proc-btn.active .nav-proc-icon.c6 { background:rgba(249,115,22,0.3);  border-color:rgba(249,115,22,0.7); }
+
+.nav-proc-info { display:flex; flex-direction:column; min-width:0; }
+.nav-proc-num  { font-size:9px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:rgba(160,200,255,0.55); line-height:1; margin-bottom:2px; }
+.nav-proc-name { font-size:12px; font-weight:700; color:inherit; line-height:1.2; }
+
+/* ── Links rápidos no nav ── */
+.nav-links {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.nav-link-item {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
+  border-radius:8px;
+  font-size:11.5px;
+  font-weight:600;
+  color:rgba(180,210,255,0.75);
+  text-decoration:none;
+  transition:background .18s, color .18s, border-color .18s;
+  border:1px solid transparent;
+}
+.nav-link-item i { font-size:11px; width:14px; text-align:center; flex-shrink:0; }
+.nav-link-item:hover {
+  background:rgba(255,255,255,0.14);
+  color:#fff;
+  border-color:rgba(255,255,255,0.25);
+}
+.nav-link-item.teal:hover   { background:rgba(15,168,192,0.25);  color:#a7f3f9; border-color:rgba(15,168,192,0.5); }
+.nav-link-item.purple:hover { background:rgba(155,127,232,0.25); color:#ddd6fe; border-color:rgba(155,127,232,0.5); }
+
+.nav-divider {
+  height:1px;
+  background:rgba(255,255,255,0.1);
+  margin:14px 4px;
+}
+
+/* ── Legenda compacta ── */
+.nav-legend { display:flex; flex-direction:column; gap:6px; padding:0 2px; }
+.nav-legend-item { display:flex; align-items:center; gap:7px; font-size:10.5px; color:rgba(160,200,255,0.55); }
+.nav-legend-dot  { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+/* ============================================================
+   CONTEÚDO PRINCIPAL
+   ============================================================ */
+main {
+  flex:1;
+  min-width:0;
+  padding:48px 48px 100px;
+}
+
+.page-intro {
+  margin-bottom:60px;
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp .65s ease .1s forwards;
+}
+
+.eyebrow {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--blue-glow);
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.eyebrow::before {
+  content:'';
+  display:inline-block;
+  width:28px; height:2px;
+  background:var(--blue);
+  border-radius:2px;
+}
+
+.page-title {
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(30px,4vw,52px);
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-.01em;
+  line-height:1.05;
+  margin-bottom:16px;
+}
+.page-title .accent {
+  background:linear-gradient(135deg,var(--blue-bright) 0%,var(--teal) 60%,#a8f0ff 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.page-desc {
+  font-size:15px;
+  color:var(--muted);
+  max-width:600px;
+  line-height:1.7;
+}
+
+.meta-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+.meta-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--muted);
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:5px 14px;
+}
+.meta-badge i { color:var(--blue-glow); font-size:11px; }
+
+/* ── SEÇÃO ── */
+.sec {
+  margin-bottom:80px;
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .55s ease, transform .55s ease;
+  scroll-margin-top:90px;
+}
+.sec.vis { opacity:1; transform:none; }
+
+.sec-header {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:28px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+
+.sec-title-wrap { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+
+.sec-num {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:var(--blue-glow);
+  background:rgba(59,111,212,0.1);
+  border:1px solid rgba(59,111,212,0.25);
+  border-radius:6px;
+  padding:4px 10px;
+  white-space:nowrap;
+}
+
+.sec-title {
+  font-family:'Rajdhani',sans-serif;
+  font-size:26px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-.01em;
+}
+
+.sec-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+/* Botão abrir externo */
+.btn-open {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:11.5px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--blue-glow);
+  text-decoration:none;
+  padding:8px 16px;
+  border-radius:8px;
+  border:1px solid rgba(126,179,255,0.3);
+  background:rgba(59,111,212,0.1);
+  transition:all .22s;
+  white-space:nowrap;
+}
+.btn-open:hover {
+  background:rgba(59,111,212,0.25);
+  border-color:var(--blue-glow);
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(59,111,212,0.25);
+}
+.btn-open.teal {
+  color:#67e8f9;
+  border-color:rgba(15,168,192,0.35);
+  background:rgba(15,168,192,0.1);
+}
+.btn-open.teal:hover {
+  background:rgba(15,168,192,0.22);
+  border-color:#67e8f9;
+  box-shadow:0 6px 18px rgba(15,168,192,0.2);
+}
+.btn-open.purple {
+  color:#c4b5fd;
+  border-color:rgba(155,127,232,0.35);
+  background:rgba(155,127,232,0.1);
+}
+.btn-open.purple:hover {
+  background:rgba(155,127,232,0.22);
+  border-color:#c4b5fd;
+  box-shadow:0 6px 18px rgba(155,127,232,0.2);
+}
+
+/* Botão recolher */
+.btn-toggle {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  padding:7px 13px;
+  border-radius:7px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.04);
+  cursor:pointer;
+  transition:all .22s;
+}
+.btn-toggle:hover { background:rgba(255,255,255,0.08); color:var(--text); }
+.btn-toggle i { transition:transform .3s; }
+.btn-toggle.collapsed i { transform:rotate(-90deg); }
+
+/* ── FLUXOGRAMA WRAPPER ── */
+.flow-wrap {
+  overflow:hidden;
+  transition:max-height .4s ease, opacity .4s ease;
+  max-height:9999px;
+  opacity:1;
+}
+.flow-wrap.collapsed { max-height:0; opacity:0; }
+
+/* ============================================================
+   COMPONENTES DO FLUXOGRAMA
+   ============================================================ */
+
+.flowchart {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  padding:8px 0 16px;
+}
+
+/* ── NÓS BASE ── */
+.fn {
+  position:relative;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:600;
+  font-family:Arial,Helvetica,sans-serif;
+  text-align:center;
+  line-height:1.4;
+  transition:transform .22s, box-shadow .22s;
+  padding:12px 24px;
+  min-width:200px;
+  max-width:340px;
+}
+.fn:hover { transform:scale(1.03); filter:brightness(1.1); }
+.fn i { margin-right:6px; font-size:.88em; vertical-align:middle; }
+
+.fn-start {
+  background:linear-gradient(135deg,#1e3a8a,#1d4ed8);
+  border:2px solid rgba(147,197,253,0.6);
+  color:#dbeafe;
+  box-shadow:0 0 22px rgba(29,78,216,0.35);
+  min-width:140px;
+}
+.fn-action {
+  background:rgba(22,45,100,0.82);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(80,140,220,0.5);
+  color:#daeaff;
+  box-shadow:0 8px 28px rgba(0,10,30,0.35);
+}
+.fn-end {
+  background:linear-gradient(135deg,rgba(62,196,122,.22),rgba(15,168,192,.12));
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(62,196,122,0.45);
+  color:#6ee7b7;
+  box-shadow:0 0 20px rgba(62,196,122,0.15);
+}
+.fn-alert {
+  background:rgba(245,158,11,0.1);
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(245,158,11,0.5);
+  color:#fde68a;
+  box-shadow:0 0 16px rgba(245,158,11,0.15);
+  max-width:460px;
+  animation:pulse 2.4s ease infinite;
+}
+.fn-alert .alert-icon {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:22px; height:22px;
+  background:rgba(245,158,11,0.2);
+  border-radius:50%;
+  margin-right:8px;
+  font-size:12px;
+  color:#fbbf24;
+  flex-shrink:0;
+  vertical-align:middle;
+}
+.fn-danger {
+  background:rgba(224,92,92,0.09);
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(224,92,92,0.4);
+  color:#fca5a5;
+  box-shadow:0 0 16px rgba(224,92,92,0.1);
+  max-width:460px;
+}
+.fn-path {
+  background:rgba(15,168,192,0.08);
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(15,168,192,0.4);
+  color:#67e8f9;
+  box-shadow:0 0 16px rgba(15,168,192,0.12);
+  max-width:520px;
+  font-family:'Courier New',monospace;
+  font-size:12px;
+  word-break:break-all;
+  text-align:left;
+}
+.fn-path .path-label {
+  display:block;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:10px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--teal);
+  margin-bottom:6px;
+  font-weight:700;
+}
+.fn-sub {
+  background:rgba(155,127,232,0.1);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(155,127,232,0.4);
+  color:#c4b5fd;
+  font-size:12px;
+  max-width:280px;
+}
+
+/* Card formulário */
+.fn-form {
+  background:rgba(18,38,90,0.88);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(80,140,220,0.5);
+  border-radius:14px;
+  padding:20px 24px;
+  max-width:500px;
+  width:100%;
+  box-shadow:0 12px 40px rgba(0,10,30,0.6);
+  text-align:left;
+}
+.fn-form .form-title {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--blue-glow);
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.fn-form .form-title i { font-size:12px; }
+
+.field-row {
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  padding:5px 0;
+  border-bottom:1px solid rgba(60,120,180,0.12);
+  font-size:12.5px;
+}
+.field-row:last-child { border-bottom:none; }
+.field-label { color:var(--muted); font-size:11.5px; min-width:100px; flex-shrink:0; }
+.field-val   { color:var(--text); font-weight:600; }
+.field-val.warn {
+  color:#fde68a;
+  background:rgba(245,158,11,0.12);
+  border:1px solid rgba(245,158,11,0.3);
+  border-radius:4px;
+  padding:1px 8px;
+  font-size:11.5px;
+}
+
+/* Link inline dentro de campo */
+.field-link {
+  color:var(--blue-glow);
+  text-decoration:none;
+  border-bottom:1px dashed rgba(126,179,255,.4);
+  font-size:11.5px;
+  font-weight:600;
+  transition:.18s;
+}
+.field-link:hover { color:#a8d4ff; border-bottom-color:var(--blue-glow); }
+.field-link i { font-size:.8em; margin-left:3px; }
+
+/* Cards de observação */
+.obs-card {
+  background:rgba(245,158,11,0.08);
+  border:1px solid rgba(245,158,11,0.35);
+  border-left:3px solid #f59e0b;
+  border-radius:8px;
+  padding:10px 14px;
+  margin-top:10px;
+  font-size:12px;
+  color:#fde68a;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+}
+.obs-card i { color:#f59e0b; margin-top:1px; flex-shrink:0; }
+
+.info-card {
+  background:rgba(59,111,212,0.08);
+  border:1px solid rgba(59,111,212,0.3);
+  border-left:3px solid var(--blue);
+  border-radius:8px;
+  padding:10px 14px;
+  margin-top:10px;
+  font-size:12px;
+  color:#bdd0f0;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+}
+.info-card i { color:var(--blue-glow); margin-top:1px; flex-shrink:0; }
+
+/* ── SETAS ── */
+.arrow { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+.arrow-line { width:2px; height:30px; background:linear-gradient(to bottom,rgba(59,111,212,.7),rgba(59,111,212,.2)); }
+.arrow-head { width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:9px solid rgba(59,111,212,.6); }
+.arrow-sm .arrow-line { height:18px; }
+.arrow-teal .arrow-line { background:linear-gradient(to bottom,rgba(15,168,192,.7),rgba(15,168,192,.2)); }
+.arrow-teal .arrow-head { border-top-color:rgba(15,168,192,.6); }
+.arrow-green .arrow-line { background:linear-gradient(to bottom,rgba(62,196,122,.7),rgba(62,196,122,.2)); }
+.arrow-green .arrow-head { border-top-color:rgba(62,196,122,.6); }
+
+/* ── BLOCO DE SUBDIVISÃO ── */
+.sub-block {
+  width:100%; max-width:600px;
+  background:rgba(70, 40, 153, 0.692);
+  border:1px solid rgba(155, 127, 232, 0.788);
+  border-radius:14px;
+  padding:20px 20px 8px;
+  position:relative;
+}
+.sub-block-label {
+  position:absolute; top:-11px; left:20px;
+  font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+  color:#c4b5fd;
+  background:rgba(90, 44, 218, 0.74);
+  border:1px solid rgba(155,127,232,0.3);
+  border-radius:20px;
+  padding:2px 12px;
+}
+
+/* ── BLOCO DUPLO — destinatários ── */
+.dual-block { display:flex; align-items:stretch; gap:0; width:100%; max-width:560px; }
+.dual-card  { flex:1; border-radius:10px; padding:16px; font-size:12.5px; text-align:center; position:relative; }
+.dual-card.sign {
+  background:rgba(29,78,216,0.14);
+  border:2px solid rgba(147,197,253,0.45);
+  color:#bdd0f0;
+  border-radius:10px 0 0 10px;
+}
+.dual-card.copy {
+  background:rgba(155,127,232,0.1);
+  border:2px solid rgba(155,127,232,0.4);
+  color:#c4b5fd;
+  border-radius:0 10px 10px 0;
+  border-left:none;
+}
+.dual-badge {
+  display:inline-block; font-size:9px; font-weight:700; letter-spacing:.18em;
+  text-transform:uppercase; border-radius:20px; padding:2px 9px; margin-bottom:7px;
+}
+.dual-badge.sign { background:rgba(147,197,253,0.15); color:#7eb3ff; border:1px solid rgba(147,197,253,0.3); }
+.dual-badge.copy { background:rgba(155,127,232,0.15); color:#c4b5fd; border:1px solid rgba(155,127,232,0.3); }
+.dual-name { font-size:12px; font-weight:700; color:#e0edff; margin-top:4px; }
+
+/* ── SEPARADOR ── */
+.section-sep {
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:70px 0;
+}
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(245,158,11,0.35); }
+  50%      { box-shadow:0 0 0 7px rgba(245,158,11,0); }
+}
+
+/* ── RESPONSIVIDADE ── */
+@media (max-width: 900px) {
+  aside.sidebar { display:none; }
+  main { padding:32px 20px 80px; }
+  .page-title { font-size:28px; }
+  .dual-block { flex-direction:column; }
+  .dual-card.sign { border-radius:10px 10px 0 0; }
+  .dual-card.copy { border-radius:0 0 10px 10px; border-left:2px solid rgba(155,127,232,0.4); border-top:none; }
+  .menu-toggle { display:flex; }
+  .header-right .btn-header { display:none; }
+  header { padding:0 18px; }
+  .fn { max-width:90vw; min-width:160px; }
+  .fn-form, .fn-alert, .fn-path, .sub-block { max-width:92vw; }
+}
+
+/* ── SIDEBAR MOBILE ── */
+.sidebar-mobile { display:none; position:fixed; inset:0; z-index:400; }
+.sidebar-mobile.open { display:block; }
+.sidebar-backdrop { position:absolute; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+.sidebar-panel {
+  position:absolute; top:0; left:0; bottom:0;
+  width:272px;
+  background:linear-gradient(170deg, #0e2e7a 0%, #091e55 60%, #071540 100%);
+  border-right:1px solid rgba(60,110,230,0.35);
+  padding:18px 14px 40px;
+  overflow-y:auto;
+}
+.sidebar-close { display:flex; justify-content:flex-end; margin-bottom:16px; }
+.sidebar-close button {
+  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:rgba(200,225,255,0.8);
+  padding:6px 10px; border-radius:6px; cursor:pointer; font-size:14px; transition:.18s;
+}
+.sidebar-close button:hover { background:rgba(255,255,255,0.2); color:#fff; }
+</style>
+</head>
+
+<body>
+
+<div id="page-veil"></div>
+
+<!-- ============================================================
+     CABEÇALHO
+     ============================================================ -->
+<header role="banner">
+  <div class="logo-area">
+    <img src="NOVA_LOGO.png" alt="Logo CITA" class="logo-img" onerror="this.style.display='none'">
+    <div class="logo-text">
+      CITA PROJETOS
+      <span>FLUXOGRAMAS · PROCESSOS INTERNOS</span>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <a href="pop_projetos_final.html" class="btn-header">
+      <i class="fa-solid fa-arrow-left"></i> Voltar ao POP
+    </a>
+    <button class="menu-toggle" onclick="openMobileMenu()" aria-label="Abrir menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ============================================================
+     SIDEBAR MOBILE OVERLAY
+     ============================================================ -->
+<div class="sidebar-mobile" id="sidebar-mobile" role="dialog" aria-label="Menu de navegação">
+  <div class="sidebar-backdrop" onclick="closeMobileMenu()"></div>
+  <div class="sidebar-panel">
+    <div class="sidebar-close">
+      <button onclick="closeMobileMenu()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <p class="nav-label">Processos</p>
+    <div class="nav-proc" style="margin-bottom:16px;">
+      <a href="#fluxo1" class="nav-proc-btn" onclick="closeMobileMenu()">
+        <div class="nav-proc-icon c1"><i class="fa-solid fa-book-open"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 01</span>
+          <span class="nav-proc-name">Diário de Obras</span>
+        </div>
+      </a>
+      <a href="#fluxo2" class="nav-proc-btn" onclick="closeMobileMenu()">
+        <div class="nav-proc-icon c2"><i class="fa-solid fa-camera"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 02</span>
+          <span class="nav-proc-name">Rel. Fotográfico</span>
+        </div>
+      </a>
+      <a href="#fluxo4" class="nav-proc-btn" onclick="closeMobileMenu()">
+        <div class="nav-proc-icon c4"><i class="fa-solid fa-ruler-combined"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 03</span>
+          <span class="nav-proc-name">As Built</span>
+        </div>
+      </a>
+      <a href="#fluxo5" class="nav-proc-btn" onclick="closeMobileMenu()">
+        <div class="nav-proc-icon c5"><i class="fa-solid fa-certificate"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 04</span>
+          <span class="nav-proc-name">Certificação</span>
+        </div>
+      </a>
+      <a href="#fluxo6" class="nav-proc-btn" onclick="closeMobileMenu()">
+        <div class="nav-proc-icon c6"><i class="fa-solid fa-network-wired"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 05</span>
+          <span class="nav-proc-name">Mapeamento de Pontos</span>
+        </div>
+      </a>
+      <a href="#fluxo3" class="nav-proc-btn" onclick="closeMobileMenu()">
+        <div class="nav-proc-icon c3"><i class="fa-solid fa-file-signature"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 06</span>
+          <span class="nav-proc-name">DocuSign</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="nav-divider"></div>
+    <p class="nav-label">Links Rápidos</p>
+    <div class="nav-links">
+      <a href="https://web.diariodeobra.app/#/app/obras" class="nav-link-item teal" target="_blank" rel="noopener"><i class="fa-solid fa-hard-hat"></i> Diário de Obras</a>
+      <a href="https://docs.google.com/spreadsheets/d/1KJwg3BQPAjN3Mt1W-eiF8W3vhmC8uCOYI56y7KW5aR8/edit?gid=0#gid=0" class="nav-link-item" target="_blank" rel="noopener"><i class="fa-solid fa-table"></i> Tab. Endereços MELI</a>
+      <a href="https://docs.google.com/spreadsheets/d/1FWj_G2fCh0ZjMROE9LxNuTC30ibiUYXvu4SVAWud5hc/edit?usp=sharing" class="nav-link-item" target="_blank" rel="noopener"><i class="fa-solid fa-table-columns"></i> Controle Interno</a>
+      <a href="https://docs.google.com/spreadsheets/d/1o0QxQm2TeXmr8P0LXqnQVBFh6mN8dH8lwjw5dGLmC3w/edit?usp=sharing" class="nav-link-item" target="_blank" rel="noopener"><i class="fa-solid fa-calendar-days"></i> Cronograma</a>
+      <a href="https://www.docusign.com.br/" class="nav-link-item purple" target="_blank" rel="noopener"><i class="fa-solid fa-file-signature"></i> DocuSign</a>
+    </div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-links">
+      <a href="pop_projetos_final.html" class="nav-link-item"><i class="fa-solid fa-arrow-left"></i> Voltar ao POP</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     LAYOUT GERAL — sidebar + main
+     ============================================================ -->
+<div class="layout">
+
+  <!-- ============================================================
+       NAVEGAÇÃO — sidebar fixa (desktop)
+       ============================================================ -->
+  <aside class="sidebar" role="navigation" aria-label="Navegação de processos">
+
+    <p class="nav-label">Processos</p>
+    <div class="nav-proc">
+      <a href="#fluxo1" class="nav-proc-btn" id="navbtn-fluxo1">
+        <div class="nav-proc-icon c1"><i class="fa-solid fa-book-open"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 01</span>
+          <span class="nav-proc-name">Diário de Obras</span>
+        </div>
+      </a>
+      <a href="#fluxo2" class="nav-proc-btn" id="navbtn-fluxo2">
+        <div class="nav-proc-icon c2"><i class="fa-solid fa-camera"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 02</span>
+          <span class="nav-proc-name">Rel. Fotográfico</span>
+        </div>
+      </a>
+      <a href="#fluxo4" class="nav-proc-btn" id="navbtn-fluxo4">
+        <div class="nav-proc-icon c4"><i class="fa-solid fa-ruler-combined"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 03</span>
+          <span class="nav-proc-name">As Built</span>
+        </div>
+      </a>
+      <a href="#fluxo5" class="nav-proc-btn" id="navbtn-fluxo5">
+        <div class="nav-proc-icon c5"><i class="fa-solid fa-certificate"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 04</span>
+          <span class="nav-proc-name">Certificação</span>
+        </div>
+      </a>
+      <a href="#fluxo6" class="nav-proc-btn" id="navbtn-fluxo6">
+        <div class="nav-proc-icon c6"><i class="fa-solid fa-network-wired"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 05</span>
+          <span class="nav-proc-name">Mapeamento de Pontos</span>
+        </div>
+      </a>
+      <a href="#fluxo3" class="nav-proc-btn" id="navbtn-fluxo3">
+        <div class="nav-proc-icon c3"><i class="fa-solid fa-file-signature"></i></div>
+        <div class="nav-proc-info">
+          <span class="nav-proc-num">Processo 06</span>
+          <span class="nav-proc-name">DocuSign</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <!-- Links rápidos — sistemas externos -->
+    <p class="nav-label">Links Rápidos</p>
+    <div class="nav-links">
+      <a href="https://web.diariodeobra.app/#/app/obras"
+         class="nav-link-item teal" target="_blank" rel="noopener" title="Abrir Diário de Obras">
+        <i class="fa-solid fa-hard-hat"></i> Diário de Obras
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/1KJwg3BQPAjN3Mt1W-eiF8W3vhmC8uCOYI56y7KW5aR8/edit?gid=0#gid=0"
+         class="nav-link-item" target="_blank" rel="noopener" title="Tabela de Endereços MELI">
+        <i class="fa-solid fa-table"></i> Tab. Endereços MELI
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/1FWj_G2fCh0ZjMROE9LxNuTC30ibiUYXvu4SVAWud5hc/edit?usp=sharing"
+         class="nav-link-item" target="_blank" rel="noopener" title="Planilha Controle Interno Projetos">
+        <i class="fa-solid fa-table-columns"></i> Controle Interno
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/1o0QxQm2TeXmr8P0LXqnQVBFh6mN8dH8lwjw5dGLmC3w/edit?usp=sharing"
+         class="nav-link-item" target="_blank" rel="noopener" title="Planilha de Cronograma">
+        <i class="fa-solid fa-calendar-days"></i> Cronograma
+      </a>
+      <a href="https://www.docusign.com.br/"
+         class="nav-link-item purple" target="_blank" rel="noopener" title="Abrir DocuSign">
+        <i class="fa-solid fa-file-signature"></i> DocuSign
+      </a>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <div class="nav-links" style="margin-bottom:16px;">
+      <a href="pop_projetos_final.html" class="nav-link-item">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao POP
+      </a>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <p class="nav-label">Legenda</p>
+    <div class="nav-legend">
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(29,78,216,0.4);border:1px solid #60a5fa;"></div>
+        Etapa principal
+      </div>
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(245,158,11,0.25);border:1px solid #f59e0b;"></div>
+        Alerta / Atenção
+      </div>
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(15,168,192,0.2);border:1px solid #0fa8c0;"></div>
+        Caminho / Arquivo
+      </div>
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(155,127,232,0.2);border:1px solid #9b7fe8;"></div>
+        Subdivisão
+      </div>
+      <div class="nav-legend-item">
+        <div class="nav-legend-dot" style="background:rgba(62,196,122,0.2);border:1px solid #3ec47a;"></div>
+        Conclusão / OK
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main role="main">
+
+    <!-- Intro da página -->
+    <section class="page-intro" aria-labelledby="page-heading">
+      <p class="eyebrow"><i class="fa-solid fa-diagram-project"></i> Apoio Operacional</p>
+      <h1 class="page-title" id="page-heading">
+        Fluxogramas de<br><span class="accent">Processos Internos</span>
+      </h1>
+      <p class="page-desc">
+        Página de apoio operacional com o passo a passo dos processos internos de Projetos.
+        Siga cada etapa na sequência indicada para garantir a conformidade dos registros e inegridade da documentação.
+      </p>
+      <div class="meta-row">
+        <span class="meta-badge"><i class="fa-solid fa-diagram-project"></i> 6 Processos</span>
+        <span class="meta-badge"><i class="fa-solid fa-building"></i> Uso Interno</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FLUXOGRAMA 1 — CRIAR DIÁRIO DE OBRAS
+         ============================================================ -->
+    <section class="sec" id="fluxo1" aria-labelledby="title-fluxo1">
+
+      <div class="sec-header">
+        <div class="sec-title-wrap">
+          <span class="sec-num">PROCESSO 01</span>
+          <h2 class="sec-title" id="title-fluxo1">
+            <i class="fa-solid fa-book-open" style="color:var(--blue-glow);margin-right:10px;"></i>
+            Criar Diário de Obras
+          </h2>
+        </div>
+        <div class="sec-actions">
+          <a href="https://web.diariodeobra.app/#/app/obras" class="btn-open teal" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Diário de Obras
+          </a>
+          <button class="btn-toggle" onclick="toggleFlow('flow1')" id="toggle-flow1" aria-expanded="true" aria-controls="flow1">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>Recolher</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flow-wrap" id="flow1">
+        <div class="flowchart" role="list" aria-label="Etapas: Criar Diário de Obras">
+
+          <div class="fn fn-start" role="listitem">
+            <i class="fa-solid fa-plus-circle"></i> 1. Adicionar
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-hard-hat"></i> 2. Adicionar Obra
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Formulário de dados -->
+          <div class="fn-form" role="listitem">
+            <div class="form-title">
+              <i class="fa-solid fa-clipboard-list"></i>
+              3. Preencher dados da obra
+            </div>
+            <div class="field-row">
+              <span class="field-label">Nome</span>
+              <span class="field-val">CTXXX-XXXX – Título da obra | SIGLA - Local</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Responsável</span>
+              <span class="field-val">Técnico da CITA ou terceiro</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Contratante</span>
+              <span class="field-val">Cliente</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Data início</span>
+              <span class="field-val">xx/xx/xxxx</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Data término</span>
+              <span class="field-val">xx/xx/xxxx</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Nº Contrato</span>
+              <span class="field-val">CTXXX-XXXX</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Grupo</span>
+              <span class="field-val">Propostas</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Status</span>
+              <span class="field-val warn"><i class="fa-solid fa-circle-dot"></i> Em andamento</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Configurações</span>
+              <span class="field-val">Lista de tarefas (marcar)</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Endereço</span>
+              <span class="field-val">
+                <a href="https://docs.google.com/spreadsheets/d/1KJwg3BQPAjN3Mt1W-eiF8W3vhmC8uCOYI56y7KW5aR8/edit?gid=0#gid=0"
+                   class="field-link" target="_blank" rel="noopener">
+                  Tab. Endereços MELI <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </span>
+            </div>
+            <div class="obs-card" role="alert">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span><strong>Atenção:</strong> A equipe técnica só terá acesso ao Diário se o status estiver definido como <strong>"Em andamento"</strong>.</span>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-list-check"></i> 4. Preencher lista de tarefas
+          </div>
+
+          <div class="arrow-sm arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-path" role="listitem" aria-label="Caminho do arquivo padrão">
+            <span class="path-label"><i class="fa-solid fa-folder-open"></i> Arquivo padrão (Template)</span>
+            Z:\NOVO PADRÃO DE PROJETOS\PADRÃO DE PASTAS\PROJETOS\CTXXX-2026 - XXX\TEMPLATE CRONOGRAMA
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Editar obra: Cadastro -->
+          <div class="sub-block" role="listitem">
+            <span class="sub-block-label"><i class="fa-solid fa-pen-to-square"></i> Editar Obra</span>
+            <div class="flowchart" style="padding:12px 0 0;">
+              <div class="fn fn-sub"><i class="fa-solid fa-layer-group"></i> 5. Editar Obra</div>
+              <div class="arrow-sm arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+              <div class="fn fn-sub" style="max-width:260px;"><i class="fa-solid fa-building"></i> 5.1 Cadastro de obra</div>
+              <div class="arrow-sm arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+              <div class="fn fn-sub" style="max-width:240px;"><i class="fa-solid fa-person-digging"></i> 5.1.1 Tipo de mão de obra</div>
+              <div class="arrow-sm arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+              <div class="fn fn-sub" style="max-width:220px;"><i class="fa-solid fa-sliders"></i> 5.1.1.1 Personalizada</div>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Editar obra: Usuários -->
+          <div class="sub-block" role="listitem">
+            <span class="sub-block-label"><i class="fa-solid fa-pen-to-square"></i> Editar Obra</span>
+            <div class="flowchart" style="padding:12px 0 0;">
+              <div class="fn fn-sub"><i class="fa-solid fa-layer-group"></i> 6. Editar Obra</div>
+              <div class="arrow-sm arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+              <div class="fn fn-sub" style="max-width:270px;"><i class="fa-solid fa-users"></i> 6.1 Usuários com acesso</div>
+              <div class="arrow-sm arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+              <div class="fn fn-sub" style="max-width:220px;"><i class="fa-solid fa-user-plus"></i> 6.1.1 Adicionar</div>
+              <div class="arrow-sm arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+              <div class="fn fn-sub" style="max-width:220px;"><i class="fa-solid fa-user-check"></i> 6.1.1.1 Adicionar usuário</div>
+            </div>
+          </div>
+
+          <div class="arrow arrow-green" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-end" role="listitem">
+            <i class="fa-solid fa-circle-check"></i> 7. Criar
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- ============================================================
+         FLUXOGRAMA 2 — RELATÓRIO FOTOGRÁFICO
+         ============================================================ -->
+    <section class="sec" id="fluxo2" aria-labelledby="title-fluxo2">
+
+      <div class="sec-header">
+        <div class="sec-title-wrap">
+          <span class="sec-num">PROCESSO 02</span>
+          <h2 class="sec-title" id="title-fluxo2">
+            <i class="fa-solid fa-camera" style="color:var(--blue-glow);margin-right:10px;"></i>
+            Relatório Fotográfico
+          </h2>
+        </div>
+        <div class="sec-actions">
+          <a href="https://web.diariodeobra.app/#/app/obras" class="btn-open teal" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Diário
+          </a>
+          <button class="btn-toggle" onclick="toggleFlow('flow2')" id="toggle-flow2" aria-expanded="true" aria-controls="flow2">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>Recolher</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flow-wrap" id="flow2">
+        <div class="flowchart" role="list" aria-label="Etapas: Relatório Fotográfico">
+
+          <div class="fn fn-start" role="listitem">
+            <i class="fa-solid fa-book-open"></i> 1. Diário de Obras
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-eye"></i> 2. Visão Geral
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-images"></i> 3. Fotos
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-print"></i> 4. Imprimir
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Seleção + alerta 99 fotos -->
+          <div class="fn-form" style="max-width:460px;" role="listitem">
+            <div class="form-title">
+              <i class="fa-solid fa-hand-pointer"></i>
+              5. Selecionar fotos das atividades
+            </div>
+            <div class="field-row">
+              <span class="field-label">Critério</span>
+              <span class="field-val">Fotos que representam as atividades realizadas</span>
+            </div>
+            <div class="obs-card" style="background:rgba(224,92,92,0.1);border-color:rgba(224,92,92,0.4);border-left-color:#e05c5c;color:#fca5a5;" role="alert">
+              <i class="fa-solid fa-ban" style="color:#e05c5c;"></i>
+              <span><strong>Limite máximo:</strong> <strong style="font-size:15px;">99 fotos</strong> por relatório.</span>
+            </div>
+            <div class="info-card">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>Você pode escolher a quantidade de fotos por folha ao gerar o arquivo.</span>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-alert" role="listitem" style="max-width:420px;">
+            <span class="alert-icon"><i class="fa-solid fa-file-pdf"></i></span>
+            6. Imprimir &rarr; <strong>Salvar em PDF</strong>
+            <div style="font-size:11px;color:#fcd34d;margin-top:6px;opacity:.85;">Escolha a quantidade de fotos por folha antes de gerar.</div>
+          </div>
+
+          <div class="arrow arrow-teal" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-path" role="listitem" aria-label="Destino do arquivo">
+            <span class="path-label"><i class="fa-solid fa-folder-open"></i> Destino do arquivo</span>
+            Pasta do projeto &rsaquo; <strong>Documentações</strong>
+            <div style="margin-top:8px;font-family:Arial,sans-serif;font-size:11.5px;color:rgba(103,232,249,0.7);">
+              Salvar o PDF gerado dentro da pasta correspondente ao projeto.
+            </div>
+          </div>
+
+          <div class="arrow arrow-green" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-end" role="listitem">
+            <i class="fa-solid fa-circle-check"></i> Relatório concluído e arquivado
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- ============================================================
+         FLUXOGRAMA 4 — AS BUILT
+         ============================================================ -->
+    <section class="sec" id="fluxo4" aria-labelledby="title-fluxo4">
+
+      <div class="sec-header">
+        <div class="sec-title-wrap">
+          <span class="sec-num" style="color:#fcd34d;background:rgba(232,184,75,0.1);border-color:rgba(232,184,75,0.3);">PROCESSO 03</span>
+          <h2 class="sec-title" id="title-fluxo4">
+            <i class="fa-solid fa-ruler-combined" style="color:#fcd34d;margin-right:10px;"></i>
+            As Built
+          </h2>
+        </div>
+        <div class="sec-actions">
+          <button class="btn-toggle" onclick="toggleFlow('flow4')" id="toggle-flow4" aria-expanded="true" aria-controls="flow4">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>Recolher</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flow-wrap" id="flow4">
+        <div class="flowchart" role="list" aria-label="Etapas: As Built">
+
+          <div class="fn fn-start" style="background:linear-gradient(135deg,#78350f,#b45309);border-color:rgba(252,211,77,0.5);box-shadow:0 0 22px rgba(180,83,9,0.35);" role="listitem">
+            <i class="fa-solid fa-ruler-combined"></i> As Built
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line" style="background:linear-gradient(to bottom,rgba(232,184,75,.7),rgba(232,184,75,.2));"></div><div class="arrow-head" style="border-top-color:rgba(232,184,75,.6);"></div></div>
+
+          <!-- Card: Durante a obra -->
+          <div class="fn-form" style="max-width:500px;border-color:rgba(232,184,75,0.4);" role="listitem">
+            <div class="form-title" style="color:#fcd34d;">
+              <i class="fa-solid fa-pencil"></i>
+              Durante a execução da obra
+            </div>
+            <div class="field-row" style="border-color:rgba(232,184,75,0.1);">
+              <span class="field-label">Ação</span>
+              <span class="field-val">Realizar ajustes no projeto ao longo da obra</span>
+            </div>
+            <div class="obs-card" style="background:rgba(232,184,75,0.08);border-color:rgba(232,184,75,0.35);border-left-color:#f59e0b;color:#fde68a;" role="alert">
+              <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i>
+              <span><strong>Importante:</strong> É essencial registrar cada alteração executada para garantir um As Built completo e fiel à realidade da obra.</span>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line" style="background:linear-gradient(to bottom,rgba(232,184,75,.7),rgba(232,184,75,.2));"></div><div class="arrow-head" style="border-top-color:rgba(232,184,75,.6);"></div></div>
+
+          <!-- Card: Conclusão -->
+          <div class="fn-form" style="max-width:500px;border-color:rgba(232,184,75,0.4);" role="listitem">
+            <div class="form-title" style="color:#fcd34d;">
+              <i class="fa-solid fa-flag-checkered"></i>
+              Com a conclusão da obra
+            </div>
+            <div class="field-row" style="border-color:rgba(232,184,75,0.1);">
+              <span class="field-label">1. Atualizar</span>
+              <span class="field-val">Atualizar o projeto com todas as modificações executadas</span>
+            </div>
+            <div class="field-row" style="border-color:rgba(232,184,75,0.1);">
+              <span class="field-label">2. Salvar como</span>
+              <span class="field-val" style="color:#fcd34d;font-weight:700;">As Built</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">3. Destino</span>
+              <span class="field-val">Pasta do projeto</span>
+            </div>
+          </div>
+
+          <div class="arrow" style="margin-top:4px;" aria-hidden="true"><div class="arrow-line" style="background:linear-gradient(to bottom,rgba(62,196,122,.7),rgba(62,196,122,.2));"></div><div class="arrow-head" style="border-top-color:rgba(62,196,122,.6);"></div></div>
+
+          <div class="fn fn-end" role="listitem">
+            <i class="fa-solid fa-circle-check"></i> Arquivo As Built salvo na pasta do projeto
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- ============================================================
+         FLUXOGRAMA 5 — CERTIFICAÇÃO
+         ============================================================ -->
+    <section class="sec" id="fluxo5" aria-labelledby="title-fluxo5">
+
+      <div class="sec-header">
+        <div class="sec-title-wrap">
+          <span class="sec-num" style="color:#86efac;background:rgba(62,196,122,0.1);border-color:rgba(62,196,122,0.3);">PROCESSO 04</span>
+          <h2 class="sec-title" id="title-fluxo5">
+            <i class="fa-solid fa-certificate" style="color:#86efac;margin-right:10px;"></i>
+            Certificação
+          </h2>
+        </div>
+        <div class="sec-actions">
+          <button class="btn-toggle" onclick="toggleFlow('flow5')" id="toggle-flow5" aria-expanded="true" aria-controls="flow5">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>Recolher</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flow-wrap" id="flow5">
+        <div class="flowchart" role="list" aria-label="Etapas: Certificação">
+
+          <div class="fn fn-start" style="background:linear-gradient(135deg,#14532d,#16a34a);border-color:rgba(134,239,172,0.5);box-shadow:0 0 22px rgba(22,163,74,0.35);" role="listitem">
+            <i class="fa-solid fa-certificate"></i> Certificação
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line" style="background:linear-gradient(to bottom,rgba(62,196,122,.7),rgba(62,196,122,.2));"></div><div class="arrow-head" style="border-top-color:rgba(62,196,122,.6);"></div></div>
+
+          <!-- Decisão: dois caminhos -->
+          <div class="fn-form" style="max-width:520px;border-color:rgba(62,196,122,0.4);" role="listitem">
+            <div class="form-title" style="color:#86efac;">
+              <i class="fa-solid fa-code-branch"></i>
+              Escolha uma das opções abaixo
+            </div>
+
+            <!-- Opção A e B lado a lado -->
+            <div style="display:flex;gap:12px;margin-top:4px;" role="group" aria-label="Opções de certificação">
+
+              <!-- Opção A -->
+              <div style="flex:1;background:rgba(62,196,122,0.08);border:1px solid rgba(62,196,122,0.35);border-radius:10px;padding:14px;text-align:center;">
+                <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#86efac;background:rgba(62,196,122,0.15);border:1px solid rgba(62,196,122,0.3);border-radius:20px;padding:2px 10px;display:inline-block;margin-bottom:10px;">
+                  Opção A
+                </div>
+                <div style="font-size:13px;font-weight:700;color:#d1fae5;margin-bottom:6px;">
+                  <i class="fa-solid fa-envelope" style="margin-right:6px;color:#86efac;"></i>Solicitar
+                </div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.5;">
+                  Solicitar a certificação para a equipe responsável pelas <strong style="color:#d1fae5;">Obras</strong>
+                </div>
+              </div>
+
+              <!-- Separador OR -->
+              <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0;">
+                <div style="width:1px;height:30px;background:rgba(62,196,122,0.25);"></div>
+                <span style="font-size:10px;font-weight:700;color:rgba(62,196,122,0.5);letter-spacing:.1em;">OU</span>
+                <div style="width:1px;height:30px;background:rgba(62,196,122,0.25);"></div>
+              </div>
+
+              <!-- Opção B -->
+              <div style="flex:1;background:rgba(62,196,122,0.08);border:1px solid rgba(62,196,122,0.35);border-radius:10px;padding:14px;text-align:center;">
+                <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#86efac;background:rgba(62,196,122,0.15);border:1px solid rgba(62,196,122,0.3);border-radius:20px;padding:2px 10px;display:inline-block;margin-bottom:10px;">
+                  Opção B
+                </div>
+                <div style="font-size:13px;font-weight:700;color:#d1fae5;margin-bottom:6px;">
+                  <i class="fa-solid fa-download" style="margin-right:6px;color:#86efac;"></i>Extrair
+                </div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.5;">
+                  Extrair diretamente no <strong style="color:#d1fae5;">equipamento</strong> e gerar o arquivo
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line" style="background:linear-gradient(to bottom,rgba(62,196,122,.7),rgba(62,196,122,.2));"></div><div class="arrow-head" style="border-top-color:rgba(62,196,122,.6);"></div></div>
+
+          <div class="fn fn-end" role="listitem">
+            <i class="fa-solid fa-circle-check"></i> Arquivo de certificação gerado
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- ============================================================
+         FLUXOGRAMA 6 — MAPEAMENTO DE PONTOS
+         ============================================================ -->
+    <section class="sec" id="fluxo6" aria-labelledby="title-fluxo6">
+
+      <div class="sec-header">
+        <div class="sec-title-wrap">
+          <span class="sec-num" style="color:#fdba74;background:rgba(249,115,22,0.1);border-color:rgba(249,115,22,0.3);">PROCESSO 05</span>
+          <h2 class="sec-title" id="title-fluxo6">
+            <i class="fa-solid fa-network-wired" style="color:#fdba74;margin-right:10px;"></i>
+            Mapeamento de Pontos
+          </h2>
+        </div>
+        <div class="sec-actions">
+          <button class="btn-toggle" onclick="toggleFlow('flow6')" id="toggle-flow6" aria-expanded="true" aria-controls="flow6">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>Recolher</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flow-wrap" id="flow6">
+        <div class="flowchart" role="list" aria-label="Etapas: Mapeamento de Pontos">
+
+          <div class="fn fn-start" style="background:linear-gradient(135deg,#7c2d12,#c2410c);border-color:rgba(253,186,116,0.5);box-shadow:0 0 22px rgba(194,65,12,0.35);" role="listitem">
+            <i class="fa-solid fa-network-wired"></i> Mapeamento de Pontos
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line" style="background:linear-gradient(to bottom,rgba(249,115,22,.7),rgba(249,115,22,.2));"></div><div class="arrow-head" style="border-top-color:rgba(249,115,22,.6);"></div></div>
+
+          <!-- O que é -->
+          <div class="fn-form" style="max-width:520px;border-color:rgba(249,115,22,0.4);" role="listitem">
+            <div class="form-title" style="color:#fdba74;">
+              <i class="fa-solid fa-circle-info"></i>
+              O que é o Mapeamento de Pontos
+            </div>
+            <div style="font-size:13px;color:#e0edff;line-height:1.65;">
+              Lista completa dos pontos executados na obra, com todas as informações de identificação, localização e conectividade de cada ponto instalado.
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line" style="background:linear-gradient(to bottom,rgba(249,115,22,.7),rgba(249,115,22,.2));"></div><div class="arrow-head" style="border-top-color:rgba(249,115,22,.6);"></div></div>
+
+          <!-- Campos obrigatórios -->
+          <div class="fn-form" style="max-width:560px;border-color:rgba(249,115,22,0.4);" role="listitem">
+            <div class="form-title" style="color:#fdba74;">
+              <i class="fa-solid fa-table-list"></i>
+              Campos obrigatórios por ponto
+            </div>
+
+            <div class="field-row" style="border-color:rgba(249,115,22,0.12);">
+              <span class="field-label">Tipo de ponto</span>
+              <span class="field-val">
+                <span style="background:rgba(59,111,212,0.2);border:1px solid rgba(59,111,212,0.4);border-radius:4px;padding:1px 8px;margin-right:4px;font-size:11.5px;">Dados</span>
+                <span style="background:rgba(155,127,232,0.2);border:1px solid rgba(155,127,232,0.4);border-radius:4px;padding:1px 8px;margin-right:4px;font-size:11.5px;">CFTV</span>
+                <span style="background:rgba(15,168,192,0.2);border:1px solid rgba(15,168,192,0.4);border-radius:4px;padding:1px 8px;font-size:11.5px;">CA</span>
+              </span>
+            </div>
+            <div class="field-row" style="border-color:rgba(249,115,22,0.12);">
+              <span class="field-label">Origem</span>
+              <span class="field-val">Rack</span>
+            </div>
+            <div class="field-row" style="border-color:rgba(249,115,22,0.12);">
+              <span class="field-label">Identificação</span>
+              <span class="field-val">Código/etiqueta do ponto</span>
+            </div>
+            <div class="field-row" style="border-color:rgba(249,115,22,0.12);">
+              <span class="field-label">Local</span>
+              <span class="field-val">Ambiente/sala onde o ponto foi instalado</span>
+            </div>
+            <div class="field-row" style="border-color:rgba(249,115,22,0.12);">
+              <span class="field-label">Local de inserção</span>
+              <span class="field-val">Ponto físico de conexão na instalação</span>
+            </div>
+            <div class="field-row" style="border-color:rgba(249,115,22,0.12);">
+              <span class="field-label">Switch</span>
+              <span class="field-val">Switch ao qual o ponto está conectado</span>
+            </div>
+            <div class="field-row" style="border-color:rgba(249,115,22,0.12);">
+              <span class="field-label">Patch Panel</span>
+              <span class="field-val">Patch panel correspondente ao ponto</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Portas</span>
+              <span class="field-val">Portas do switch e do patch panel utilizadas</span>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line" style="background:linear-gradient(to bottom,rgba(62,196,122,.7),rgba(62,196,122,.2));"></div><div class="arrow-head" style="border-top-color:rgba(62,196,122,.6);"></div></div>
+
+          <div class="fn fn-end" role="listitem">
+            <i class="fa-solid fa-circle-check"></i> Lista de pontos executados completa e documentada
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- ============================================================
+         FLUXOGRAMA 3 — DOCUSIGN
+         ============================================================ -->
+    <section class="sec" id="fluxo3" aria-labelledby="title-fluxo3">
+
+      <div class="sec-header">
+        <div class="sec-title-wrap">
+          <span class="sec-num">PROCESSO 06</span>
+          <h2 class="sec-title" id="title-fluxo3">
+            <i class="fa-solid fa-file-signature" style="color:var(--blue-glow);margin-right:10px;"></i>
+            DocuSign
+          </h2>
+        </div>
+        <div class="sec-actions">
+          <a href="https://docs.google.com/spreadsheets/d/1KJwg3BQPAjN3Mt1W-eiF8W3vhmC8uCOYI56y7KW5aR8/edit?gid=0#gid=0"
+             class="btn-open" target="_blank" rel="noopener">
+            <i class="fa-solid fa-table"></i> Endereços MELI
+          </a>
+          <a href="https://www.docusign.com.br/" class="btn-open purple" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir DocuSign
+          </a>
+          <button class="btn-toggle" onclick="toggleFlow('flow3')" id="toggle-flow3" aria-expanded="true" aria-controls="flow3">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>Recolher</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flow-wrap" id="flow3">
+        <div class="flowchart" role="list" aria-label="Etapas: DocuSign">
+
+          <div class="fn fn-start" role="listitem">
+            <i class="fa-solid fa-envelope-open-text"></i> 1. Enviar Envelope
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-file-arrow-up"></i> 2. Adicionar documentos
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Destinatários -->
+          <div class="fn-form" style="max-width:540px;width:100%;" role="listitem">
+            <div class="form-title">
+              <i class="fa-solid fa-users"></i>
+              3. Destinatários
+            </div>
+            <div class="field-row" style="border:none;margin-bottom:12px;">
+              <span style="font-size:12px;color:var(--muted);">
+                Consultar coluna <strong style="color:var(--blue-glow);">L</strong> da planilha&nbsp;
+                <a href="https://docs.google.com/spreadsheets/d/1KJwg3BQPAjN3Mt1W-eiF8W3vhmC8uCOYI56y7KW5aR8/edit?gid=0#gid=0"
+                   class="field-link" target="_blank" rel="noopener">
+                  TABELA DE ENDEREÇOS MELI <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+                &nbsp;para obter o responsável pela aprovação.
+              </span>
+            </div>
+            <div class="dual-block" role="group" aria-label="Tipos de destinatário">
+              <div class="dual-card sign">
+                <span class="dual-badge sign"><i class="fa-solid fa-pen-nib"></i> Assinante</span>
+                <p style="font-size:12px;color:var(--muted);margin-bottom:4px;">Responsável pela aprovação</p>
+                <p class="dual-name">Conforme MELI — Col. L</p>
+              </div>
+              <div class="dual-card copy">
+                <span class="dual-badge copy"><i class="fa-solid fa-copy"></i> Cópia</span>
+                <p style="font-size:12px;color:var(--muted);margin-bottom:4px;">Sempre recebe cópia</p>
+                <p class="dual-name" style="color:#ddd6fe;">Lucio Sartorelli</p>
+              </div>
+            </div>
+            <div class="obs-card" role="note" style="margin-top:12px;">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>Sempre adicionar <strong>dois destinatários</strong>: um para assinar e um para receber cópia (<strong>Lucio Sartorelli</strong>).</span>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Mensagem -->
+          <div class="fn-form" style="max-width:500px;" role="listitem">
+            <div class="form-title">
+              <i class="fa-solid fa-message"></i>
+              4. Adicionar mensagem
+            </div>
+            <div class="field-row">
+              <span class="field-label">Assunto</span>
+              <span class="field-val" style="color:#7eb3ff;font-family:'Courier New',monospace;font-size:12px;">
+                CTXXX-XXXX – Título da obra | SIGLA – Local
+              </span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Mensagem</span>
+              <span class="field-val" style="font-style:italic;">"Seguem as documentações"</span>
+            </div>
+            <div class="obs-card" style="background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.3);border-left-color:#f59e0b;color:#fde68a;">
+              <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i>
+              <span>Usar exatamente o padrão acima no campo <strong>Assunto</strong>.</span>
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <!-- Categoria NÃO MEXER -->
+          <div class="fn fn-danger" role="listitem" style="max-width:420px;" aria-label="Alerta: não alterar a categoria">
+            <i class="fa-solid fa-lock"></i> 5. Categoria
+            <div style="margin-top:8px;font-size:15px;font-weight:800;letter-spacing:.05em;color:#f87171;">NÃO MEXER</div>
+            <div style="font-size:11.5px;margin-top:4px;opacity:.8;">Deixe o campo Categoria exatamente como está — não altere.</div>
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-arrow-right"></i> 6. Avançar
+          </div>
+
+          <div class="arrow" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-action" role="listitem">
+            <i class="fa-solid fa-location-crosshairs"></i> 7. Indicar local da assinatura
+          </div>
+
+          <div class="arrow arrow-green" aria-hidden="true"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+          <div class="fn fn-end" role="listitem">
+            <i class="fa-solid fa-paper-plane"></i> 8. Enviar
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+  /* ── Expandir / Recolher ── */
+  function toggleFlow(id) {
+    const wrap  = document.getElementById(id);
+    const btn   = document.getElementById('toggle-' + id);
+    const label = btn.querySelector('span');
+    const isOpen = !wrap.classList.contains('collapsed');
+    if (isOpen) {
+      wrap.classList.add('collapsed');
+      btn.classList.add('collapsed');
+      label.textContent = 'Expandir';
+      btn.setAttribute('aria-expanded', 'false');
+    } else {
+      wrap.classList.remove('collapsed');
+      btn.classList.remove('collapsed');
+      label.textContent = 'Recolher';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  /* ── Menu mobile ── */
+  function openMobileMenu()  { document.getElementById('sidebar-mobile').classList.add('open'); }
+  function closeMobileMenu() { document.getElementById('sidebar-mobile').classList.remove('open'); }
+
+  /* ── Animação de entrada nas seções ── */
+  const secs = document.querySelectorAll('.sec');
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('vis'); observer.unobserve(e.target); }
+    }),
+    { threshold: 0.06 }
+  );
+  secs.forEach(s => observer.observe(s));
+
+  /* ── Destaque do botão ativo no nav ao rolar ── */
+  const navBtns = [
+    { btn: document.getElementById('navbtn-fluxo1'), sec: document.getElementById('fluxo1') },
+    { btn: document.getElementById('navbtn-fluxo2'), sec: document.getElementById('fluxo2') },
+    { btn: document.getElementById('navbtn-fluxo4'), sec: document.getElementById('fluxo4') },
+    { btn: document.getElementById('navbtn-fluxo5'), sec: document.getElementById('fluxo5') },
+    { btn: document.getElementById('navbtn-fluxo6'), sec: document.getElementById('fluxo6') },
+    { btn: document.getElementById('navbtn-fluxo3'), sec: document.getElementById('fluxo3') },
+  ];
+
+  function updateActiveNav() {
+    let current = null;
+    navBtns.forEach(({ sec }) => {
+      if (sec.getBoundingClientRect().top <= 120) current = sec.id;
+    });
+    navBtns.forEach(({ btn, sec }) => {
+      btn.classList.toggle('active', sec.id === current);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  // ── PAGE TRANSITION ──
+  (function () {
+    const veil = document.getElementById('page-veil');
+    requestAnimationFrame(() => requestAnimationFrame(() => veil.classList.add('hidden')));
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || link.target === '_blank') return;
+      e.preventDefault();
+      veil.classList.remove('hidden');
+      setTimeout(() => { window.location.href = href; }, 360);
+    });
+  })();
+</script>
+
+</body>
+</html>

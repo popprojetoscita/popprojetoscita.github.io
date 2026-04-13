@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Implantação de Obras — Infraestrutura de Redes</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* =============================================
+     VARIÁVEIS
+     ============================================= */
+  :root {
+    --brand-primary: #0a2a3d;
+    --brand-accent: #1d849e;
+    --brand-accent-light: #d4f1e6;
+
+    --bg-page: #f4f2ee;
+    --bg-card: #ffffff;
+    --bg-sidebar: #0c2340;
+
+    --text-primary: #1a1a18;
+    --text-secondary: #5a5a56;
+    --text-muted: #9a9a94;
+
+    --border: #e2dfd8;
+    --border-strong: #c8c4bc;
+
+    --warn-bg: #fef3e2;
+    --warn-border: #d4820a;
+    --warn-text: #7a4800;
+
+    --info-bg: #e8f0fd;
+    --info-border: #2563b0;
+    --info-text: #1a3d7a;
+
+    --danger-bg: #fdeaea;
+    --danger-border: #b02020;
+    --danger-text: #6a1010;
+
+    --success-bg: #e6f4ee;
+    --success-border: #1d9e75;
+    --success-text: #0a4530;
+
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+
+    --sidebar-w: 268px;
+    --content-max: 900px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.65;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* =============================================
+     SIDEBAR
+     ============================================= */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--bg-sidebar);
+    min-height: 100vh;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 28px 24px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .sidebar-company-logo {
+    display: block;
+    width: 148px;
+    max-width: 100%;
+    margin-bottom: 16px;
+    border-radius: var(--radius-sm);
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.35));
+  }
+
+  .sidebar-logo h1 {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.70);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  .sidebar-logo p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 3px;
+  }
+
+  .sidebar-nav { padding: 14px 0; flex: 1; }
+
+  .nav-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.28);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 10px 24px 4px;
+    font-weight: 500;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 24px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .nav-item:hover { background: rgba(255,255,255,0.06); }
+
+  .nav-item.active { background: rgba(74,147,224,0.20); }
+
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 4px; bottom: 4px;
+    width: 3px;
+    background: #4a93e0;
+    border-radius: 0 3px 3px 0;
+  }
+
+  .nav-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.45);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-item.active .nav-num { background: #4a93e0; color: #fff; }
+
+  .nav-text {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  .nav-item.active .nav-text { color: #ffffff; font-weight: 500; }
+
+  .sidebar-footer {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .btn-print {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.55);
+    border-radius: var(--radius-sm);
+    padding: 9px 14px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .btn-print:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); }
+
+  /* =============================================
+     MOBILE
+     ============================================= */
+  .mobile-toggle {
+    display: none;
+    position: fixed;
+    top: 14px; left: 14px;
+    z-index: 200;
+    background: var(--bg-sidebar);
+    border: none;
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md);
+  }
+
+  .mobile-toggle svg { width: 20px; height: 20px; fill: #fff; }
+
+  .mobile-toggle.is-open svg { display: none; }
+  .mobile-toggle.is-open::after { content: "✕"; color: #fff; font-size: 18px; line-height: 1; }
+
+  .sidebar-close {
+    display: none;
+    position: absolute;
+    top: 14px; right: 12px;
+    background: rgba(255,255,255,0.10);
+    border: none;
+    color: rgba(255,255,255,0.75);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .sidebar-close:hover { background: rgba(255,255,255,0.20); color: #fff; }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 90;
+  }
+
+  /* =============================================
+     MAIN
+     ============================================= */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    padding: 44px 44px 90px;
+    max-width: calc(100% - var(--sidebar-w));
+  }
+
+  .content-wrap {
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  /* =============================================
+     PAGE HEADER
+     ============================================= */
+  .page-header {
+    margin-bottom: 48px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .breadcrumb {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin-bottom: 14px;
+  }
+
+  .page-header h2 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .page-header .subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 580px;
+    line-height: 1.65;
+    margin-bottom: 30px;
+  }
+
+  /* FLUXO DO PROCESSO */
+  .flow-title {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .process-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .flow-chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 5px 12px 5px 5px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: box-shadow 0.15s, border-color 0.15s;
+  }
+
+  .flow-chip:hover { box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+
+  .flow-chip-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .flow-arrow {
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* =============================================
+     ETAPA SECTION
+     ============================================= */
+  .etapa-section {
+    margin-bottom: 28px;
+    scroll-margin-top: 28px;
+  }
+
+  .etapa-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s;
+  }
+
+  .etapa-card:hover { box-shadow: var(--shadow-md); }
+
+  .etapa-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+    border-top: 3px solid var(--etapa-cor, var(--brand-accent));
+  }
+
+  .etapa-header:hover { background: #faf9f6; }
+
+  .etapa-num {
+    width: 42px; height: 42px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+  }
+
+  .etapa-info { flex: 1; min-width: 0; }
+
+  .etapa-titulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+
+  .etapa-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .etapa-toggle-icon {
+    color: var(--text-muted);
+    font-size: 12px;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .etapa-toggle-icon.open { transform: rotate(90deg); }
+
+  /* =============================================
+     ETAPA BODY
+     ============================================= */
+  .etapa-body { display: none; }
+  .etapa-body.open { display: block; }
+
+  /* INTRO */
+  .etapa-intro {
+    padding: 18px 24px 20px;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(135deg, #faf9f7 0%, var(--bg-card) 60%);
+  }
+
+  .etapa-intro p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    max-width: 700px;
+  }
+
+  /* FOTO DA ETAPA */
+  /* GALERIA DE FOTOS DA ETAPA */
+  .etapa-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    overflow: hidden;
+  }
+
+  .etapa-foto-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: #111;
+  }
+
+  .etapa-foto-wrap:only-child {
+    aspect-ratio: 16 / 6;
+  }
+
+  .etapa-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .etapa-foto-wrap:hover .etapa-foto {
+    transform: scale(1.04);
+  }
+
+  .etapa-foto-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.62));
+    color: rgba(255,255,255,0.92);
+    font-size: 11px;
+    padding: 28px 12px 10px;
+    pointer-events: none;
+    line-height: 1.4;
+  }
+
+  /* Separador vertical entre fotos na galeria */
+  .etapa-foto-wrap + .etapa-foto-wrap {
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* STEPS */
+  .steps-wrap { padding: 20px 24px 6px; }
+
+  .steps-label {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .step-separador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 12px;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .step-separador::before,
+  .step-separador::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .step-item {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 20px;
+    align-items: flex-start;
+  }
+
+  .step-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 28px;
+  }
+
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .step-connector {
+    width: 1px;
+    background: var(--border);
+    flex: 1;
+    min-height: 18px;
+    margin-top: 5px;
+  }
+
+  .step-item:last-child .step-connector { display: none; }
+
+  .step-content { flex: 1; padding-top: 2px; }
+
+  .step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-bottom: 5px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* =============================================
+     ALERTAS / NOTAS
+     ============================================= */
+  .alerts-wrap {
+    padding: 0 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .alert-box {
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border-left: 3px solid;
+    font-size: 13px;
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .alert-icon { flex-shrink: 0; width: 16px; height: 16px; margin-top: 1px; }
+
+  .alert-warn   { background: var(--warn-bg);    border-color: var(--warn-border);    color: var(--warn-text);    }
+  .alert-info   { background: var(--info-bg);    border-color: var(--info-border);    color: var(--info-text);    }
+  .alert-danger { background: var(--danger-bg);  border-color: var(--danger-border);  color: var(--danger-text);  }
+  .alert-tip    { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+
+  /* =============================================
+     GLOSSÁRIO
+     ============================================= */
+  .glossary-section {
+    margin-top: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .glossary-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  .glossary-header:hover { background: #faf9f6; }
+
+  .glossary-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .glossary-body { display: none; padding: 20px 24px; }
+  .glossary-body.open { display: block; }
+
+  .glossary-category {
+    margin-bottom: 24px;
+  }
+
+  .glossary-category:last-child { margin-bottom: 0; }
+
+  .glossary-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .glossary-cat-icon {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .glossary-cat-icon svg { width: 13px; height: 13px; }
+
+  .glossary-cat-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+  }
+
+  .glossary-cat-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .glossary-item {
+    background: var(--bg-page);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 11px 14px;
+  }
+
+  .glossary-item strong {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    color: var(--brand-primary);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .glossary-item span {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  /* =============================================
+     PRINT
+     ============================================= */
+  .print-header { display: none; }
+
+  @page {
+    size: A4;
+    margin: 0 18mm 0 18mm;
+  }
+
+  @media print {
+    /* ── Ocultar elementos de navegação ── */
+    .sidebar, .mobile-toggle, .sidebar-overlay,
+    .sidebar-close, .sidebar-overlay,
+    .process-flow, .breadcrumb,
+    .etapa-toggle-icon, .btn-print { display: none !important; }
+
+    /* ── Reset geral de layout ── */
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    body { background: #fff; font-size: 11pt; color: #111; }
+
+    .main {
+      margin-left: 0;
+      max-width: 100%;
+      padding: 18mm 22mm 18mm 22mm;
+    }
+
+    .content-wrap {
+      max-width: 100%;
+      padding: 0;
+    }
+
+    /* ── Cabeçalho da impressão ── */
+    .print-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1a1a1a;
+      margin: -18mm -22mm 20pt -22mm;
+      padding: 10pt 22mm 10pt 22mm;
+    }
+
+    .print-header img {
+      height: 56pt;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
+      filter: drop-shadow(0 1px 6px rgba(0,0,0,0.5));
+    }
+
+    .print-header-info {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .print-header-info p {
+      font-size: 9pt;
+      color: rgba(255,255,255,0.55);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .print-header-info p:first-child {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2pt;
+    }
+
+    /* ── Título da página ── */
+    .page-header {
+      margin: 0 0 20pt;
+      padding: 0 0 12pt;
+      border-bottom: 2pt solid #1d849e;
+    }
+
+    .page-header h2 {
+      font-size: 18pt;
+      color: #0a2a3d;
+      margin: 0 0 4pt;
+    }
+
+    /* ── Etapas fluem naturalmente, sem quebra forçada ── */
+    .etapa-section {
+      margin-bottom: 8pt;
+      scroll-margin-top: 0;
+    }
+
+    /* ── Card da etapa: sem sombra, borda simples ── */
+    .etapa-card {
+      box-shadow: none !important;
+      border: 1pt solid #d0d0d0;
+      border-radius: 4pt;
+      overflow: visible;
+      margin-bottom: 0;
+    }
+
+    /* ── Cabeçalho da etapa: cor de fundo mantida, sem cursor ── */
+    .etapa-header {
+      cursor: default;
+      border-radius: 4pt 4pt 0 0;
+      padding: 8pt 12pt;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    .etapa-titulo { font-size: 12pt; font-weight: 700; }
+    .etapa-meta   { font-size: 8.5pt; margin-top: 1pt; }
+
+    /* ── Corpo da etapa sempre visível ── */
+    .etapa-body {
+      display: block !important;
+      padding: 8pt 12pt 10pt;
+    }
+
+    .etapa-intro {
+      font-size: 9.5pt;
+      color: #333;
+      margin-bottom: 6pt;
+      padding-bottom: 6pt;
+      border-bottom: 0.5pt solid #e0e0e0;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    .steps-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin-bottom: 4pt;
+    }
+
+    /* ── Cada passo não parte no meio ── */
+    .step-item {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      display: flex;
+      gap: 8pt;
+      padding: 5pt 0;
+      border-bottom: 0.5pt solid #ececec;
+    }
+
+    .step-item:last-child { border-bottom: none; }
+
+    .step-connector { display: none; }
+
+    .step-num {
+      width: 17pt; height: 17pt;
+      min-width: 17pt;
+      font-size: 8pt;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-title { font-size: 9.5pt; font-weight: 700; margin-bottom: 1pt; }
+    .step-desc  { font-size: 9pt; color: #333; line-height: 1.45; }
+
+    /* ── Alertas não partem no meio ── */
+    .alerts-wrap  { margin-top: 6pt; }
+    .alert-box {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      font-size: 9pt;
+      padding: 5pt 8pt;
+      border-radius: 3pt;
+      margin-bottom: 4pt;
+      display: flex;
+      gap: 6pt;
+      align-items: flex-start;
+    }
+
+
+    .section-title {
+      font-size: 16pt;
+      color: #0a2a3d;
+      margin: 0 0 4pt;
+    }
+
+    .section-subtitle {
+      font-size: 10pt;
+      color: #555;
+      margin-bottom: 14pt;
+    }
+
+    .glossario-grid { display: block; }
+
+    .glossary-category {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 14pt;
+      border: 1pt solid #d0d0d0;
+      border-radius: 4pt;
+    }
+
+    .glossary-cat-header {
+      break-after: avoid;
+      page-break-after: avoid;
+      padding: 8pt 12pt;
+      border-bottom: 1pt solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      gap: 8pt;
+    }
+
+    .glossary-cat-title { font-size: 11pt; font-weight: 700; }
+    .glossary-cat-line  { display: none; }
+
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 0 12pt;
+    }
+
+    .glossary-item {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      padding: 6pt 0;
+      border-bottom: 0.5pt solid #ececec;
+      display: flex;
+      flex-direction: column;
+      gap: 2pt;
+      padding-right: 10pt;
+    }
+
+    .glossary-item strong { font-size: 9.5pt; color: #111; }
+    .glossary-item span   { font-size: 9pt; color: #444; line-height: 1.45; }
+  }
+
+  /* =============================================
+     RESPONSIVO
+     ============================================= */
+
+  /* --- Tablet (≤ 1024px): sidebar vira off-canvas --- */
+  @media (max-width: 1024px) {
+    .sidebar {
+      position: fixed;
+      transform: translateX(-100%);
+      transition: transform 0.32s cubic-bezier(0.4,0,0.2,1),
+                  box-shadow 0.32s ease;
+      z-index: 100;
+      width: min(268px, 85vw);
+      box-shadow: none;
+    }
+    .sidebar.mobile-open {
+      transform: translateX(0);
+      box-shadow: 4px 0 32px rgba(0,0,0,0.35);
+    }
+    .sidebar-overlay.visible { display: block; }
+    .mobile-toggle { display: flex; }
+    .sidebar-close { display: flex; }
+
+    .main {
+      margin-left: 0;
+      max-width: 100%;
+      padding: 72px 24px 64px;
+    }
+    .content-wrap { max-width: 100%; }
+
+    .process-flow { gap: 6px; flex-wrap: wrap; }
+    .flow-arrow { display: none; }
+    .flow-chip { padding: 8px 12px; }
+
+    .etapa-grid { grid-template-columns: 1fr; }
+    .glossario-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+    .page-header { padding: 28px 0 20px; }
+    .page-header h2 { font-size: 26px; }
+
+    .step-item { padding: 18px 16px; }
+  }
+
+  /* --- Mobile (≤ 680px): texto menor, layout compacto --- */
+  @media (max-width: 680px) {
+    .mobile-toggle { top: 12px; left: 12px; width: 38px; height: 38px; }
+
+    .main { padding: 64px 16px 56px; }
+
+    .page-header h2 { font-size: 22px; }
+    .page-header .breadcrumb { font-size: 11px; }
+
+    .intro-block { padding: 16px; font-size: 14px; }
+
+    .etapa-card { border-radius: var(--radius-md); }
+    .etapa-header { padding: 16px 16px; gap: 12px; }
+    .etapa-header h3 { font-size: 16px; }
+    .etapa-meta { font-size: 11px; }
+
+    .etapa-body { padding: 0 16px 16px; }
+    .etapa-intro { font-size: 14px; margin-bottom: 16px; }
+
+    .step-item { padding: 14px 14px; gap: 12px; }
+    .step-num { width: 28px; height: 28px; font-size: 12px; flex-shrink: 0; }
+    .step-title { font-size: 14px; }
+    .step-desc { font-size: 13px; }
+
+    .alerta-box { padding: 12px 14px; font-size: 13px; }
+
+    .flow-chip { padding: 6px 10px; font-size: 12px; }
+    .flow-chip .chip-label { display: none; }
+
+    .glossario-grid { grid-template-columns: 1fr; gap: 12px; }
+    .gloss-cat-header { padding: 14px 16px; }
+    .gloss-cat-title { font-size: 14px; }
+    .gloss-items { padding: 0 16px 14px; gap: 10px; }
+    .gloss-term { font-size: 13px; }
+    .gloss-def { font-size: 13px; }
+
+    .section-title { font-size: 20px; }
+    .section-subtitle { font-size: 14px; }
+  }
+
+  /* --- Mobile pequeno (≤ 400px): máxima compactação --- */
+  @media (max-width: 400px) {
+    .main { padding: 60px 12px 48px; }
+
+    .page-header h2 { font-size: 19px; }
+
+    .flow-chip { display: none; }
+    .process-flow::after {
+      content: "▶  Ver etapas abaixo";
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .etapa-header { padding: 14px 12px; }
+    .etapa-header h3 { font-size: 15px; }
+    .etapa-body { padding: 0 12px 14px; }
+    .step-item { padding: 12px; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =============================================
+     MOBILE TOGGLE
+     ============================================= -->
+<button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Menu">
+  <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+</button>
+
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- =============================================
+     SIDEBAR
+     ============================================= -->
+<nav class="sidebar" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-logo">
+    <img src="NOVA_LOGO.png" class="sidebar-company-logo" alt="CITA Tecnologia">
+    <h1>Manual de Obras</h1>
+    <p>Implantação de infraestrutura de redes</p>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-label">Etapas do processo</div>
+    <div id="nav-items"></div>
+    <div class="nav-label" style="margin-top:8px">Referência</div>
+    <a href="#glossario" class="nav-item" onclick="closeSidebar()">
+      <div class="nav-num" style="font-size:13px">≡</div>
+      <span class="nav-text">Glossário técnico</span>
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    <button class="btn-print" onclick="window.print()">⎙ &nbsp;Imprimir manual</button>
+  </div>
+</nav>
+
+<!-- =============================================
+     MAIN
+     ============================================= -->
+<main class="main">
+
+  <div class="print-header">
+    <img src="NOVA_LOGO.png" alt="CITA Tecnologia">
+    <div class="print-header-info">
+      <p>Manual de Implantação de Obras</p>
+      <p>Documentação operacional</p>
+    </div>
+  </div>
+
+  <div class="content-wrap">
+
+    <div class="page-header">
+      <div class="breadcrumb">Infraestrutura · Documentação operacional</div>
+      <h2>Manual de Implantação de Obras</h2>
+      <p class="subtitle">
+        Este manual descreve de forma detalhada os procedimentos, critérios técnicos e práticas para execução de obras.
+      </p>
+      <div class="flow-title">Fluxo do processo</div>
+      <div class="process-flow" id="process-flow"></div>
+    </div>
+
+    <!-- ETAPAS geradas por JS -->
+    <div id="etapas-container"></div>
+
+    <!-- GLOSSÁRIO -->
+    <div class="glossary-section" id="glossario">
+      <div class="glossary-header" onclick="toggleGlossary()">
+        <div class="nav-num" style="background:#f0ede6;color:#5a5a56;width:28px;height:28px;font-size:13px">≡</div>
+        <span class="glossary-title">Glossário de termos técnicos</span>
+        <span class="etapa-toggle-icon" id="glossary-icon">▶</span>
+      </div>
+      <div class="glossary-body" id="glossary-body">
+        <div id="glossary-grid"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+/* =============================================
+   DADOS — ETAPAS E PROCEDIMENTOS
+   ============================================= */
+const ETAPAS = [
+  {
+    id: "etapa-1",
+    titulo: "Estudo do projeto",
+    cor: "#1D9E75",
+    corBg: "#e6f4ee",
+    corTexto: "#0a4530",
+    meta: "3 procedimentos · Planejamento",
+    fotos: [
+      { src: "imagens_manual/estudo_projeto.jpg", legenda: "" },
+      { src: "imagens_manual/estudo_projeto1.jpg", legenda: "" },
+    ],
+    intro: "Antes de qualquer atividade em campo, a equipe realiza o estudo completo do projeto. Esta etapa garante que todos os envolvidos compreendam o escopo, os materiais disponíveis e os pontos que serão instalados, evitando retrabalho e imprevistos durante a execução.",
+    itens: [
+      {
+        titulo: "Apresentação e identificação do projeto",
+        desc: "Consiste na apresentação do projeto para a equipe, identificando o tipo de operação — Fulfillment, MetroFF, SVC ou XD — e compreendendo o escopo completo do que será executado."
+      },
+      {
+        titulo: "Estudo do projeto e análise do local",
+        desc: "Estudar o projeto, identificar qual atividade será realizada, analisar o local, verificar as liberações necessárias e confirmar os horários disponíveis para execução dos serviços."
+      },
+      
+      {
+        titulo: "Marcação dos pontos de instalação",
+        desc: "Marcar em piso ou coluna os locais de câmeras, APs, controle de acesso, alarmes, repetidores de sinal, posicionamento de rack, pontos em quadros e tudo o que está contemplado em proposta e no projeto."
+      }
+    ],
+    alertas: []
+  },
+  {
+    id: "etapa-2",
+    titulo: "Recebimento e organização de materiais",
+    cor: "#185FA5",
+    corBg: "#e8f0fd",
+    corTexto: "#1a3d7a",
+    meta: "1 procedimento · Preparação",
+    fotos: [
+      { src: "imagens_manual/receb.materiais.jpeg", legenda: "Materiais recebidos para conferência" },
+      { src: "imagens_manual/receb.materiais0.jpeg", legenda: "Equipamentos recebidos e inspecionados" },
+      { src: "imagens_manual/receb.materiais2.jpg", legenda: "Materiais recebidos e organizados" },
+      { src: "imagens_manual/receb.materiais3.jpg", legenda: "Materiais armazenados para uso posterior" },
+    ],
+    intro: "Nesta etapa o foco é receber e organizar os materiais que serão usados para começar a obra.",
+    itens: [
+      {
+        titulo: "Recebimento de materiais e equipamentos",
+        desc: "Receber e conferir os materiais de acordo com a lista de requisição elaborada pelo setor de projetos. Realizar também o recebimento das plataformas e demais equipamentos previstos para a obra."
+      },
+    ],
+    alertas: [
+      { tipo: "info", msg: "Para áreas externas como portaria, vestuário e refeitório: sempre validar quem irá entregar a infraestrutura. Caso seja a CITA, a montagem da infraestrutura de câmeras e APs desses pontos deve ser realizada nesta etapa." }
+    ]
+  },
+
+
+
+
+
+  {
+    id: "etapa-3",
+    titulo: "Montagem de infraestrutura",
+    cor: "#185FA5",
+    corBg: "#e8f0fd",
+    corTexto: "#1a3d7a",
+    meta: "10 procedimentos · Infraestrutura física",
+    fotos: [
+      { src: "imagens_manual/eletrocalha fibra.jpg",      legenda: "Eletrocalha instalada" },
+      { src: "imagens_manual/montagem infraestrutura seca.jpg", legenda: "Montagem de infraestrutura seca" },
+      { src: "imagens_manual/montagem eletrocalha fibra conj.jpg", legenda: "Detalhe da montagem do conjunto de eletrocalhas" },
+      { src: "imagens_manual/montagem rack2.jpg", legenda: "Instalação de rack" },
+    ],
+    intro: "Nesta etapa é montada toda a infraestrutura física que irá suportar e conduzir os cabos e equipamentos do projeto — leitos, eletrocalhas, eletrodutos, perfilados e racks. A qualidade desta montagem define a organização e a durabilidade de toda a instalação.",
+    itens: [
+      {
+        titulo: "Infraestrutura horizontal — leito de eletrocalha de fibra",
+        desc: "Montagem da infraestrutura horizontal principal em leito de eletrocalha, destinada à passagem dos cabos de fibra óptica."
+      },
+      {
+        titulo: "Infraestrutura horizontal — leito de cabo UTP",
+        desc: "Montagem da infraestrutura horizontal principal em leito de cabo, destinada à passagem dos cabos de par trançado de cobre (UTP)."
+      },
+      {
+        titulo: "Infraestrutura horizontal de derivações",
+        desc: "Montagem das derivações a partir da infraestrutura principal, tanto para os cabos de fibra óptica quanto para os cabos UTP, conduzindo os percursos até os pontos distribuídos pela operação."
+      },
+      {
+        titulo: "Fixação de racks de acesso na operação",
+        desc: "Instalação e fixação dos racks de acesso nos locais indicados no projeto, dentro da área de operação do galpão."
+      },
+      {
+        titulo: "Infraestrutura de chegada nos racks de acesso",
+        desc: "Montagem da infraestrutura de chegada dos cabos aos racks de acesso, organizando a entrada de todos os troncos que chegam a cada rack."
+      },
+      {
+        titulo: "Infraestrutura de chegada no CPD",
+        desc: "Montagem da infraestrutura de chegada dos cabos ao CPD. Em caso de implantação, sempre validar com o projeto se a infraestrutura da área de ADM será entregue pela RECORP ou pela CITA."
+      },
+      {
+        titulo: "Infraestrutura vertical da operação — descidas pontuais",
+        desc: "Montagem da infraestrutura vertical nos pontos pontuais da operação: câmeras, APs, controle de acesso, alarmes, quadros e tudo o que estiver em projeto como descida pontual."
+      },
+      {
+        titulo: "Infraestrutura para as docas — em eletroduto",
+        desc: "Montagem da infraestrutura de pontos para as docas de carga e descarga, utilizando eletroduto conforme indicado no projeto."
+      },
+      {
+        titulo: "Infraestrutura na marquise — câmeras e APs externos",
+        desc: "Montagem da infraestrutura para os pontos de câmera e AP instalados na marquise, no lado externo do galpão."
+      },
+      {
+        separador: "Validação da instalação",
+        titulo: "Validação da infraestrutura com o projeto",
+        desc: "Ao final da montagem, validar toda a infraestrutura instalada comparando com o que está definido no projeto. Em caso de mudanças ou desvios, anotar e marcar no projeto em papel para que o as built final entregue ao cliente esteja correto."
+      }
+    ],
+    alertas: [
+      { tipo: "info", msg: "Para áreas externas como portaria, vestuário e refeitório: sempre validar quem irá entregar a infraestrutura. Caso seja a CITA, a montagem da infraestrutura de câmeras e APs desses pontos deve ser realizada nesta etapa." }
+    ]
+  },
+
+  {
+    id: "etapa-4",
+    titulo: "Passagem de cabos e fibra óptica",
+    cor: "#534AB7",
+    corBg: "#eeedfe",
+    corTexto: "#26215c",
+    meta: "6 procedimentos · Cabeamento",
+    fotos: [
+      { src: "imagens_manual/lancamento_cabos.jpg", legenda: "Separação e selecionando cabos" },
+      { src: "imagens_manual/lancamento_cabos1.jpg", legenda: "Lançamento de cabos" },      
+      { src: "imagens_manual/165282_c18761ff.jpeg", legenda: "Percurso de cabo UTP pelo leito de eletrocalha" },     
+      
+    ],
+    intro: "Com a infraestrutura física montada, realiza-se o lançamento de todos os cabos — fibras ópticas e cabos UTP — pelos percursos definidos no projeto. Esta etapa exige atenção ao traçado aprovado e ao correto manuseio dos cabos durante o lançamento.",
+    itens: [
+      {
+        titulo: "Fibra óptica — racks de acesso da operação para o CPD",
+        desc: "Passagem dos cabos de fibra óptica dos racks de acesso da operação até o CPD, seguindo o percurso definido no projeto."
+      },
+      {
+        titulo: "Fibra óptica — área de ADM",
+        desc: "Passagem dos cabos de fibra óptica para a área de ADM, espaço interno do galpão. Sempre validar com o projeto se a infraestrutura de ADM será entregue pela RECORP ou pela CITA."
+      },
+      {
+        titulo: "Fibra óptica — áreas adjacentes externas",
+        desc: "Passagem dos cabos de fibra óptica para as áreas adjacentes do lado de fora do galpão: Refeitório, Vestuário e Portarias."
+      },
+      {
+        titulo: "Cabos UTP — câmeras e APs das descidas pontuais da operação",
+        desc: "Passagem dos cabos UTP para os pontos de câmeras e APs nas descidas pontuais da área de operação. Passagem dos cabos UTP nos pontos de rede das docas de carga e descarga"
+      },
+     
+      {
+        titulo: "Cabos UTP — câmeras e APs da marquise (área externa)",
+        desc: "Passagem dos cabos UTP para os pontos de câmeras e APs do lado de fora do galpão, na marquise."
+      },
+      {
+        titulo: "Cabos — áreas adjacentes externas",
+        desc: "Passagem dos cabos nas áreas adjacentes de fora do galpão: Refeitório, Vestuário e Portarias."
+      }
+    ],
+    alertas: [
+      { tipo: "info", msg: "Em caso de DG: deve ser passada a fibra de acesso do DG para o CPD nesta etapa." }
+    ]
+  },
+
+  {
+    id: "etapa-5",
+    titulo: "Fusões e conectorizações dos racks",
+    cor: "#BA7517",
+    corBg: "#fef3e2",
+    corTexto: "#7a4800",
+    meta: "5 procedimentos · Terminação",
+    fotos: [
+      { src: "imagens_manual/fusao_optica.jpeg",         legenda: "Rack de acesso com cabos fusionados e organizados" },
+      { src: "imagens_manual/rack.jpg", legenda: "Processo de conectorização dos cabos UTP no SW" },
+      {src: "imagens_manual/548981_485d9566.jpg", legenda: "Detalhe da organização interna dos cabos dentro do rack" },
+    ],
+    intro: "Após o lançamento dos cabos, cada extremidade é processada e terminada. As fibras ópticas são fusionadas e organizadas nos DIOs, enquanto os cabos UTP são conectorizados nos patch panels dos racks. A organização interna de cada rack é parte obrigatória desta etapa.",
+    itens: [
+      {
+        titulo: "Fusão das fibras — CPDs, racks de acesso da operação",
+        desc: "Fusão das fibras ópticas dos CPDs, racks de acesso da operação, com montagem dos DIOs e organização das fibras dentro do rack."
+      },
+      {
+        titulo: "Fusão das fibras — racks das áreas adjacentes externas",
+        desc: "Fusão das fibras ópticas dos racks das áreas adjacentes do lado de fora do galpão (Refeitório, Vestuário, Portarias), com montagem dos DIOs e organização das fibras dentro de cada rack."
+      },
+      {
+        titulo: "Conectorização UTP — CPDs, racks de acesso da operação",
+        desc: "Conectorização de todos os pontos UTP nos patch panels dos racks de acesso da operação."
+      },
+      {
+        titulo: "Conectorização UTP — racks das áreas adjacentes externas",
+        desc: "Conectorização dos pontos UTP nos patch panels dos racks das áreas adjacentes do lado de fora do galpão: Refeitório, Vestuário e Portarias."
+      },
+      {
+        titulo: "Acomodação e organização dos cabos nos racks",
+        desc: "Acomodação e organização de todos os cabos dentro dos racks de acesso, garantindo organização, identificação e facilidade de acesso para manutenções futuras."
+      }
+    ],
+    alertas: [
+      { tipo: "info", msg: "Em caso de DG: deve ser feita a fusão nos racks do DG e do CPD, com montagem dos DIOs e organização das fibras dentro dos racks." }
+    ]
+  },
+
+  {
+    id: "etapa-6",
+    titulo: "Montagem do CPD",
+    cor: "#993C1D",
+    corBg: "#faecea",
+    corTexto: "#5a1e0a",
+    meta: "5 procedimentos · CPD",
+    fotos: [
+      { src: "imagens_manual/montagem rack12.jpg", legenda: "Racks do CPD montados e organizados conforme projeto" },
+      { src: "imagens_manual/rack2.jpg",           legenda: "Vista frontal do rack do CPD com equipamentos instalados" },
+      { src: "imagens_manual/montagem rack2.jpg",  legenda: "Detalhe da organização interna dos cabos no rack do CPD" },
+    ],
+    intro: "O CPD (Centro de Processamento de Dados) é o núcleo da infraestrutura de rede do projeto. Sua montagem contempla a instalação dos racks, a chegada e fusão das fibras, e a montagem dos ativos conforme o layout definido em projeto.",
+    itens: [
+      {
+        titulo: "Montagem e instalação dos racks do CPD",
+        desc: "Montagem dos racks de CPD e instalação nos locais indicados no projeto."
+      },
+      {
+        titulo: "Infraestrutura interna do CPD — leito aramado ou calha",
+        desc: "Validar com o projeto se o leito aramado ou leito do CPD em calha será entregue pela RECORP. Em caso de a CITA ser responsável, realizar nesta etapa a montagem da infraestrutura em calha ou leito aramado."
+      },
+      {
+        titulo: "Acomodação e chegada das fibras no CPD",
+        desc: "Acomodação e chegada das fibras ópticas dos racks de operação, da área de ADM e das áreas adjacentes externas (Refeitório, Vestuário, Portarias) dentro de cada rack indicado no projeto — seja ele de CFTV ou de DADOS."
+      },
+      {
+        titulo: "Fusão das fibras no CPD — racks de operação e áreas adjacentes externas",
+        desc: "Fusão das fibras ópticas no CPD, com montagem dos DIOs dos racks de operação. Fusão das fibras ópticas no CPD referentes às áreas adjacentes do lado de fora do galpão (Refeitório, Vestuário, Portarias), com montagem dos respectivos DIOs."
+      },
+      {
+        titulo: "Montagem dos ativos e equipamentos do cliente",
+        desc: "Montagem dos ativos como SW Core, SWs de dados e CFTV, bandejas e acomodação dos equipamentos fornecidos pelo cliente, de acordo com o layout de disposição dos equipamentos definido no projeto."
+      }
+    ],
+    alertas: [
+      { tipo: "warn", msg: "Na maioria dos casos, não instalar os servidores de CFTV — isso é responsabilidade da empresa que irá fazer o comissionamento das câmeras. Sempre validar com o escritório se a CITA irá comissionar as câmeras." },
+      { tipo: "info", msg: "Em caso de DG: realizar as fusões da fibra que vem do DG para o link de operadoras, além da identificação e certificação das fibras do DG com ativação conforme a quantidade de links contratados pelo cliente." }
+    ]
+  },
+
+  {
+    id: "etapa-7",
+    titulo: "Certificação e identificação",
+    cor: "#0F6E56",
+    corBg: "#e1f5ee",
+    corTexto: "#04342c",
+    meta: "4 procedimentos · Validação técnica",
+    fotos: [
+      { src: "imagens_manual/5f5bcff168c05.jpg", legenda: "Certificação e identificação dos pontos instalados" },
+    ],
+    intro: "Após a conclusão do cabeamento e das conectorizações, toda a infraestrutura deve ser certificada e identificada. A certificação valida tecnicamente a qualidade dos pontos instalados, e a identificação correta é indispensável para a documentação final e para as operações futuras.",
+    itens: [
+      {
+        titulo: "Certificação e identificação das fibras ópticas",
+        desc: "Certificação das fibras ópticas junto com a identificação por etiquetas corretas, de acordo com o projeto ou com as informações do cliente. Sempre validar com o escritório se há alguma identificação específica exigida."
+      },
+      {
+        titulo: "Certificação e identificação dos pontos UTP",
+        desc: "Após todos os processos de cabeamento e conectorização, realizar a certificação junto à identificação dos pontos utilizando o Fluke ou Lantek. Em casos específicos — atividades com pouca quantidade de pontos ou sem garantia estendida — poderá ser utilizado o qualificador."
+      },
+      {
+        titulo: "Identificação conforme nomenclatura do projeto",
+        desc: "Identificar todos os pontos sempre de acordo com as nomenclaturas definidas no projeto — nunca inventar nomenclaturas próprias. Em caso de troca de numeração de ponto, fazer anotação no projeto em papel para que a as built final entregue ao cliente esteja correta."
+      },
+      {
+        separador: "Acabamento físico",
+        titulo: "Instalação das tampas das descidas pontuais",
+        desc: "Após a conclusão das certificações, realizar a instalação das tampas das descidas pontuais dos perfilados."
+      }
+    ],
+    alertas: []
+  },
+
+  {
+    id: "etapa-8",
+    titulo: "Instalação de ativos e passivos",
+    cor: "#3B6D11",
+    corBg: "#eaf3de",
+    corTexto: "#173404",
+    meta: "7 procedimentos · Ativos e passivos de rede",
+    fotos: [
+      { src: "imagens_manual/rack3.jpg",          legenda: "Rack com switches e ativos de rede instalados" },
+      { src: "imagens_manual/montagem rack2.jpg",  legenda: "Organização dos patch cords e cabeamento dos ativos" },
+    ],
+    intro: "Com a infraestrutura passiva certificada, esta etapa instala primeiro os equipamentos passivos — APs e câmeras — para em seguida instalar e ativar os switches, conectando tudo. Toda ativação deve ser realizada em conjunto com o time de NETWORK e IS.",
+    itens: [
+      {
+        titulo: "Instalação dos APs",
+        desc: "Instalação dos APs na operação e ADM. Os APs são instalados antes dos switches para que possam ser conectados a eles na etapa de ativação."
+      },
+      {
+        titulo: "Instalação das câmeras (se em escopo)",
+        desc: "Caso a instalação das câmeras esteja contemplada no escopo, realizar a instalação física das câmeras nesta etapa, antes da instalação dos switches."
+      },
+      {
+        separador: "Ativos",
+        titulo: "Instalação dos switches nos racks de acesso",
+        desc: "Instalação dos SWs de CFTV e DADOS nos racks de acesso."
+      },
+      {
+        titulo: "Ativação das fibras dos switches de CFTV e DADOS",
+        desc: "Ativação das fibras ópticas conectadas aos SWs de CFTV e DADOS da operação."
+      },
+      {
+        titulo: "Conexão dos passivos aos ativos e ativação dos pontos",
+        desc: "Conexão dos APs e câmeras aos switches através dos patchcords. Ativação dos pontos de rede nos SWs de CFTV e DADOS dos racks de acesso."
+      },
+      {
+        titulo: "Aguardar validação com o time de NETWORK",
+        desc: "Assim que todos os pontos estiverem ativos e os equipamentos posicionados e conectados, aguardar a validação dos pontos com o time de NETWORK antes de encerrar a etapa. Realizar ajustes e correções conforme o feedback do NETWORK para garantir que tudo esteja subindo corretamente."
+      }
+    ],
+    alertas: [
+      { tipo: "tip", msg: "Otimização: para evitar subir nos pontos de AP mais de uma vez, recomenda-se que, ao realizar a conectorização do ponto, já se faça em seguida a identificação, certificação, instalação do AP e ativação com o patchcord. Dessa forma, sobe-se praticamente uma única vez por ponto." },
+      { tipo: "warn", msg: "Sempre nas ativações de qualquer equipamento: avaliar em conjunto com o NETWORK e IS se deve ser aberto algum tipo de Controle de Câmbio para a atividade, e acompanhar em tempo real se os equipamentos estão subindo corretamente." }
+    ]
+  },
+
+  {
+    id: "etapa-9",
+    titulo: "Finalização da obra",
+    cor: "#A32D2D",
+    corBg: "#fdeaea",
+    corTexto: "#6a1010",
+    meta: "7 procedimentos · Encerramento",
+    intro: "A finalização contempla a documentação completa da obra e as verificações finais antes da entrega ao cliente. Toda a documentação gerada nesta etapa é obrigatória e deve ser entregue ao setor de projetos com informações válidas e corretas.",
+    itens: [
+      {
+        titulo: "Mapeamento dos pontos de CFTV e DADOS",
+        desc: "Elaborar o mapeamento dos pontos na planilha contendo: número do ponto, porta do patch panel, porta do SW, localidade e MAC. Observação: se a instalação das câmeras não estiver em escopo, não é necessário anotar o MAC das câmeras."
+      },
+      {
+        titulo: "Upload das certificações para a nuvem",
+        desc: "Subir as certificações dos pontos para a nuvem — Linkware Live no Fluke ou Anyware no Lantek — para validação da certificação pelo escritório."
+      },
+      {
+        titulo: "Conferência de tampas e identificações",
+        desc: "Conferir se todos os pontos estão tampados da maneira correta (perfilados, eletrocalhas, caixinhas 10x10, tampas laterais e portas de rack). Conferir também se todos os pontos estão identificados da maneira correta."
+      },
+      {
+        titulo: "Acompanhamento do GoLive ou Facilities Readiness",
+        desc: "Acompanhar o GoLive ou Facilities Readiness conforme o cliente solicitar e pelo tempo que o cliente precisar. Sempre validar essa informação com o escritório."
+      },
+      {
+        titulo: "Desmobilização de materiais e equipamentos",
+        desc: "Recolher, organizar e devolver todos os materiais e equipamentos utilizados na obra — ferramentas, sobras de material, equipamentos de medição e certificação, plataformas e demais itens. Verificar com o escritório o destino correto de cada item."
+      },
+      {
+        titulo: "Desmobilização da equipe",
+        desc: "Para a desmobilização da equipe, sempre perguntar ou aguardar a confirmação do escritório. Caso o cliente libere a equipe, informar imediatamente o escritório sobre a liberação."
+      },
+      {
+        titulo: "Entrega da documentação ao setor de projetos",
+        desc: "Entregar todas as documentações ao setor de projetos com informações válidas e corretas — as built, mapeamento e relação de pontos."
+      }
+    ],
+    alertas: [
+      { tipo: "danger", msg: "Em caso de perda, rasura ou não entrega da documentação, o colaborador responsável e a equipe estarão sujeitos a penalizações." }
+    ]
+  }
+];
+
+/* =============================================
+   GLOSSÁRIO TÉCNICO — POR CATEGORIA
+   ============================================= */
+const GLOSSARIO = [
+  {
+    categoria: "Projeto Executivo",
+    cor: "#185FA5",
+    corBg: "#e8f0fd",
+    icone: `<svg viewBox="0 0 24 24" fill="#185FA5"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 8v-1h8v1H8zm0-3v-1h8v1H8zm0-3V10h5v1H8z"/></svg>`,
+    itens: [
+      { termo: "FF / SVC",   def: "Fulfillment / Service Center" },
+      { termo: "XD",         def: "Cross Docking" },
+      { termo: "As built",   def: "Documentação final do projeto em planta" },
+      { termo: "GoLive",     def: "Inauguração da operação — o galpão entra em funcionamento efetivo." },
+      { termo: "Facilities Readiness", def: "Verificação prévia à inauguração para confirmar que tudo está funcionando, dentro do escopo e preparado para o início da operação." },
+      { termo: "RECORP",     def: "Empresa responsável pela execução da infraestrutura de CFTV e Dados nas áreas de ADM do projeto." }
+    ]
+  },
+  {
+    categoria: "Infraestrutura Física",
+    cor: "#993C1D",
+    corBg: "#faecea",
+    icone: `<svg viewBox="0 0 24 24" fill="#993C1D"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>`,
+    itens: [
+      { termo: "Leito aramado", def: "Estrutura metálica aberta (tipo grade) fixada ao teto ou parede para suporte e passagem de cabos" },
+      { termo: "Eletrocalha",  def: "Calha fechada metálica para passagem e acomodação de dados e CFTV" },
+      { termo: "Perfilado",   def: "Perfil metálico em U ou C utilizado para acomodação do cabeamento, verticais e horizontais e fixação de caixas." },
+      { termo: "Eletroduto",  def: "Tubo rígido ou flexível para proteção mecânica de cabos em trechos expostos ou externos" },
+      { termo: "CPD",         def: "Centro de Processamento de Dados — sala técnica que abriga os ativos centrais da rede (switches core, servidores, UPS)" },
+      { termo: "DG",          def: "Distribuidor Geral — ponto de entrada de distribuição do sinal de concessionária(Algar)." },
+      { termo: "Rack",        def: "Gabinete metálico padronizado (19\") para fixação e organização de equipamentos e patch panels" }
+    ]
+  },
+  {
+    categoria: "Cabeamento e Certificação",
+    cor: "#534AB7",
+    corBg: "#eeedfe",
+    icone: `<svg viewBox="0 0 24 24" fill="#534AB7"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>`,
+    itens: [
+      { termo: "UTP",         def: "Unshielded Twisted Pair — cabo de par trançado sem blindagem, padrão para cabeamento estruturado Cat5e / Cat6 / Cat6A" },
+      { termo: "Patchcord",   def: "Cabo de conexão curto com conectores RJ-45 ou LC/SC em ambas as extremidades, utilizado entre patch panels e equipamentos" },
+      { termo: "DIO / ODF",  def: "Distribuidor Interno Óptico — painel de terminação, organização e proteção de fibras ópticas nos racks" },
+      { termo: "Pig-tail",    def: "Trecho curto de fibra óptica com conector em uma extremidade, usado para fusão das fibras nos DIOs" },
+      { termo: "OTDR",        def: "Optical Time Domain Reflectometer — equipamento que analisa a qualidade e mede perdas em links de fibra óptica por reflexão de pulsos de luz" },
+      { termo: "Fluke / Lantek", def: "Fabricantes de certificadores de cabeamento estruturado/fibra optica — equipamentos que validam se um ponto UTP ou fibra atende à categoria especificada" },
+      { termo: "T568B",       def: "Padrão de pinagem de conectores RJ-45 adotado como padrão na empresa. Os 4 pares são distribuídos em ordem específica nos pinos 1 a 8" }
+    ]
+  },
+  {
+    categoria: "Equipamentos e Protocolos de Rede",
+    cor: "#1D9E75",
+    corBg: "#e6f4ee",
+    icone: `<svg viewBox="0 0 24 24" fill="#1D9E75"><path d="M20 3H4v10c0 1.1.9 2 2 2h6v2H8v2h8v-2h-4v-2h6c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 10H4V5h16v8zM8 10h2v2H8zm3 0h2v2h-2zm3 0h2v2h-2z"/></svg>`,
+    itens: [
+      { termo: "SW",          def: "Switch — equipamento de comutação que distribui o tráfego de rede entre dispositivos conectados" },
+      { termo: "AP",          def: "Access Point — ponto de acesso Wi-Fi que estende a rede sem fio na área de cobertura" },
+      { termo: "CFTV",        def: "Circuito Fechado de Televisão — sistema de câmeras IP de vigilância e monitoramento" },
+      { termo: "SFP",         def: "Small Form-factor Pluggable — módulo transceiver óptico removível a quente, usado para uplinks de fibra nos switches" },
+      { termo: "PoE",         def: "Power over Ethernet — padrão IEEE 802.3af/at que fornece energia elétrica a câmeras e APs via cabo UTP, eliminando tomadas locais" },
+      { termo: "VLAN",        def: "Virtual LAN — segmentação lógica da rede que isola o tráfego de diferentes sistemas (CFTV, dados, VoIP) em uma mesma infraestrutura física" },
+      { termo: "UPS",         def: "Uninterruptible Power Supply — nobreak que garante alimentação contínua aos equipamentos ativos e passivos da rede em caso de queda de energia" }
+    ]
+  }
+];
+
+/* =============================================
+   RENDER — NAVEGAÇÃO
+   ============================================= */
+function renderNavItems() {
+  const container = document.getElementById('nav-items');
+  container.innerHTML = '';
+  ETAPAS.forEach((e, idx) => {
+    const a = document.createElement('a');
+    a.href = '#' + e.id;
+    a.className = 'nav-item';
+    a.id = 'nav-' + idx;
+    a.onclick = () => setTimeout(closeSidebar, 150);
+    a.innerHTML = `
+      <div class="nav-num">${idx + 1}</div>
+      <span class="nav-text">${e.titulo}</span>
+    `;
+    container.appendChild(a);
+  });
+}
+
+/* =============================================
+   RENDER — FLUXO DO PROCESSO
+   ============================================= */
+function renderProcessFlow() {
+  const container = document.getElementById('process-flow');
+  container.innerHTML = '';
+  ETAPAS.forEach((e, idx) => {
+    if (idx > 0) {
+      const arrow = document.createElement('span');
+      arrow.className = 'flow-arrow';
+      arrow.textContent = '›';
+      container.appendChild(arrow);
+    }
+    const chip = document.createElement('a');
+    chip.className = 'flow-chip';
+    chip.href = '#' + e.id;
+    chip.innerHTML = `
+      <div class="flow-chip-num" style="background:${e.cor}">${idx + 1}</div>
+      <span>${e.titulo}</span>
+    `;
+    container.appendChild(chip);
+  });
+}
+
+/* =============================================
+   RENDER — ETAPAS
+   ============================================= */
+function renderEtapas() {
+  const container = document.getElementById('etapas-container');
+  container.innerHTML = '';
+
+  ETAPAS.forEach((e, idx) => {
+    const section = document.createElement('div');
+    section.className = 'etapa-section';
+    section.id = e.id;
+
+    /* Ícones de alerta */
+    const alertIcons = {
+      warn:   `<svg class="alert-icon" viewBox="0 0 24 24" fill="#d4820a"><path d="M12 2L1 21h22L12 2zm0 3.5L20.5 19h-17L12 5.5zm-1 5v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>`,
+      info:   `<svg class="alert-icon" viewBox="0 0 24 24" fill="#2563b0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 2c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8zm-1 7v6h2v-6h-2zm0-4v2h2V7h-2z"/></svg>`,
+      danger: `<svg class="alert-icon" viewBox="0 0 24 24" fill="#b02020"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 2c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8zm-1 5v4h2V9h-2zm0 6v2h2v-2h-2z"/></svg>`,
+      tip:    `<svg class="alert-icon" viewBox="0 0 24 24" fill="#1d9e75"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg>`
+    };
+
+    const alertsHtml = e.alertas.map(a =>
+      `<div class="alert-box alert-${a.tipo}">${alertIcons[a.tipo] || ''}<span>${a.msg}</span></div>`
+    ).join('');
+
+    const stepsHtml = e.itens.map((item, i) => `
+      ${item.separador ? `<div class="step-separador">${item.separador}</div>` : ''}
+      <div class="step-item">
+        <div class="step-left">
+          <div class="step-num" style="background:${e.cor}">${i + 1}</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">${item.titulo}</div>
+          <div class="step-desc">${item.desc}</div>
+        </div>
+      </div>
+    `).join('');
+
+    section.innerHTML = `
+      <div class="etapa-card" style="--etapa-cor:${e.cor}">
+        <div class="etapa-header" onclick="toggleEtapa(${idx})">
+          <div class="etapa-num" style="background:${e.corBg};color:${e.corTexto}">${idx + 1}</div>
+          <div class="etapa-info">
+            <div class="etapa-titulo">${e.titulo}</div>
+            <div class="etapa-meta">${e.meta}</div>
+          </div>
+          <span class="etapa-toggle-icon open" id="toggle-icon-${idx}">▶</span>
+        </div>
+        <div class="etapa-body open" id="body-${idx}">
+          <div class="etapa-intro"><p>${e.intro}</p></div>
+          <div class="steps-wrap">
+            <div class="steps-label">Procedimentos</div>
+            ${stepsHtml}
+          </div>
+          ${alertsHtml ? `<div class="alerts-wrap">${alertsHtml}</div>` : ''}
+          ${e.fotos && e.fotos.length ? `
+          <div class="etapa-galeria">
+            ${e.fotos.map(f => `
+              <div class="etapa-foto-wrap">
+                <img class="etapa-foto" src="${f.src}" alt="${f.legenda || e.titulo}" loading="lazy">
+                ${f.legenda ? `<div class="etapa-foto-caption">${f.legenda}</div>` : ''}
+              </div>`).join('')}
+          </div>` : ''}
+        </div>
+      </div>
+    `;
+    container.appendChild(section);
+  });
+}
+
+/* =============================================
+   RENDER — GLOSSÁRIO
+   ============================================= */
+function renderGlossary() {
+  const container = document.getElementById('glossary-grid');
+  container.innerHTML = GLOSSARIO.map(cat => `
+    <div class="glossary-category">
+      <div class="glossary-cat-header">
+        <div class="glossary-cat-icon" style="background:${cat.corBg}">${cat.icone}</div>
+        <span class="glossary-cat-title">${cat.categoria}</span>
+        <div class="glossary-cat-line"></div>
+      </div>
+      <div class="glossary-grid">
+        ${cat.itens.map(g => `
+          <div class="glossary-item">
+            <strong>${g.termo}</strong>
+            <span>${g.def}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* =============================================
+   INTERAÇÕES
+   ============================================= */
+function toggleEtapa(idx) {
+  const body = document.getElementById('body-' + idx);
+  const icon = document.getElementById('toggle-icon-' + idx);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  icon.classList.toggle('open', !isOpen);
+}
+
+function toggleGlossary() {
+  document.getElementById('glossary-body').classList.toggle('open');
+  document.getElementById('glossary-icon').classList.toggle('open');
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+  document.getElementById('overlay').classList.toggle('visible');
+  document.querySelector('.mobile-toggle').classList.toggle('is-open');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('overlay').classList.remove('visible');
+  const btn = document.querySelector('.mobile-toggle');
+  if (btn) btn.classList.remove('is-open');
+}
+
+/* Destaque de navegação por scroll */
+function onScroll() {
+  const scrollY = window.scrollY + 100;
+  let current = 0;
+  ETAPAS.forEach((e, idx) => {
+    const el = document.getElementById(e.id);
+    if (el && el.offsetTop <= scrollY) current = idx;
+  });
+  ETAPAS.forEach((_, idx) => {
+    const nav = document.getElementById('nav-' + idx);
+    if (nav) nav.classList.toggle('active', idx === current);
+  });
+}
+
+/* =============================================
+   INIT
+   ============================================= */
+renderNavItems();
+renderProcessFlow();
+renderEtapas();
+renderGlossary();
+window.addEventListener('scroll', onScroll, { passive: true });
+</script>
+</body>
+</html>
