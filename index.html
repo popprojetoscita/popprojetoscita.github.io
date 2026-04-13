@@ -567,7 +567,12 @@ nav a:hover { color:#000; background:rgba(173,216,230,.95); transform:translateY
   box-shadow:0 16px 45px rgba(7,25,60,.75);
 }
 
-.dcard:hover::before { transform:scaleX(1); }
+.dcard:hover::before { 
+  transform:scaleX(1); 
+  background: linear-gradient(to right, #5227FF, #FF9FFC, #B19EEF, #5227FF);
+  background-size: 200% auto;
+  animation: gradient-text-anim 3s linear infinite;
+}
 
 .dcard-num {
   font-family: 'Courier New', monospace;
@@ -1058,11 +1063,17 @@ body { color: #111827; }
   color: #ffffff;
 }
 .hero h1 .accent {
-  background: linear-gradient(135deg, var(--blue-bright) 0%, var(--teal) 60%, #a8f0ff 100%);
+  background: linear-gradient(to right, #5227FF, #FF9FFC, #B19EEF, #5227FF);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.65));
+  animation: gradient-text-anim 5s linear infinite;
+}
+@keyframes gradient-text-anim {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 .hero-sub    { color: rgba(220,230,255,0.92); text-shadow: 0 1px 5px rgba(0,0,0,0.5); }
 .hero-eyebrow{ color: #93c5fd; text-shadow: 0 1px 4px rgba(0,0,0,0.4); }

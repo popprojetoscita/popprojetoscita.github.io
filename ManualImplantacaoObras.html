@@ -276,6 +276,15 @@
     color: var(--text-primary);
     line-height: 1.2;
     margin-bottom: 10px;
+    background: linear-gradient(to right, #5227FF, #FF9FFC, #B19EEF, #5227FF);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-text-anim 5s linear infinite;
+  }
+  @keyframes gradient-text-anim {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
   }
 
   .page-header .subtitle {

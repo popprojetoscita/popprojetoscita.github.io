@@ -325,6 +325,15 @@ body {
   color: var(--text-primary);
   line-height: 1.2;
   margin-bottom: 10px;
+  background: linear-gradient(to right, #5227FF, #FF9FFC, #B19EEF, #5227FF);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-text-anim 5s linear infinite;
+}
+@keyframes gradient-text-anim {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 .page-header .subtitle {
@@ -421,9 +430,13 @@ body {
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
 }
-.sec-card:hover { box-shadow: var(--shadow-md); }
+.sec-card:hover { 
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md), 0 12px 24px rgba(0,0,0,0.06); 
+}
 
 .sec-header {
   display: flex;
@@ -1863,11 +1876,13 @@ function renderGlossary() {
    INTERACOES
    ============================================= */
 function toggleSec(idx) {
-  var body = document.getElementById('sec-body-' + idx);
-  var icon = document.getElementById('toggle-icon-' + idx);
-  var isOpen = body.classList.toggle('open');
+  const body = document.getElementById(`sec-body-${idx}`);
+  const icon = document.getElementById(`toggle-icon-${idx}`);
+  const header = body.previousElementSibling;
+  const isOpen = body.classList.toggle('open');
+  
   icon.classList.toggle('open', isOpen);
-  body.previousElementSibling.setAttribute('aria-expanded', isOpen);
+  header.setAttribute('aria-expanded', isOpen);
 }
 
 function toggleGlossary() {
@@ -1900,20 +1915,27 @@ function closeSidebar() {
 /* =============================================
    SCROLL — DESTAQUE DO NAV ITEM ATIVO
    ============================================= */
+let isScrolling = false;
 function onScroll() {
-  var scrollY = window.scrollY + 80;
-  var activeId = null;
+  if (!isScrolling) {
+    window.requestAnimationFrame(() => {
+      const scrollY = window.scrollY + 120;
+      let activeId = null;
 
-  SECOES.forEach(function(sec) {
-    var el = document.getElementById(sec.id);
-    if (el && el.offsetTop <= scrollY) {
-      activeId = sec.id;
-    }
-  });
+      SECOES.forEach((sec) => {
+        const el = document.getElementById(sec.id);
+        if (el && el.offsetTop <= scrollY) {
+          activeId = sec.id;
+        }
+      });
 
-  document.querySelectorAll('.nav-item[data-sec]').forEach(function(item) {
-    item.classList.toggle('active', item.getAttribute('data-sec') === activeId);
-  });
+      document.querySelectorAll('.nav-item[data-sec]').forEach((item) => {
+        item.classList.toggle('active', item.getAttribute('data-sec') === activeId);
+      });
+      isScrolling = false;
+    });
+    isScrolling = true;
+  }
 }
 
 /* =============================================
