@@ -971,7 +971,13 @@
     .page-header { padding: 28px 0 20px; }
     .page-header h2 { font-size: 26px; }
 
-    .step-item { padding: 18px 16px; }
+    .step-item { padding: 18px 16px; min-height: 44px; }
+
+    /* Tabelas responsivas */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+
+    /* Touch targets mínimos */
+    .nav-item { min-height: 44px; }
   }
 
   /* --- Mobile (≤ 680px): texto menor, layout compacto --- */

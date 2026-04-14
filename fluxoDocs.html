@@ -784,16 +784,41 @@ main {
 /* ── RESPONSIVIDADE ── */
 @media (max-width: 900px) {
   aside.sidebar { display:none; }
-  main { padding:32px 20px 80px; }
-  .page-title { font-size:28px; }
+  .layout { padding-top: 72px; }
+  main { padding: 32px 20px 80px; }
+  .page-title { font-size: 26px; }
   .dual-block { flex-direction:column; }
   .dual-card.sign { border-radius:10px 10px 0 0; }
   .dual-card.copy { border-radius:0 0 10px 10px; border-left:2px solid rgba(155,127,232,0.4); border-top:none; }
   .menu-toggle { display:flex; }
   .header-right .btn-header { display:none; }
   header { padding:0 18px; }
-  .fn { max-width:90vw; min-width:160px; }
-  .fn-form, .fn-alert, .fn-path, .sub-block { max-width:92vw; }
+  .fn { max-width: 90vw; min-width: min(160px, 80vw); }
+  .fn-form, .fn-alert, .fn-path, .sub-block { max-width: 92vw; }
+  .sec { margin-bottom: 60px; }
+  .sec-head { gap: 12px; margin-bottom: 28px; }
+}
+
+@media (max-width: 600px) {
+  header { padding: 0 12px; height: 60px; }
+  .layout { padding-top: 60px; }
+  main { padding: 24px 14px 70px; }
+  .page-title { font-size: 22px; }
+  .page-desc { font-size: 13.5px; }
+  .eyebrow { font-size: 9px; letter-spacing: .22em; }
+  .fn { max-width: 95vw; min-width: min(140px, 80vw); font-size: 12px; padding: 10px 14px; }
+  .fn-form, .fn-alert, .fn-path, .sub-block { max-width: 96vw; }
+  .sec-titulo, .sec-title { font-size: 16px; }
+  .sec { margin-bottom: 48px; }
+  .dcard { padding: 14px; }
+  .dcard h3 { font-size: 15px; }
+  .meta-row { gap: 6px; }
+}
+
+@media (max-width: 400px) {
+  main { padding: 20px 10px 60px; }
+  .fn { font-size: 11px; padding: 9px 12px; }
+  .page-title { font-size: 19px; }
 }
 
 /* ── SIDEBAR MOBILE ── */

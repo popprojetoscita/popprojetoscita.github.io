@@ -3,7 +3,7 @@
 <head>
 <!-- ============================================================
      CADERNO TÉCNICO DE PROJETOS — CTP
-     Parte do POP · Projetos — CITA Engenharia
+     Parte do POP · Projetos — CITA Tecnologia
      Versão: 1.0 | Abril 2026
      ============================================================ -->
 <meta charset="UTF-8">
@@ -325,15 +325,6 @@ body {
   color: var(--text-primary);
   line-height: 1.2;
   margin-bottom: 10px;
-  background: linear-gradient(to right, #5227FF, #FF9FFC, #B19EEF, #5227FF);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-text-anim 5s linear infinite;
-}
-@keyframes gradient-text-anim {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
 }
 
 .page-header .subtitle {
@@ -884,6 +875,8 @@ body {
   .flow-arrow { display: none; }
   .branch-grid { grid-template-columns: 1fr; }
   .page-header h2 { font-size: 26px; }
+  /* Tabelas responsivas */
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
 }
 
 @media (max-width: 680px) {
@@ -896,6 +889,9 @@ body {
   .branch-wrap { padding: 14px 16px 16px; }
   .systems-grid { padding: 0 16px 16px; grid-template-columns: 1fr 1fr; }
   .glossary-grid { grid-template-columns: 1fr; }
+  /* Touch targets */
+  .nav-item { padding: 11px 16px; min-height: 44px; }
+  .step-item { padding: 12px 14px; }
 }
 
 @media (max-width: 400px) {
@@ -904,6 +900,7 @@ body {
   .flow-chip { display: none; }
   .process-flow::after { content: "Ver secoes abaixo"; font-size: 12px; color: var(--text-muted); font-style: italic; }
   .systems-grid { grid-template-columns: 1fr; }
+  .sec-titulo { font-size: 13px; }
 }
 </style>
 </head>
@@ -925,7 +922,7 @@ body {
   <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">X</button>
 
   <div class="sidebar-logo">
-    <img src="NOVA_LOGO.png" class="sidebar-company-logo" alt="CITA Engenharia" onerror="this.style.display='none'">
+    <img src="NOVA_LOGO.png" class="sidebar-company-logo" alt="CITA Tecnologia" onerror="this.style.display='none'">
     <h1>Caderno Técnico de Projetos</h1>
     <p>Gestão de Projetos · CITA Tecnologia</p>
     <span class="sidebar-badge"><i class="fa-solid fa-file-lines" style="font-size:9px"></i> CTP v1.0 · Abr 2026</span>
@@ -986,8 +983,8 @@ body {
 <main class="main" role="main">
 
   <div class="print-header">
-    <img src="NOVA_LOGO.png" alt="CITA Engenharia">
-    <div class="print-header-info">
+        <img src="NOVA_LOGO.png" alt="CITA Projetos">
+        <div class="print-header-info">
       <p>Caderno Técnico de Projetos (CTP)</p>
       <p>CITA PROJETOS · Uso interno · Abr 2026</p>
     </div>
@@ -1000,7 +997,7 @@ body {
          ============================================= -->
     <div class="page-header">
       <div class="breadcrumb">
-        <span>CITA Engenharia</span>
+        <span>CITA Tecnologia</span>
         <span class="sep">·</span>
         <span>Documentação operacional</span>
         <span class="sep">·</span>
@@ -1059,7 +1056,7 @@ const SECOES = [
     corBg: "rgba(29,158,117,0.12)",
     corTexto: "#0a4530",
     meta: "Panorama completo · Referência",
-    intro: "O processo de projetos da CITA Engenharia abrange desde o recebimento de uma demanda ou proposta até a entrega completa da documentação final ao cliente. Este caderno organiza cada etapa de forma sequencial e prática, servindo como guia operacional para toda a equipe.",
+    intro: "O processo de projetos da CITA Tecnologia abrange desde o recebimento de uma demanda ou proposta até a entrega completa da documentação final ao cliente. Este caderno organiza cada etapa de forma sequencial e prática, servindo como guia operacional para toda a equipe.",
     itens: [
       {
         titulo: "Escopo do processo",

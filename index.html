@@ -117,6 +117,7 @@ header {
     background: linear-gradient(115deg, #11296d, #0f3c9f);
     box-shadow: 0 5px 20px rgba(0,0,0,0.35);
     border-bottom: 2px solid #23a6fc;
+    overflow: hidden; /* evita overflow horizontal do nav */
 }
 
 .logo-area {
@@ -131,15 +132,19 @@ header {
 
 .menu-toggle {
     display: none;
+    margin-left: auto;  /* sempre à direita da logo */
+    flex-shrink: 0;
     color: #dbe8ff;
     border: 1px solid rgba(255,255,255,0.3);
     background: rgba(255,255,255,0.08);
-    padding: 8px 10px;
+    padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     align-items: center;
     justify-content: center;
+    min-width: 42px;
+    min-height: 42px;
 }
 .menu-toggle:hover {
     background: rgba(173,216,230,0.85);
@@ -186,6 +191,19 @@ nav a {
 }
 
 nav a:hover { color:#000; background:rgba(173,216,230,.95); transform:translateY(-2px); }
+
+/* Botão CTP no nav */
+nav a.nav-ctp {
+  color: #fde68a;
+  background: rgba(232,184,75,.12);
+  border: 1px solid rgba(232,184,75,.4);
+}
+nav a.nav-ctp:hover {
+  color: #000;
+  background: rgba(232,184,75,.9);
+  border-color: transparent;
+  transform: translateY(-2px);
+}
 
 /* ── PROGRESS BAR ── */
 
@@ -866,37 +884,104 @@ footer strong { color:var(--blue-glow); }
 #btt:hover { background:rgba(173,216,230,.5); transform:translateY(-3px); }
 
 /* ── RESPONSIVE ── */
-@media(max-width:768px){
-  header { padding:0 20px; }
+
+/* Tabela responsiva */
+.pop-table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+/* ── NAV COMPACTO: 1025–1280px (muitos links, espaço reduzido) ── */
+@media(min-width:1025px) and (max-width:1280px){
+  header { padding: 0 20px; }
+  nav { gap: 2px; }
+  nav a { padding: 5px 8px; font-size: 10px; letter-spacing: .06em; }
+}
+
+/* ── TABLET + MOBILE: hambúrguer ativo a partir de 1024px ── */
+@media(max-width:1024px){
+  header { padding: 0 24px; }
   .menu-toggle { display: flex; }
   nav {
     display: none;
-    position: absolute;
-    top: 64px;
+    position: fixed;
+    top: 90px;
     left: 0;
     right: 0;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-    background: rgba(9, 18, 32, 0.96);
+    gap: 6px;
+    padding: 12px 16px;
+    background: rgba(9, 18, 32, 0.97);
     border-bottom: 1px solid rgba(255,255,255,0.12);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
     z-index: 210;
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
   }
-  nav.open {
-    display: flex;
-  }
+  nav.open { display: flex; }
   nav a {
     width: 100%;
-    padding: 10px 12px;
+    padding: 12px 14px;
     border-radius: 8px;
     background: rgba(255,255,255,0.08);
+    font-size: 13px;
+    letter-spacing: .08em;
   }
-  .hero h1 { font-size:42px; }
-  .branch-detail { grid-template-columns:1fr; }
-  .flow-split { flex-direction:column; align-items:center; }
-  .h-line { display:none; }
-  .detail-grid { grid-template-columns:1fr; }
+  .sec { scroll-margin-top: 104px; }
+}
+
+@media(max-width:768px){
+  header { padding: 0 16px; height: 70px; }
+  .logo-svg { height: 44px; }
+  nav { top: 70px; max-height: calc(100vh - 70px); }
+  .hero { padding: 80px 20px 50px; }
+  .hero h1 { font-size: 38px; }
+  .hero-sub { font-size: 15px; }
+  .wrap { padding: 0 16px 80px; }
+  .sec { margin-bottom: 60px; scroll-margin-top: 84px; }
+  .sec-head { flex-wrap: wrap; gap: 10px; }
+  .sec-title { font-size: 22px; }
+
+  /* Detail cards: anula grid-template e grid-column inline */
+  .detail-grid { grid-template-columns: 1fr !important; }
+  .dcard { grid-column: span 1 !important; padding: 18px; }
+
+  /* Branch split */
+  .branch-detail { grid-template-columns: 1fr; }
+  .branch-col { padding: 20px; }
+
+  /* Flow diagram */
+  .flow-split { flex-direction: column; align-items: center; }
+  .h-line { display: none; }
+
+  /* Oculta side panels — não cabem em mobile */
+  .flow-sides { display: none; }
+  .flow-row { flex-direction: column; align-items: center; gap: 0; }
+
+  /* Nós do fluxograma */
+  .fn { min-width: min(80%, 280px) !important; max-width: 95% !important; }
+}
+
+@media(max-width:480px){
+  header { padding: 0 12px; }
+  .logo-svg { height: 36px; }
+  .hero { padding: 70px 14px 40px; }
+  .hero h1 { font-size: 28px; }
+  .hero-sub { font-size: 14px; max-width: 100%; }
+  .hero-pills { gap: 8px; }
+  .pill { padding: 8px 14px; font-size: 12px; }
+  .pill .n { font-size: 17px; }
+  .sec-title { font-size: 18px; }
+  .sec-num { font-size: 9px; padding: 4px 8px; }
+  .dcard { padding: 14px; }
+  .dcard h3 { font-size: 15px; }
+  .branch-col { padding: 14px; }
+  .fn { min-width: 95% !important; max-width: 100% !important; font-size: 12px; padding: 10px 14px; }
+  .fn-decision { min-width: 130px !important; min-height: 80px; padding: 16px 20px; }
+  .wrap { padding: 0 12px 60px; }
+  .sec { margin-bottom: 48px; }
 }
 
 /* ── REDUCED MOTION ── */
@@ -1188,6 +1273,7 @@ footer img    { filter: brightness(1.1); opacity: 0.90; }
     <a href="#acompanhamento">Acompanhamento de Obra</a>
     <a href="#documentação">Documentação Final</a>
     <a href="#resumo">Resumo</a>
+    <a href="CTP.html" class="nav-ctp" target="_blank"><i class="fa-solid fa-book-open" style="margin-right:5px;font-size:.85em;"></i>CTP</a>
   </nav>
 </header>
 
@@ -1918,7 +2004,42 @@ footer img    { filter: brightness(1.1); opacity: 0.90; }
           <tr><td>13 — Documentação Final</td><td>Projetos</td><td><a href="https://docs.google.com/spreadsheets/d/1FWj_G2fCh0ZjMROE9LxNuTC30ibiUYXvu4SVAWud5hc/edit?usp=sharing" target="_blank" class="item-link">Planilha Controle Interno <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:.7em"></i></a><br>e <a href="https://docs.google.com/spreadsheets/d/1KJwg3BQPAjN3Mt1W-eiF8W3vhmC8uCOYI56y7KW5aR8/edit?gid=0#gid=0" target="_blank" class="item-link">Planilha Controle Documentação <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:.7em"></i></a></td></tr>
         </tbody>
       </table>
-      
+
+      <!-- Acesso rápido ao CTP -->
+      <a href="CTP.html" target="_blank" style="
+        display:flex;
+        align-items:center;
+        gap:18px;
+        margin-top:24px;
+        padding:20px 24px;
+        border-radius:12px;
+        background:rgba(232,184,75,.08);
+        border:1px solid rgba(232,184,75,.35);
+        text-decoration:none;
+        transition:.25s;
+      " onmouseover="this.style.background='rgba(232,184,75,.18)';this.style.borderColor='rgba(232,184,75,.7)'"
+         onmouseout="this.style.background='rgba(232,184,75,.08)';this.style.borderColor='rgba(232,184,75,.35)'">
+        <div style="
+          width:48px;height:48px;
+          border-radius:12px;
+          background:rgba(232,184,75,.15);
+          border:1px solid rgba(232,184,75,.4);
+          display:flex;align-items:center;justify-content:center;
+          flex-shrink:0;font-size:20px;color:#fde68a;
+        "><i class="fa-solid fa-book-open"></i></div>
+        <div style="min-width:0;">
+          <div style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#fde68a;margin-bottom:3px;">
+            Caderno Técnico de Projetos (CTP)
+          </div>
+          <div style="font-size:13px;color:#7a92b8;line-height:1.4;">
+            Manual operacional completo — fluxos, responsabilidades, ferramentas e boas práticas.
+          </div>
+        </div>
+        <div style="margin-left:auto;flex-shrink:0;color:#fde68a;font-size:18px;opacity:.7;">
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </a>
+
     </div>
   </section>
 
