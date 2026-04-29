@@ -205,69 +205,100 @@ nav a.nav-ctp:hover {
   transform: translateY(-2px);
 }
 
-/* ── GRUPO FLUXOGRAMAS ── */
-.nav-docs {
+/* ── BARRA DE FLUXOGRAMAS (sub-nav) ── */
+#sub-nav {
+  position: fixed;
+  top: 90px; left: 0; right: 0;
+  z-index: 99;
+  height: 46px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-left: 8px;
-  padding-left: 14px;
-  border-left: 1px solid rgba(255,255,255,0.2);
+  justify-content: center;
+  gap: 10px;
+  padding: 0 48px;
+  background: rgba(6,14,34,0.96);
+  border-bottom: 1px solid rgba(35,166,252,0.2);
+  backdrop-filter: blur(10px);
 }
 
-nav a.nav-flow-crono {
-  color: #93c5fd;
-  background: rgba(59,130,246,.15);
-  border: 1px solid rgba(59,130,246,.35);
+#sub-nav span.sub-label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-right: 4px;
+  white-space: nowrap;
 }
-nav a.nav-flow-crono:hover {
+
+#sub-nav a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  text-decoration: none;
+  padding: 5px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: background 0.22s, color 0.22s, transform 0.22s, box-shadow 0.22s;
+  white-space: nowrap;
+}
+
+#sub-nav a.nav-flow-crono {
+  color: #93c5fd;
+  background: rgba(59,130,246,.14);
+  border-color: rgba(59,130,246,.35);
+}
+#sub-nav a.nav-flow-crono:hover {
   color: #000;
-  background: rgba(59,130,246,.85);
+  background: rgba(59,130,246,.88);
   border-color: transparent;
   transform: translateY(-2px);
   box-shadow: 0 0 10px rgba(59,130,246,.45);
 }
-nav a.nav-flow-crono.active {
+#sub-nav a.nav-flow-crono.active {
   color: #000;
-  background: rgba(59,130,246,.9);
+  background: rgba(59,130,246,.92);
   border-color: transparent;
   box-shadow: 0 0 14px rgba(59,130,246,.6);
 }
 
-nav a.nav-flow-docs {
+#sub-nav a.nav-flow-docs {
   color: #86efac;
-  background: rgba(34,197,94,.15);
-  border: 1px solid rgba(34,197,94,.35);
+  background: rgba(34,197,94,.14);
+  border-color: rgba(34,197,94,.35);
 }
-nav a.nav-flow-docs:hover {
+#sub-nav a.nav-flow-docs:hover {
   color: #000;
-  background: rgba(34,197,94,.85);
+  background: rgba(34,197,94,.88);
   border-color: transparent;
   transform: translateY(-2px);
   box-shadow: 0 0 10px rgba(34,197,94,.45);
 }
-nav a.nav-flow-docs.active {
+#sub-nav a.nav-flow-docs.active {
   color: #000;
-  background: rgba(34,197,94,.9);
+  background: rgba(34,197,94,.92);
   border-color: transparent;
   box-shadow: 0 0 14px rgba(34,197,94,.6);
 }
 
-nav a.nav-flow-exec {
+#sub-nav a.nav-flow-exec {
   color: #cbd5e1;
-  background: rgba(148,163,184,.15);
-  border: 1px solid rgba(148,163,184,.35);
+  background: rgba(148,163,184,.14);
+  border-color: rgba(148,163,184,.35);
 }
-nav a.nav-flow-exec:hover {
+#sub-nav a.nav-flow-exec:hover {
   color: #000;
-  background: rgba(148,163,184,.85);
+  background: rgba(148,163,184,.88);
   border-color: transparent;
   transform: translateY(-2px);
   box-shadow: 0 0 10px rgba(148,163,184,.4);
 }
-nav a.nav-flow-exec.active {
+#sub-nav a.nav-flow-exec.active {
   color: #000;
-  background: rgba(148,163,184,.9);
+  background: rgba(148,163,184,.92);
   border-color: transparent;
   box-shadow: 0 0 14px rgba(148,163,184,.55);
 }
@@ -282,7 +313,7 @@ nav a.nav-flow-exec.active {
   align-items:center;
   justify-content:center;
   text-align:center;
-  padding:100px 40px 60px;
+  padding:150px 40px 60px;
   position:relative;
   z-index:1;
   overflow:hidden;
@@ -421,7 +452,7 @@ nav a.nav-flow-exec.active {
   opacity:0;
   transform:translateY(28px);
   transition:opacity .6s ease, transform .6s ease;
-  scroll-margin-top: 104px; /* header height + margin */
+  scroll-margin-top: 148px; /* header 90 + sub-nav 46 + margin */
 }
 
 .sec.vis { opacity:1; transform:none; }
@@ -974,7 +1005,7 @@ footer strong { color:var(--blue-glow); }
   nav {
     display: none;
     position: fixed;
-    top: 90px;
+    top: 136px; /* header 90 + sub-nav 46 */
     left: 0;
     right: 0;
     flex-direction: column;
@@ -984,7 +1015,7 @@ footer strong { color:var(--blue-glow); }
     border-bottom: 1px solid rgba(255,255,255,0.12);
     backdrop-filter: blur(10px);
     z-index: 210;
-    max-height: calc(100vh - 90px);
+    max-height: calc(100vh - 136px);
     overflow-y: auto;
   }
   nav.open { display: flex; }
@@ -996,31 +1027,21 @@ footer strong { color:var(--blue-glow); }
     font-size: 13px;
     letter-spacing: .08em;
   }
-  .sec { scroll-margin-top: 104px; }
+  .sec { scroll-margin-top: 148px; }
 }
 
 @media(max-width:768px){
   header { padding: 0 16px; height: 70px; }
   .logo-svg { height: 44px; }
-  nav { top: 70px; max-height: calc(100vh - 70px); }
-  .nav-docs {
-    flex-direction: column;
-    margin-left: 0;
-    padding-left: 0;
-    border-left: none;
-    border-top: 1px solid rgba(255,255,255,0.15);
-    padding-top: 8px;
-    width: 100%;
-    gap: 6px;
-  }
-  nav a.nav-flow-crono,
-  nav a.nav-flow-docs,
-  nav a.nav-flow-exec { width: 100%; }
-  .hero { padding: 80px 20px 50px; }
+  #sub-nav { top: 70px; padding: 0 16px; gap: 6px; flex-wrap: wrap; height: auto; min-height: 46px; }
+  #sub-nav span.sub-label { display: none; }
+  #sub-nav a { font-size: 10px; padding: 4px 10px; }
+  nav { top: 116px; max-height: calc(100vh - 116px); } /* header 70 + sub-nav 46 */
+  .hero { padding: 130px 20px 50px; }
   .hero h1 { font-size: 38px; }
   .hero-sub { font-size: 15px; }
   .wrap { padding: 0 16px 80px; }
-  .sec { margin-bottom: 60px; scroll-margin-top: 84px; }
+  .sec { margin-bottom: 60px; scroll-margin-top: 124px; }
   .sec-head { flex-wrap: wrap; gap: 10px; }
   .sec-title { font-size: 22px; }
 
@@ -1079,7 +1100,7 @@ footer strong { color:var(--blue-glow); }
 /* ── PRINT ── */
 @media print {
   body { background:#fff; color:#111; font-size:12pt; }
-  header, #prog, #btt, .scroll-cue, .menu-toggle { display:none !important; }
+  header, #sub-nav, #prog, #btt, .scroll-cue, .menu-toggle { display:none !important; }
   .hero { min-height:auto; padding:20pt 0 12pt; }
   .hero h1, .hero h1 .accent { color:#111; -webkit-text-fill-color:#111; background:none; }
   .hero-sub { color:#444; }
@@ -1354,13 +1375,14 @@ footer img    { filter: brightness(1.1); opacity: 0.90; }
     <a href="#documentação">Documentação Final</a>
     <a href="#resumo">Resumo</a>
     <a href="CTP.html" class="nav-ctp" target="_blank"><i class="fa-solid fa-book-open" style="margin-right:5px;font-size:.85em;"></i>CTP</a>
-    <div class="nav-docs">
-      <a href="fluxoCronoCompras.html" class="nav-flow-crono"><i class="fa-solid fa-calendar-days" style="margin-right:5px;font-size:.85em;"></i>Cronograma de Compras</a>
-      <a href="fluxoDocs.html" class="nav-flow-docs"><i class="fa-solid fa-file-lines" style="margin-right:5px;font-size:.85em;"></i>Documentação</a>
-      <a href="FluxogramaProjetoExecutivo.pdf" class="nav-flow-exec" target="_blank"><i class="fa-solid fa-diagram-project" style="margin-right:5px;font-size:.85em;"></i>Projeto Executivo</a>
-    </div>
   </nav>
 </header>
+<div id="sub-nav">
+  <span class="sub-label">Fluxogramas</span>
+  <a href="fluxoCronoCompras.html" class="nav-flow-crono"><i class="fa-solid fa-calendar-days"></i>Cronograma de Compras</a>
+  <a href="fluxoDocs.html" class="nav-flow-docs"><i class="fa-solid fa-file-lines"></i>Documentação</a>
+  <a href="FluxogramaProjetoExecutivo.pdf" class="nav-flow-exec" target="_blank"><i class="fa-solid fa-diagram-project"></i>Projeto Executivo</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -2219,7 +2241,7 @@ async function copyNF(btn) {
   };
   const selector = map[page];
   if (selector) {
-    const el = document.querySelector(selector);
+    const el = document.querySelector('#sub-nav ' + selector);
     if (el) el.classList.add('active');
   }
 })();
