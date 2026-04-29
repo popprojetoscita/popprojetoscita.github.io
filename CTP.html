@@ -1952,6 +1952,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (icon) icon.classList.add('open');
   });
 });
+
+document.querySelectorAll('a[href^="http"]').forEach(function(a) {
+  if (!a.hostname.includes('popprojetoscita.github.io')) {
+    a.target = '_blank';
+    a.rel = 'noopener';
+  }
+});
 </script>
 
 </body>

@@ -1354,6 +1354,13 @@ main {
       setTimeout(() => { window.location.href = href; }, 360);
     });
   })();
+
+document.querySelectorAll('a[href^="http"]').forEach(function(a) {
+  if (!a.hostname.includes('popprojetoscita.github.io')) {
+    a.target = '_blank';
+    a.rel = 'noopener';
+  }
+});
 </script>
 
 </body>
